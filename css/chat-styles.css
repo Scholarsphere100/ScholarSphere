@@ -1,0 +1,539 @@
+/* Chat Container Layout */
+.chat-container {
+  display: flex;
+  height: calc(100vh - 64px);
+  margin-top: 0; 
+  background-color: white;
+}
+
+/* Contacts List Styles */
+.chat-contacts {
+  width: 320px;
+  border-right: 1px solid var(--medium-gray);
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+}
+
+.contacts-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem;
+  border-bottom: 1px solid var(--medium-gray);
+}
+
+.contacts-header h2 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.new-chat-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.new-chat-btn:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-2px);
+}
+
+.contact-search {
+  padding: 0.75rem 1.25rem;
+  border-bottom: 1px solid var(--medium-gray);
+}
+
+.contact-search fieldset {
+  position: relative;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.contact-search i {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--neutral-color);
+  font-size: 0.9rem;
+}
+
+.contact-search input {
+  width: 100%;
+  height: 36px;
+  padding: 0 12px 0 36px;
+  border: none;
+  border-radius: 18px;
+  background-color: var(--light-gray);
+  font-size: 0.9rem;
+}
+
+.contact-search input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(43, 218, 216, 0.2);
+}
+
+.contacts-list {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.contacts-list ul {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-item {
+  display: flex;
+  padding: 1rem 1.25rem;
+  gap: 0.75rem;
+  border-bottom: 1px solid var(--medium-gray);
+  transition: var(--transition);
+}
+
+.contact-item:hover {
+  background-color: var(--light-gray);
+}
+
+.contact-item.active {
+  background-color: rgba(43, 218, 216, 0.1);
+  border-left: 3px solid var(--primary-color);
+}
+
+.contact-avatar {
+  position: relative;
+  margin: 0;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: 50%; /* Ensure avatar container is circular */
+  overflow: hidden; /* Ensure image doesn't overflow the circular container */
+}
+
+.contact-avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.contact-info {
+  flex: 1;
+  min-width: 0; /* Allows text to truncate */
+}
+
+.contact-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.25rem;
+}
+
+.contact-header h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-color);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.contact-header time {
+  font-size: 0.75rem;
+  color: var(--neutral-color);
+  white-space: nowrap;
+}
+
+.contact-last-message {
+  font-size: 0.85rem;
+  color: var(--neutral-color);
+  margin-bottom: 0.25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.contact-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.unread-badge {
+  background-color: var(--primary-color);
+  color: white;
+  font-size: 0.7rem;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 6px;
+  font-weight: 500;
+}
+
+.contact-project {
+  font-size: 0.75rem;
+  color: var(--secondary-color);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Chat Window Styles */
+.chat-window {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+ 
+}
+
+.chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  background-color: white;
+  border-bottom: 1px solid var(--medium-gray);
+}
+
+.chat-user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.user-avatar {
+  position: relative;
+  margin: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%; /* Ensure avatar is perfectly circular */
+  overflow: hidden; /* Ensure image doesn't overflow the circular container */
+}
+
+.user-avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-details h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 0;
+}
+
+.user-role {
+  font-size: 0.85rem;
+  color: var(--neutral-color);
+}
+
+.chat-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.chat-action-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  color: var(--neutral-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.chat-action-btn:hover {
+  background-color: var(--light-gray);
+  color: var(--primary-color);
+}
+
+/* Chat Messages */
+.chat-messages {
+  flex: 1;
+  padding: 1.5rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.message-group {
+  display: flex;
+  gap: 0.75rem;
+  max-width: 80%;
+}
+
+.message-group.sent {
+  align-self: flex-end;
+  justify-content: flex-end;
+}
+
+.message-group.received {
+  align-self: flex-start;
+}
+
+.message-group.date-separator {
+  align-self: center;
+  margin: 1rem 0;
+}
+
+.date-separator time {
+  font-size: 0.85rem;
+  color: var(--neutral-color);
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 0.25rem 1rem;
+  border-radius: 16px;
+}
+
+.message-avatar {
+  margin: 0;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 50%; /* Ensure avatar is perfectly circular */
+  overflow: hidden; /* Ensure image doesn't overflow the circular container */
+}
+
+.message-avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.message-content {
+  background-color: white;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+  max-width: 100%;
+  position: relative; /* For positioning the time at the bottom */
+  display: flex;
+  flex-direction: column;
+}
+
+.message-group.sent .message-content {
+  background-color: var(--secondary-color);
+  color: white;
+}
+
+/* Move timestamp below message text */
+.message-header {
+  order: 2; /* Move header after the message text */
+  display: flex;
+  justify-content: flex-end; /* Align time to the right */
+  margin-top: 0.5rem; /* Space between message and time */
+  margin-bottom: 0; /* Remove bottom margin */
+}
+
+/* Hide the sender name in message bubbles */
+.message-header h3 {
+  display: none;
+}
+
+.message-header time {
+  font-size: 0.75rem;
+  color: var(--neutral-color);
+}
+
+.message-group.sent .message-header time {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.message-text {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  order: 1; /* Ensure text comes before timestamp */
+}
+
+/* Chat Input Area */
+.chat-input-area {
+  padding: 1rem 1.5rem;
+  background-color: white;
+  border-top: 1px solid var(--medium-gray);
+}
+
+.chat-input-area fieldset {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.attachment-btn,
+.emoji-btn {
+  color: var(--neutral-color);
+  font-size: 1.1rem;
+  transition: var(--transition);
+}
+
+.attachment-btn:hover,
+.emoji-btn:hover {
+  color: var(--primary-color);
+}
+
+/* Fixed textarea to remove extra whitespace */
+#message-input {
+  flex: 1;
+  resize: none;
+  height: 40px;
+  max-height: 150px;
+  padding: 10px 15px;
+  border: 1px solid var(--medium-gray);
+  border-radius: 20px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  overflow-y: hidden;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  margin: 0; /* Remove any margin */
+  vertical-align: middle; /* Align vertically */
+}
+
+/* Remove any default content and whitespace */
+#message-input:empty::before {
+  content: attr(placeholder);
+  color: #aaa;
+}
+
+#message-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(43, 218, 216, 0.2);
+}
+
+/* Align send button with textarea */
+.send-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--secondary-color);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+  margin: 0; /* Remove any margin */
+  align-self: center; /* Center align with the fieldset */
+}
+
+.send-btn:hover {
+  background-color: var(--accent-color);
+  transform: translateY(-2px);
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+  .chat-container {
+    flex-direction: column;
+    height: calc(100vh - 64px); /* Maintain full height */
+  }
+  
+  .chat-contacts {
+    width: 100%;
+    height: 300px;
+    border-right: none;
+    border-bottom: 1px solid var(--medium-gray);
+  }
+  
+  .chat-window {
+    height: calc(100vh - 64px - 300px);
+  }
+}
+
+@media (max-width: 768px) {
+  .chat-header {
+    padding: 0.75rem 1rem;
+  }
+  
+  .chat-messages {
+    padding: 1rem;
+  }
+  
+  .message-group {
+    max-width: 90%;
+  }
+  
+  .chat-input-area {
+    padding: 0.75rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .user-role {
+    display: none;
+  }
+  
+  .chat-actions {
+    gap: 0.5rem;
+  }
+  
+  .message-group {
+    max-width: 95%;
+  }
+  
+  .message-avatar {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+/* Ensure the chat container connects directly to the header */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding-top: 64px; /* Match header height */
+}
+
+.main-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: 64px;
+}
+
+/* Security indicator for secure communications */
+.chat-header::after {
+  content: "Secure Connection";
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 0.7rem;
+  color: var(--success-color);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.chat-header::after::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--success-color);
+}
+
+.contact-project {
+  font-weight: 500;
+}

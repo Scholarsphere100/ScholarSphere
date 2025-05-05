@@ -1,0 +1,662 @@
+/* Page Header */
+.page-header {
+    margin-bottom: 1.5rem;
+}
+
+.page-header h1 {
+    font-size: 1.8rem;
+    margin: 0;
+    color: var(--text-color);
+}
+
+/* Funding Overview */
+.funding-overview {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.funding-summary {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.summary-card {
+    background-color: white;
+    border-radius: var(--card-radius);
+    padding: 1.25rem;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+}
+
+.summary-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+}
+
+.summary-card h3 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    color: var(--neutral-color);
+}
+
+.summary-card .amount {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+    color: var(--text-color);
+}
+
+.summary-card .percentage,
+.summary-card .period,
+.summary-card .date,
+.summary-card .countdown {
+    font-size: 0.85rem;
+    color: var(--neutral-color);
+    margin: 0.25rem 0 0 0;
+}
+
+.funding-chart {
+    background-color: white;
+    border-radius: var(--card-radius);
+    padding: 1.25rem;
+    box-shadow: var(--shadow-sm);
+    grid-row: span 2;
+}
+
+.funding-chart h3 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    color: var(--text-color);
+}
+
+.chart-container {
+    height: 250px;
+    position: relative;
+}
+
+/* Funding Management */
+.funding-management {
+    background-color: white;
+    border-radius: var(--card-radius);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.section-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--light-gray);
+    margin-bottom: 1.5rem;
+}
+
+.tab-btn {
+    padding: 0.75rem 1.25rem;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--neutral-color);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.tab-btn:hover {
+    color: var(--text-color);
+}
+
+.tab-btn.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.tab-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.tab-header h2 {
+    margin: 0;
+    font-size: 1.3rem;
+    color: var(--text-color);
+}
+
+.add-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.add-btn:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+/* Grants List */
+.grants-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+    gap: 1.5rem;
+}
+
+.grant-item {
+    background-color: white;
+    border-radius: var(--card-radius);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--light-gray);
+    overflow: hidden;
+    transition: var(--transition);
+}
+
+.grant-item:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+}
+
+.grant-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid var(--light-gray);
+    background-color: var(--light-gray);
+}
+
+.grant-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--text-color);
+}
+
+.grant-status {
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+}
+
+.grant-status.active {
+    background-color: rgba(46, 213, 115, 0.15);
+    color: #2ed573;
+}
+
+.grant-status.completed {
+    background-color: rgba(43, 218, 216, 0.15);
+    color: var(--primary-color);
+}
+
+.grant-status.pending {
+    background-color: rgba(255, 171, 25, 0.15);
+    color: #ffab19;
+}
+
+.grant-details {
+    padding: 1rem;
+}
+
+.grant-info {
+    margin-bottom: 1rem;
+}
+
+.grant-info p {
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+}
+
+.grant-progress {
+    margin-top: 1rem;
+}
+
+.progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    margin-bottom: 0.25rem;
+}
+
+.grant-progress progress {
+    width: 100%;
+    height: 8px;
+    border-radius: 4px;
+    overflow: hidden;
+    border: none;
+}
+
+.grant-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    padding: 1rem;
+    background-color: var(--light-gray);
+}
+
+.action-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.4rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.view-btn {
+    background-color: var(--light-gray);
+    color: var(--text-color);
+    border: 1px solid var(--medium-gray);
+}
+
+.view-btn:hover {
+    background-color: var(--medium-gray);
+}
+
+.edit-btn {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.edit-btn:hover {
+    background-color: var(--primary-dark);
+}
+
+.update-btn {
+    background-color: #ffab19;
+    color: white;
+}
+
+.update-btn:hover {
+    background-color: #e69b16;
+}
+
+.start-btn {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.start-btn:hover {
+    background-color: var(--primary-dark);
+}
+
+/* Expenses Filters */
+.expenses-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background-color: var(--light-gray);
+    border-radius: var(--card-radius);
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.filter-group label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 0;
+}
+
+.filter-group select {
+    padding: 0.5rem;
+    border: 1px solid var(--medium-gray);
+    border-radius: 4px;
+    font-size: 0.9rem;
+    margin-bottom: 0;
+}
+
+/* Expenses Table */
+.expenses-table-container {
+    overflow-x: auto;
+    margin-bottom: 1rem;
+}
+
+.expenses-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.expenses-table th,
+.expenses-table td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid var(--light-gray);
+}
+
+.expenses-table th {
+    font-weight: 600;
+    color: var(--text-color);
+    background-color: var(--light-gray);
+}
+
+.expenses-table tr:hover {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.status-badge.approved {
+    background-color: rgba(46, 213, 115, 0.15);
+    color: #2ed573;
+}
+
+.status-badge.pending {
+    background-color: rgba(255, 171, 25, 0.15);
+    color: #ffab19;
+}
+
+.status-badge.rejected {
+    background-color: rgba(255, 107, 107, 0.15);
+    color: #ff6b6b;
+}
+
+.table-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    color: var(--neutral-color);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.icon-btn:hover {
+    color: var(--primary-color);
+}
+
+.expenses-summary {
+    display: flex;
+    justify-content: flex-end;
+    gap: 2rem;
+    padding: 1rem;
+    background-color: var(--light-gray);
+    border-radius: var(--card-radius);
+}
+
+.summary-item {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.summary-item span:last-child {
+    font-weight: 600;
+}
+
+/* Requirements List */
+.requirements-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+    gap: 1.5rem;
+}
+
+.requirement-item {
+    background-color: white;
+    border-radius: var(--card-radius);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--light-gray);
+    overflow: hidden;
+    transition: var(--transition);
+}
+
+.requirement-item:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+}
+
+.requirement-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid var(--light-gray);
+    background-color: var(--light-gray);
+}
+
+.requirement-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--text-color);
+}
+
+.requirement-status {
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+}
+
+.requirement-status.upcoming {
+    background-color: rgba(255, 171, 25, 0.15);
+    color: #ffab19;
+}
+
+.requirement-status.completed {
+    background-color: rgba(46, 213, 115, 0.15);
+    color: #2ed573;
+}
+
+.requirement-status.in-progress {
+    background-color: rgba(43, 218, 216, 0.15);
+    color: var(--primary-color);
+}
+
+.requirement-details {
+    padding: 1rem;
+}
+
+.requirement-details p {
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+}
+
+.requirement-progress {
+    margin-top: 1rem;
+}
+
+.requirement-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    padding: 1rem;
+    background-color: var(--light-gray);
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    overflow-y: auto;
+    padding: 2rem 1rem;
+}
+
+.modal.active {
+    display: block;
+}
+
+.modal-content {
+    background-color: white;
+    border-radius: var(--card-radius);
+    max-width: 600px;
+    margin: 0 auto;
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--light-gray);
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 1.3rem;
+}
+
+.close-modal {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    color: var(--neutral-color);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.close-modal:hover {
+    color: var(--text-color);
+}
+
+/* Form Styles */
+.grant-form,
+.expense-form,
+.requirement-form {
+    padding: 1.25rem;
+}
+
+.form-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.form-group {
+    flex: 1;
+}
+
+.submit-btn {
+    display: block;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.6rem 1.25rem;
+    border-radius: 30px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin: 1rem auto;
+    transition: var(--transition);
+}
+
+.submit-btn:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.inline-label {
+    margin-bottom: 0;
+}
+
+/* File Upload Styles */
+.file-upload-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: var(--light-gray);
+    border: 1px dashed var(--medium-gray);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.file-upload-label:hover {
+    background-color: var(--medium-gray);
+}
+
+.file-upload-label i {
+    color: var(--primary-color);
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.selected-file-name {
+    font-size: 0.8rem;
+    color: var(--neutral-color);
+    margin-top: 0.25rem;
+    margin-bottom: 1rem;
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+    .funding-overview {
+        grid-template-columns: 1fr;
+    }
+    
+    .funding-chart {
+        grid-row: auto;
+    }
+    
+    .grants-list,
+    .requirements-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+    
+    .expenses-filters {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .expenses-summary {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}

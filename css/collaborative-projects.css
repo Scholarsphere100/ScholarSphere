@@ -1,0 +1,121 @@
+/* Reviewer Project Card Styles */
+.research-project.reviewer-project {
+    background-color: white;
+    border-radius: var(--card-radius);
+    box-shadow: var(--shadow-sm);
+    padding: 1.5rem;
+    transition: var(--transition);
+    border-left: 4px solid var(--reviewer-accent);
+}
+
+.research-project.reviewer-project:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.research-project.reviewer-project h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: var(--text-color);
+}
+
+.research-project.reviewer-project > p {
+    color: var(--neutral-color);
+    margin-bottom: 1.25rem;
+    font-size: 0.95rem;
+}
+
+.research-project.reviewer-project .project-meta-section {
+    background-color: var(--light-gray);
+    padding: 1rem;
+    border-radius: var(--card-radius);
+    margin: 1rem 0;
+}
+
+.research-project.reviewer-project .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--text-color);
+}
+
+.research-project.reviewer-project .meta-item:last-child {
+    margin-bottom: 0;
+}
+
+.research-project.reviewer-project .meta-item i {
+    color: var(--reviewer-accent);
+    width: 20px;
+    text-align: center;
+}
+
+.research-project.reviewer-project .project-progress {
+    background-color: var(--light-gray);
+    padding: 1rem;
+    border-radius: var(--card-radius);
+    margin: 1rem 0;
+}
+
+.research-project.reviewer-project .progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.research-project.reviewer-project .progress-header h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.research-project.reviewer-project progress {
+    width: 100%;
+    height: 8px;
+    border-radius: 4px;
+    overflow: hidden;
+    border: none;
+    background-color: var(--medium-gray);
+}
+
+.research-project.reviewer-project progress::-webkit-progress-bar {
+    background-color: var(--medium-gray);
+}
+
+.research-project.reviewer-project progress::-webkit-progress-value {
+    background-color: var(--reviewer-accent);
+}
+
+.research-project.reviewer-project progress::-moz-progress-bar {
+    background-color: var(--reviewer-accent);
+}
+
+.reviewer-actions {
+    margin-top: 1.5rem;
+    text-align: center;
+}
+
+.project-action-btn.review-btn {
+    background-color: var(--reviewer-accent);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--card-radius);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.project-action-btn.review-btn:hover {
+    background-color: var(--reviewer-accent-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.project-action-btn.review-btn i {
+    font-size: 1.1rem;
+} 

@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Funding - ScholarSphere</title>
+    <link rel="stylesheet" href="../css/styles1.css">
+    <link rel="stylesheet" href="../css/funding.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <header class="sidebar-header">
+            <h2 class="sidebar-title">ScholarSphere</h2>
+            <button class="close-sidebar" id="close-sidebar" aria-label="Close sidebar">
+                <i class="fas fa-times" aria-hidden="true"></i>
+            </button>
+        </header>
+        
+        <nav class="sidebar-nav">
+            <ul>
+                
+            </ul>
+        </nav>
+        
+        <footer class="sidebar-footer">
+            <button id="sign-out-btn" class="sign-out-btn">
+                <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
+                Sign Out
+            </button>
+        </footer>
+    </aside>
+    
+    <!-- Overlay for sidebar -->
+    <section class="sidebar-overlay" id="sidebar-overlay"></section>
+    
+    <!-- Main Header -->
+    <header class="main-header">
+        <button class="menu-toggle" id="menu-toggle" aria-label="Open menu">
+            <i class="fas fa-bars" aria-hidden="true"></i>
+        </button>
+        
+        <section class="header-actions">
+            <a href="collaborations.html#notifications" class="notifications" aria-label="View notifications">
+                <i class="fas fa-bell" aria-hidden="true"></i>
+                <mark class="notification-badge">3</mark>
+            </a>
+        </section>
+    </header>
+
+    <main class="dashboard-content">
+        <header class="page-header">
+            <h1>Project Funding</h1>
+        </header>
+
+        <section class="funding-overview">
+            <section class="funding-summary">
+                <article class="summary-card">
+                    <h3>Total Funding</h3>
+                    <p class="amount">R750,000</p>
+                    <p class="period">2023-2026</p>
+                </article>
+                <article class="summary-card">
+                    <h3>Spent to Date</h3>
+                    <p class="amount">R215,450</p>
+                </article>
+                <article class="summary-card">
+                    <h3>Remaining</h3>
+                    <p class="amount">R534,550</p>
+                </article>
+                <article class="summary-card">
+                    <h3>Next Report Due</h3>
+                    <p class="date">June 15, 2025</p>
+                    <p class="countdown">45 days remaining</p>
+                </article>
+            </section>
+
+            <section class="funding-chart">
+                <h3>Budget Allocation</h3>
+                <figure class="chart-container">
+                    <canvas id="budgetChart"></canvas>
+                </figure>
+            </section>
+        </section>
+
+        <section class="funding-management">
+            <menu class="section-tabs">
+                <li><button class="tab-btn active" data-tab="grants">Grants</button></li>
+                <li><button class="tab-btn" data-tab="expenses">Expenses</button></li>
+                <li><button class="tab-btn" data-tab="requirements">Requirements</button></li>
+            </menu>
+
+            <!-- Grants Tab -->
+            <section class="tab-content active" id="grants-tab">
+                <header class="tab-header">
+                    <h2>Grant Funding</h2>
+                    <button class="add-btn" id="add-grant-btn">
+                        <i class="fas fa-plus" aria-hidden="true"></i>
+                        Add Grant
+                    </button>
+                </header>
+
+                <section class="grants-list">
+                    <article class="grant-item">
+                        <header class="grant-header">
+                            <h3>NSF Research Grant</h3>
+                            <mark class="grant-status active">Active</mark>
+                        </header>
+                        <section class="grant-details">
+                            <dl class="grant-info">
+                                <dt><strong>Grant ID:</strong></dt>
+                                <dd>NSF-2023-QC-1234</dd>
+                                <dt><strong>Amount:</strong></dt>
+                                <dd>R500,000</dd>
+                                <dt><strong>Period:</strong></dt>
+                                <dd>Jan 2023 - Dec 2025</dd>
+                                <dt><strong>Agency:</strong></dt>
+                                <dd>National Science Foundation</dd>
+                            </dl>
+                            <figure class="grant-progress">
+                                <figcaption class="progress-label">
+                                    <span>Budget Utilization</span>
+                                    <span>35%</span>
+                                </figcaption>
+                                <progress value="35" max="100"></progress>
+                            </figure>
+                        </section>
+                        <footer class="grant-actions">
+                            <button class="action-btn view-btn">
+                                <i class="fas fa-eye" aria-hidden="true"></i>
+                                View Details
+                            </button>
+                            <button class="action-btn edit-btn">
+                                <i class="fas fa-edit" aria-hidden="true"></i>
+                                Edit
+                            </button>
+                        </footer>
+                    </article>
+
+                    <article class="grant-item">
+                        <header class="grant-header">
+                            <h3>Industry Partnership</h3>
+                            <mark class="grant-status active">Active</mark>
+                        </header>
+                        <section class="grant-details">
+                            <dl class="grant-info">
+                                <dt><strong>Grant ID:</strong></dt>
+                                <dd>QTech-2024-01</dd>
+                                <dt><strong>Amount:</strong></dt>
+                                <dd>R250,000</dd>
+                                <dt><strong>Period:</strong></dt>
+                                <dd>Mar 2024 - Feb 2026</dd>
+                                <dt><strong>Agency:</strong></dt>
+                                <dd>QuantumTech Industries</dd>
+                            </dl>
+                            <figure class="grant-progress">
+                                <figcaption class="progress-label">
+                                    <span>Budget Utilization</span>
+                                    <span>15%</span>
+                                </figcaption>
+                                <progress value="15" max="100"></progress>
+                            </figure>
+                        </section>
+                        <footer class="grant-actions">
+                            <button class="action-btn view-btn">
+                                <i class="fas fa-eye" aria-hidden="true"></i>
+                                View Details
+                            </button>
+                            <button class="action-btn edit-btn">
+                                <i class="fas fa-edit" aria-hidden="true"></i>
+                                Edit
+                            </button>
+                        </footer>
+                    </article>
+                </section>
+            </section>
+
+            <!-- Expenses Tab -->
+            <section class="tab-content" id="expenses-tab">
+                <header class="tab-header">
+                    <h2>Expenses</h2>
+                    <button class="add-btn" id="add-expense-btn">
+                        <i class="fas fa-plus" aria-hidden="true"></i>
+                        Add Expense
+                    </button>
+                </header>
+
+                <figure class="expenses-table-container">
+                    <table class="expenses-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Description</th>
+                                <th>Category</th>
+                                <th>Grant</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Apr 15, 2025</td>
+                                <td>Quantum Computing Server</td>
+                                <td>Equipment</td>
+                                <td>NSF Research Grant</td>
+                                <td>R85,000</td>
+                                <td><mark class="status-badge approved">Approved</mark></td>
+                                <td>
+                                    <menu class="table-actions">
+                                        <li>
+                                            <button class="icon-btn" title="View Details">
+                                                <i class="fas fa-eye" aria-hidden="true"></i>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button class="icon-btn" title="Edit">
+                                                <i class="fas fa-edit" aria-hidden="true"></i>
+                                            </button>
+                                        </li>
+                                    </menu>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Apr 10, 2025</td>
+                                <td>Conference Registration - QCrypt 2025</td>
+                                <td>Travel</td>
+                                <td>NSF Research Grant</td>
+                                <td>R1,200</td>
+                                <td><mark class="status-badge approved">Approved</mark></td>
+                                <td>
+                                    <menu class="table-actions">
+                                        <li>
+                                            <button class="icon-btn" title="View Details">
+                                                <i class="fas fa-eye" aria-hidden="true"></i>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button class="icon-btn" title="Edit">
+                                                <i class="fas fa-edit" aria-hidden="true"></i>
+                                            </button>
+                                        </li>
+                                    </menu>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Mar 28, 2025</td>
+                                <td>Research Assistant Salary - Q1</td>
+                                <td>Personnel</td>
+                                <td>Industry Partnership</td>
+                                <td>R18,500</td>
+                                <td><mark class="status-badge approved">Approved</mark></td>
+                                <td>
+                                    <menu class="table-actions">
+                                        <li>
+                                            <button class="icon-btn" title="View Details">
+                                                <i class="fas fa-eye" aria-hidden="true"></i>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button class="icon-btn" title="Edit">
+                                                <i class="fas fa-edit" aria-hidden="true"></i>
+                                            </button>
+                                        </li>
+                                    </menu>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Mar 15, 2025</td>
+                                <td>Lab Supplies</td>
+                                <td>Materials</td>
+                                <td>NSF Research Grant</td>
+                                <td>R3,750</td>
+                                <td><mark class="status-badge approved">Approved</mark></td>
+                                <td>
+                                    <menu class="table-actions">
+                                        <li>
+                                            <button class="icon-btn" title="View Details">
+                                                <i class="fas fa-eye" aria-hidden="true"></i>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button class="icon-btn" title="Edit">
+                                                <i class="fas fa-edit" aria-hidden="true"></i>
+                                            </button>
+                                        </li>
+                                    </menu>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Mar 5, 2025</td>
+                                <td>Software Licenses</td>
+                                <td>Equipment</td>
+                                <td>Industry Partnership</td>
+                                <td>R7,000</td>
+                                <td><mark class="status-badge pending">Pending</mark></td>
+                                <td>
+                                    <menu class="table-actions">
+                                        <li>
+                                            <button class="icon-btn" title="View Details">
+                                                <i class="fas fa-eye" aria-hidden="true"></i>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button class="icon-btn" title="Edit">
+                                                <i class="fas fa-edit" aria-hidden="true"></i>
+                                            </button>
+                                        </li>
+                                    </menu>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </figure>
+                
+                <footer class="expenses-summary">
+                    <p class="summary-item">
+                        <span>Total Expenses:</span>
+                        <span>R215,450</span>
+                    </p>
+                    <p class="summary-item">
+                        <span>Pending Approval:</span>
+                        <span>R7,000</span>
+                    </p>
+                </footer>
+            </section>
+
+            <!-- Requirements Tab -->
+            <section class="tab-content" id="requirements-tab">
+                <header class="tab-header">
+                    <h2>Grant Requirements</h2>
+                    <button class="add-btn" id="add-requirement-btn">
+                        <i class="fas fa-plus" aria-hidden="true"></i>
+                        Add Requirement
+                    </button>
+                </header>
+
+                <section class="requirements-list">
+                    <article class="requirement-item">
+                        <header class="requirement-header">
+                            <h3>Annual Progress Report</h3>
+                            <mark class="requirement-status upcoming">Due Soon</mark>
+                        </header>
+                        <section class="requirement-details">
+                            <dl>
+                                <dt><strong>Grant:</strong></dt>
+                                <dd>NSF Research Grant</dd>
+                                <dt><strong>Due Date:</strong></dt>
+                                <dd>June 15, 2025</dd>
+                                <dt><strong>Description:</strong></dt>
+                                <dd>Comprehensive report detailing research progress, findings, publications, and budget utilization for the past year.</dd>
+                            </dl>
+                        </section>
+                        <footer class="requirement-actions">
+                            <button class="action-btn start-btn">
+                                <i class="fas fa-play" aria-hidden="true"></i>
+                                Start Preparation
+                            </button>
+                        </footer>
+                    </article>
+
+                    <article class="requirement-item">
+                        <header class="requirement-header">
+                            <h3>Quarterly Financial Report</h3>
+                            <mark class="requirement-status completed">Completed</mark>
+                        </header>
+                        <section class="requirement-details">
+                            <dl>
+                                <dt><strong>Grant:</strong></dt>
+                                <dd>Industry Partnership</dd>
+                                <dt><strong>Due Date:</strong></dt>
+                                <dd>April 10, 2025</dd>
+                                <dt><strong>Submission Date:</strong></dt>
+                                <dd>April 8, 2025</dd>
+                                <dt><strong>Description:</strong></dt>
+                                <dd>Financial report detailing all expenses and budget utilization for Q1 2025.</dd>
+                            </dl>
+                        </section>
+                        <footer class="requirement-actions">
+                            <button class="action-btn view-btn">
+                                <i class="fas fa-eye" aria-hidden="true"></i>
+                                View Submission
+                            </button>
+                        </footer>
+                    </article>
+
+                    <article class="requirement-item">
+                        <header class="requirement-header">
+                            <h3>Publication Requirement</h3>
+                            <mark class="requirement-status in-progress">In Progress</mark>
+                        </header>
+                        <section class="requirement-details">
+                            <dl>
+                                <dt><strong>Grant:</strong></dt>
+                                <dd>NSF Research Grant</dd>
+                                <dt><strong>Due Date:</strong></dt>
+                                <dd>December 31, 2025</dd>
+                                <dt><strong>Description:</strong></dt>
+                                <dd>Minimum of 3 peer-reviewed publications in high-impact journals required by end of grant year.</dd>
+                            </dl>
+                            <figure class="requirement-progress">
+                                <figcaption class="progress-label">
+                                    <span>Progress</span>
+                                    <span>1 of 3 completed</span>
+                                </figcaption>
+                                <progress value="33" max="100"></progress>
+                            </figure>
+                        </section>
+                        <footer class="requirement-actions">
+                            <button class="action-btn update-btn">
+                                <i class="fas fa-edit" aria-hidden="true"></i>
+                                Update Progress
+                            </button>
+                        </footer>
+                    </article>
+                </section>
+            </section>
+        </section>
+    </main>
+
+    <!-- Add Grant Modal -->
+    <section class="modal" id="add-grant-modal">
+        <article class="modal-content">
+            <header class="modal-header">
+                <h2>Add New Grant</h2>
+                <button class="close-modal" id="close-grant-modal" aria-label="Close modal">
+                    <i class="fas fa-times" aria-hidden="true"></i>
+                </button>
+            </header>
+            <form class="grant-form" id="grant-form">
+                <fieldset>
+                    <legend>Grant Details</legend>
+                    
+                    <label for="grant-title">Grant Title</label>
+                    <input type="text" id="grant-title" name="grant-title" placeholder="Enter grant title" required>
+                    
+                    <label for="grant-id">Grant ID/Reference</label>
+                    <input type="text" id="grant-id" name="grant-id" placeholder="Enter grant ID or reference number" required>
+                    
+                    <fieldset class="form-row">
+                        <fieldset class="form-group">
+                            <label for="grant-amount">Amount</label>
+                            <input type="number" id="grant-amount" name="grant-amount" placeholder="Enter amount" min="0" step="0.01" required>
+                        </fieldset>
+                        
+                        <fieldset class="form-group">
+                            <label for="grant-currency">Currency</label>
+                            <select id="grant-currency" name="grant-currency">
+                                <option value="USD" selected>USD</option>
+                                <option value="EUR">EUR</option>
+                                <option value="GBP">GBP</option>
+                                <option value="CAD">CAD</option>
+                                <option value="AUD">AUD</option>
+                            </select>
+                        </fieldset>
+                    </fieldset>
+                    
+                    <fieldset class="form-row">
+                        <fieldset class="form-group">
+                            <label for="grant-start-date">Start Date</label>
+                            <input type="date" id="grant-start-date" name="grant-start-date" required>
+                        </fieldset>
+                        
+                        <fieldset class="form-group">
+                            <label for="grant-end-date">End Date</label>
+                            <input type="date" id="grant-end-date" name="grant-end-date" required>
+                        </fieldset>
+                    </fieldset>
+                    
+                    <label for="grant-agency">Funding Agency/Organization</label>
+                    <input type="text" id="grant-agency" name="grant-agency" placeholder="Enter funding agency or organization" required>
+                    
+                    <label for="grant-description">Description</label>
+                    <textarea id="grant-description" name="grant-description" rows="3" placeholder="Describe the grant and its purpose"></textarea>
+                    
+                    <label for="grant-attachments">Attachments (Grant Agreement, etc.)</label>
+                    <label for="grant-file" class="file-upload-label">
+                        <i class="fas fa-cloud-upload-alt" aria-hidden="true"></i>
+                        <span>Choose Files</span>
+                        <input type="file" id="grant-file" name="grant-file" multiple>
+                    </label>
+                    <p class="selected-file-name" id="selected-grant-files">No files selected</p>
+                </fieldset>
+                
+                <button type="submit" class="submit-btn">Add Grant</button>
+            </form>
+        </article>
+    </section>
+
+    <!-- Add Expense Modal -->
+    <section class="modal" id="add-expense-modal">
+        <article class="modal-content">
+            <header class="modal-header">
+                <h2>Add New Expense</h2>
+                <button class="close-modal" id="close-expense-modal" aria-label="Close modal">
+                    <i class="fas fa-times" aria-hidden="true"></i>
+                </button>
+            </header>
+            <form class="expense-form">
+                <fieldset>
+                    <legend>Expense Details</legend>
+                    
+                    <label for="expense-description">Description</label>
+                    <input type="text" id="expense-description" name="expense-description" placeholder="Enter expense description" required>
+                    
+                    <fieldset class="form-row">
+                        <fieldset class="form-group">
+                            <label for="expense-amount">Amount</label>
+                            <input type="number" id="expense-amount" name="expense-amount" placeholder="Enter amount" min="0" step="0.01" required>
+                        </fieldset>
+                        
+                        <fieldset class="form-group">
+                            <label for="expense-date">Date</label>
+                            <input type="date" id="expense-date" name="expense-date" required>
+                        </fieldset>
+                    </fieldset>
+                    
+                    <fieldset class="form-row">
+                        <fieldset class="form-group">
+                            <label for="expense-category-select">Category</label>
+                            <select id="expense-category-select" name="expense-category">
+                                <option value="personnel">Personnel</option>
+                                <option value="equipment">Equipment</option>
+                                <option value="travel">Travel</option>
+                                <option value="materials">Materials</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </fieldset>
+                        
+                        <fieldset class="form-group">
+                            <label for="expense-grant-select">Grant</label>
+                            <select id="expense-grant-select" name="expense-grant">
+                                <option value="nsf">NSF Research Grant</option>
+                                <option value="industry">Industry Partnership</option>
+                            </select>
+                        </fieldset>
+                    </fieldset>
+                    
+                    <label for="expense-notes">Notes</label>
+                    <textarea id="expense-notes" name="expense-notes" rows="2" placeholder="Additional notes about this expense"></textarea>
+                    
+                    <label for="expense-receipt">Receipt/Invoice</label>
+                    <label for="expense-file" class="file-upload-label">
+                        <i class="fas fa-cloud-upload-alt" aria-hidden="true"></i>
+                        <span>Upload Receipt</span>
+                        <input type="file" id="expense-file" name="expense-file" accept=".pdf,.jpg,.jpeg,.png">
+                    </label>
+                    <p class="selected-file-name" id="selected-expense-file">No file selected</p>
+                </fieldset>
+                
+                <button type="submit" class="submit-btn">Add Expense</button>
+            </form>
+        </article>
+    </section>
+
+    <!-- Add Requirement Modal -->
+    <section class="modal" id="add-requirement-modal">
+        <article class="modal-content">
+            <header class="modal-header">
+                <h2>Add Grant Requirement</h2>
+                <button class="close-modal" id="close-requirement-modal" aria-label="Close modal">
+                    <i class="fas fa-times" aria-hidden="true"></i>
+                </button>
+            </header>
+            <form class="requirement-form">
+                <fieldset>
+                    <legend>Requirement Details</legend>
+                    
+                    <label for="requirement-title">Title</label>
+                    <input type="text" id="requirement-title" name="requirement-title" placeholder="Enter requirement title" required>
+                    
+                    <label for="requirement-grant">Associated Grant</label>
+                    <select id="requirement-grant" name="requirement-grant" required>
+                        <option value="">Select a grant</option>
+                        <option value="nsf">NSF Research Grant</option>
+                        <option value="industry">Industry Partnership</option>
+                    </select>
+                    
+                    <label for="requirement-type">Requirement Type</label>
+                    <select id="requirement-type" name="requirement-type" required>
+                        <option value="report">Report</option>
+                        <option value="deliverable">Deliverable</option>
+                        <option value="publication">Publication</option>
+                        <option value="presentation">Presentation</option>
+                        <option value="financial">Financial</option>
+                        <option value="other">Other</option>
+                    </select>
+                    
+                    <label for="requirement-due-date">Due Date</label>
+                    <input type="date" id="requirement-due-date" name="requirement-due-date" required>
+                    
+                    <label for="requirement-description">Description</label>
+                    <textarea id="requirement-description" name="requirement-description" rows="3" placeholder="Describe the requirement in detail" required></textarea>
+                    
+                    <fieldset class="checkbox-group">
+                        <input type="checkbox" id="requirement-recurring" name="requirement-recurring">
+                        <label for="requirement-recurring" class="inline-label">This is a recurring requirement</label>
+                    </fieldset>
+                    
+                    <fieldset class="recurring-options" style="display: none;">
+                        <label for="requirement-frequency">Frequency</label>
+                        <select id="requirement-frequency" name="requirement-frequency">
+                            <option value="monthly">Monthly</option>
+                            <option value="quarterly">Quarterly</option>
+                            <option value="biannually">Biannually</option>
+                            <option value="annually">Annually</option>
+                        </select>
+                    </fieldset>
+                </fieldset>
+                
+                <button type="submit" class="submit-btn">Add Requirement</button>
+            </form>
+        </article>
+    </section>
+
+    <footer class="main-footer">
+        <p>&copy; 2025 ScholarSphere. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script type="module" src="../js/script.js"></script>
+    <script type="module" src="../js/search.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab switching
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const tabName = this.getAttribute('data-tab');
+                    
+                    // Remove active class from all buttons and contents
+                    tabBtns.forEach(btn => btn.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Add active class to clicked button and corresponding content
+                    this.classList.add('active');
+                    document.getElementById(`${tabName}-tab`).classList.add('active');
+                });
+            });
+            
+            // Budget chart
+            const ctx = document.getElementById('budgetChart').getContext('2d');
+            const budgetChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Personnel', 'Equipment', 'Travel', 'Materials', 'Other'],
+                    datasets: [{
+                        data: [45, 30, 10, 10, 5],
+                        backgroundColor: [
+                            '#4ecdc4',
+                            '#ff6b6b',
+                            '#ffe66d',
+                            '#1a535c',
+                            '#f7fff7'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right'
+                        }
+                    }
+                }
+            });
+            
+            // Modal functionality
+            const addGrantBtn = document.getElementById('add-grant-btn');
+            const grantModal = document.getElementById('add-grant-modal');
+            const closeGrantModal = document.getElementById('close-grant-modal');
+            
+            if (addGrantBtn && grantModal && closeGrantModal) {
+                addGrantBtn.addEventListener('click', function() {
+                    grantModal.classList.add('active');
+                });
+                
+                closeGrantModal.addEventListener('click', function() {
+                    grantModal.classList.remove('active');
+                });
+            }
+            
+            const addExpenseBtn = document.getElementById('add-expense-btn');
+            const expenseModal = document.getElementById('add-expense-modal');
+            const closeExpenseModal = document.getElementById('close-expense-modal');
+            
+            if (addExpenseBtn && expenseModal && closeExpenseModal) {
+                addExpenseBtn.addEventListener('click', function() {
+                    expenseModal.classList.add('active');
+                });
+                
+                closeExpenseModal.addEventListener('click', function() {
+                    expenseModal.classList.remove('active');
+                });
+            }
+            
+            const addRequirementBtn = document.getElementById('add-requirement-btn');
+            const requirementModal = document.getElementById('add-requirement-modal');
+            const closeRequirementModal = document.getElementById('close-requirement-modal');
+            
+            if (addRequirementBtn && requirementModal && closeRequirementModal) {
+                addRequirementBtn.addEventListener('click', function() {
+                    requirementModal.classList.add('active');
+                });
+                
+                closeRequirementModal.addEventListener('click', function() {
+                    requirementModal.classList.remove('active');
+                });
+            }
+            
+            // Recurring requirement toggle
+            const recurringCheckbox = document.getElementById('requirement-recurring');
+            const recurringOptions = document.querySelector('.recurring-options');
+            
+            if (recurringCheckbox && recurringOptions) {
+                recurringCheckbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        recurringOptions.style.display = 'block';
+                    } else {
+                        recurringOptions.style.display = 'none';
+                    }
+                });
+            }
+            
+            // File input display
+            const grantFile = document.getElementById('grant-file');
+            const selectedGrantFiles = document.getElementById('selected-grant-files');
+            
+            if (grantFile && selectedGrantFiles) {
+                grantFile.addEventListener('change', function() {
+                    if (this.files.length > 0) {
+                        if (this.files.length === 1) {
+                            selectedGrantFiles.textContent = this.files[0].name;
+                        } else {
+                            selectedGrantFiles.textContent = `${this.files.length} files selected`;
+                        }
+                    } else {
+                        selectedGrantFiles.textContent = 'No files selected';
+                    }
+                });
+            }
+            
+            const expenseFile = document.getElementById('expense-file');
+            const selectedExpenseFile = document.getElementById('selected-expense-file');
+            
+            if (expenseFile && selectedExpenseFile) {
+                expenseFile.addEventListener('change', function() {
+                    if (this.files.length > 0) {
+                        selectedExpenseFile.textContent = this.files[0].name;
+                    } else {
+                        selectedExpenseFile.textContent = 'No file selected';
+                    }
+                });
+            }
+            
+            
+            
+            
+            // Close modals when clicking outside
+            window.addEventListener('click', function(event) {
+                if (event.target.classList.contains('modal')) {
+                    event.target.classList.remove('active');
+                }
+            });
+        });
+    </script>
+    <script src = "../js/funding.js"></script>
+</body>
+</html>
