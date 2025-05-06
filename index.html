@@ -3,37 +3,351 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello World</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        h1 {
-            color: #333;
-            font-size: 2.5em;
-        }
-        p {
-            color: #666;
-            font-size: 1.2em;
-        }
-    </style>
+    <title>ScholarSphere - Academic Research Collaboration</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <header>
-        <h1>Hello World</h1>
+        <nav class="container">
+            <a href="#" class="logo">
+                <img src="../images/logo.svg" alt="ScholarSphere Logo" class="logo-image" width="150">
+            </a>
+            
+            <button class="menu-toggle" aria-label="Toggle menu">☰</button>
+            
+            <ul id="menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#research">Research Areas</a></li>
+                        <li><a href="#about">About Us</a></li>
+                <li><a href="#contact">Contact Us</a></li>
+            </ul>
+            
+            <aside class="actions">
+                <a href="../html/SignUp.html" class="btn btn-primary">Register</a>
+                <a href="../html/login.html" class="btn btn-outline">Login</a>
+            </aside>
+        </nav>
     </header>
+
     <main>
-        <p>This is a simple HTML page without div or span elements.</p>
+        <section id="home" class="hero">
+            <article class="container">
+                <h1>University Research Collaboration Platform</h1>
+                <p>Join a community of researchers and academics to collaborate on cutting-edge research projects.</p>
+                <aside class="hero-buttons">
+                    <a href="../html/SignUp.html" class="btn btn-primary">Get Started</a>
+                    <a href="#about" class="btn btn-outline">Learn More</a>
+                </aside>
+            </article>
+        </section>
+
+        <!-- Services Section -->
+    <section id ="services" class="services-section">
+        <article class="container">
+            <section class="section-header">
+                <h2>Services</h2>
+                <p>Discover the tools and resources we offer to support your research journey</p>
+            </section>
+        
+            <section class="services-grid">
+                <article class="service-card">
+                    <figure class="service-icon">
+                        <img src="../images/collaboration-icon.svg" alt="Collaboration icon">
+                    </figure>
+                    <h3>Research Collaboration</h3>
+                    <p>Connect with researchers worldwide and form interdisciplinary teams to tackle complex problems.</p>
+                </article>
+            
+                <article class="service-card">
+                    <figure class="service-icon">
+                        <img src="../images/funding-icon.svg" alt="Funding icon">
+                    </figure>
+                    <h3>Funding Opportunities</h3>
+                    <p>Access a curated database of grants, fellowships, and funding opportunities across disciplines.</p>
+                </article>
+            
+                <article class="service-card">
+                    <figure class="service-icon">
+                        <img src="../images/publishing-icon.svg" alt="Publishing icon">
+                    </figure>
+                    <h3>Publishing Support</h3>
+                    <p>Get assistance with manuscript preparation, journal selection, and open access publishing.</p>
+                </article>
+            
+                <article class="service-card">
+                    <figure class="service-icon">
+                        <img src="../images/mentorship-icon.svg" alt="Mentorship icon">
+                    </figure>
+                    <h3>Mentorship Program</h3>
+                    <p>Connect with experienced researchers for guidance and career development support.</p>
+                </article>
+            
+                <article class="service-card">
+                    <figure class="service-icon">
+                        <img src="../images/resource-sharing-icon.svg" alt="Resources icon">
+                    </figure>
+                    <h3>Resource Sharing</h3>
+                    <p>Share and access research materials, datasets, and specialized equipment.</p>
+                </article>
+            
+                <article class="service-card">
+                    <figure class="service-icon">
+                        <img src="../images/virtual-events.svg" alt="Events icon">
+                    </figure>
+                    <h3>Virtual Events</h3>
+                    <p>Participate in webinars, conferences, and workshops from anywhere in the world.</p>
+                </article>
+            </section>
+        </article>
+    </section>
+
+        <!--Research Areas Section-->
+        <section id="research" class="research-grid">
+            <article class="container">
+                <section class="section-header">
+                    <h2>Research Areas</h2>
+                    <p>Explore our diverse fields of study and find opportunities for collaboration</p>
+                </section>
+                
+                <section class="grid">
+                    <article class="card">
+                        <figure>
+                            <img src="../images/Green_Leaves.jpg" alt="Green leaves representing environmental studies">
+                        </figure>
+                        <section class="card-content">
+                            <h3>Environmental Studies</h3>
+                            <p>Research focused on sustainability and ecological systems</p>
+                        </section>
+                    </article>
+                    
+                    <article class="card">
+                        <figure>
+                            <img src="../images/data_analysis.jpg" alt="Laptop with notebook representing data analysis">
+                        </figure>
+                        <section class="card-content">
+                            <h3>Data Analysis</h3>
+                            <p>Advanced statistical methods and computational research</p>
+                        </section>
+                    </article>
+                    
+                    <article class="card">
+                        <figure>
+                            <img src="../images/office.jpg" alt="Modern glass door representing collaborative spaces">
+                        </figure>
+                        <section class="card-content">
+                            <h3>Collaborative Spaces</h3>
+                            <p>Innovative environments for academic collaboration</p>
+                        </section>
+                    </article>
+                    
+                    <article class="card">
+                        <figure>
+                            <img src="../images/digital_research.jpg" alt="Computer screen showing data visualization">
+                        </figure>
+                        <section class="card-content">
+                            <h3>Digital Research</h3>
+                            <p>Leveraging technology for academic advancement</p>
+                        </section>
+                    </article>
+                </section>
+            </article>
+        </section>
+
+        <!-- About Us Section -->
+    <section id="about" class="about-section">
+        <article class="container">
+            <section class="section-header">
+                <h2>About Us</h2>
+                <p>Learn more about ScholarSphere and our mission to advance academic collaboration</p>
+            </section>
+        
+            <section class="about-content">
+                <figure class="about-image">
+                    <img src="../images/Collaboration.jpg" alt="University campus with students collaborating">
+                </figure>
+            
+                <article class="about-text">
+                    <h3>Connecting Researchers Worldwide</h3>
+                    <p>ScholarSphere was founded in 2025 with a mission to break down barriers between academic institutions and create a global network of researchers.</p>
+                
+                    <h3>Our Vision</h3>
+                    <p>We envision a world where knowledge flows freely across borders, disciplines, and institutions, accelerating innovation and discovery.</p>
+                
+                    <h3>What We Offer</h3>
+                    <p>Our platform provides tools for collaboration, resource sharing, and networking among researchers at all career stages.</p>
+                
+                    <a href="#" class="btn btn-outline about-btn">Learn More About Us</a>
+                </article>
+            </section>
+        </article>
+    </section>
+
+
+<!-- Contact Us Section -->
+    <section id="contact" class="contact-section">
+        <article class="container">
+            <section class="contact-content">
+                <article class="contact-info">
+                    <h2>Contact Us</h2>
+                    <p class="contact-intro">Any question? We would be happy to help you!</p>
+                
+                    <ul class="contact-details">
+                        <li>
+                            <a href="#">
+                                <i class="fas fa-phone-alt"></i>
+                                +2780555333
+                            </a>
+                        </li>
+                        <li>
+                            <a href="mailto:example@email.com" class="contact-email">
+                                <i class="fas fa-envelope"></i>
+                                example@email.com
+                            </a>
+                        </li>
+                        <li>
+                            <address>
+                                <i class="fas fa-map-marker-alt"></i>
+                                775 Rolling Green Rd.
+                            </address>
+                        </li>
+                    </ul>
+                
+                    <nav class="social-links">
+                        <a href="#" aria-label="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" aria-label="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </nav>
+                </article>
+            
+                <form class="contact-form">
+                    <section class="form-row">
+                        <fieldset class="form-group">
+                            <label for="firstName">First Name:</label>
+                            <input type="text" id="firstName" name="firstName" placeholder="Your first name">
+                        </fieldset>
+                    
+                        <fieldset class="form-group">
+                            <label for="lastName">Last Name:</label>
+                            <input type="text" id="lastName" name="lastName" placeholder="Your last name">
+                        </fieldset>
+                    </section>
+                
+                    <fieldset class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" placeholder="youremail@email.com">
+                    </fieldset>
+                
+                    <fieldset class="form-group">
+                        <label for="phone">Phone Number:</label>
+                        <input type="tel" id="phone" name="phone" placeholder="+2780555333">
+                    </fieldset>
+                
+                    <fieldset class="form-group">
+                        <label for="message">Message:</label>
+                        <textarea id="message" name="message" placeholder="Type your message here..." rows="5"></textarea>
+                    </fieldset>
+                
+                    <button type="submit" class="send-message-btn">
+                        Send Message
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </form>
+            </section>
+        </article>
+        </section>
+
+
     </main>
+
     <footer>
-        <small>Created with plain HTML</small>
+        <section class="container">
+            <p>&copy; 2025 ScholarSphere. All rights reserved.</p>
+        </section>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle
+            const menuToggle = document.querySelector('.menu-toggle');
+            const menu = document.getElementById('menu');
+            const actions = document.querySelector('.actions');
+            
+            menuToggle.addEventListener('click', function() {
+                menu.classList.toggle('active');
+                actions.classList.toggle('active');
+            });
+            
+            // Smooth scrolling for navigation links
+            const navLinks = document.querySelectorAll('nav a[href^="#"]');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    // Only if the link points to an anchor on this page
+                    if(this.getAttribute('href').startsWith('#')) {
+                        e.preventDefault();
+                        
+                        const targetId = this.getAttribute('href');
+                        
+                        // Skip if it's just "#" (home link)
+                        if(targetId === '#') return;
+                        
+                        const targetElement = document.querySelector(targetId);
+                        
+                        if(targetElement) {
+                            // Close mobile menu if it's open
+                            if(menu.classList.contains('active')) {
+                                menu.classList.remove('active');
+                                actions.classList.remove('active');
+                            }
+                            
+                            // Calculate header height for offset
+                            const headerHeight = document.querySelector('header').offsetHeight;
+                            
+                            // Calculate position to scroll to
+                            const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+                            
+                            // Smooth scroll to target
+                            window.scrollTo({
+                                top: targetPosition,
+                                behavior: 'smooth'
+                            });
+                        }
+                    }
+                });
+            });
+            
+            // Contact form handling
+            const contactForm = document.querySelector('.contact-form');
+            
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Get form values
+                    const firstName = document.getElementById('firstName').value;
+                    const email = document.getElementById('email').value;
+                    
+                    // Here you would typically send the data to your server
+                    // For demonstration, we'll just show an alert
+                    alert(`Thank you, ${firstName}! Your message has been received. We'll get back to you at ${email} soon.`);
+                    
+                    // Reset the form
+                    contactForm.reset();
+                });
+            }
+        });
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src = "../js/signup.js"></script>
 </body>
 </html>

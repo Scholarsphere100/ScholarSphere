@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScholarSphere - Chat</title>
+    <link rel="stylesheet" href="../css/styles1.css">
+    <link rel="stylesheet" href="../css/chat-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <header class="sidebar-header">
+            <h2 class="sidebar-title">ScholarSphere</h2>
+            <button class="close-sidebar" id="close-sidebar" aria-label="Close sidebar">
+                <i class="fas fa-times" aria-hidden="true"></i>
+            </button>
+        </header>
+        
+        <nav class="sidebar-nav">
+            <ul>
+               
+            </ul>
+        </nav>
+        
+        <footer class="sidebar-footer">
+            
+            <button id="sign-out-btn" class="sign-out-btn">
+                <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
+                Sign Out
+            </button>
+        </footer>
+    </aside>
+    
+    <!-- Overlay for sidebar -->
+    <section class="sidebar-overlay" id="sidebar-overlay"></section>
+    
+    <!-- Main Header -->
+    <header class="main-header">
+        <button class="menu-toggle" id="menu-toggle" aria-label="Open menu">
+            <i class="fas fa-bars" aria-hidden="true"></i>
+        </button>
+        <section class="header-actions">
+            <button class="notifications" id="notification-button" aria-label="Notifications">
+                <i class="fas fa-bell" aria-hidden="true"></i>
+                <mark class="notification-badge">3</mark>
+            </button>
+        </section>
+    </header>
+
+    <main class="chat-container">
+        <!-- Contacts List -->
+        <aside class="chat-contacts">
+            <header class="contacts-header">
+                <h2>Conversations</h2>
+                <button class="new-chat-btn" aria-label="Start new conversation">
+                    <i class="fas fa-plus" aria-hidden="true"></i>
+                </button>
+            </header>
+            
+            <nav class="contacts-list">
+                <ul>
+                    <li>
+                        <a href="#" class="contact-item active" data-contact-id="1">
+                            
+                            <article class="contact-info">
+                                <header class="contact-header">
+                                    <h3></h3>
+                                </header>
+                                <footer class="contact-footer">
+                                </footer>
+                            </article>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <!-- Chat Window -->
+        <section class="chat-window">
+            <header class="chat-header">
+                <section class="chat-user-info">
+                    <figure class="user-avatar">
+                        <img src="https://via.placeholder.com/48" alt="Dr. Robert Johnson">
+                    </figure>
+                    <article class="user-details">
+                        <h2></h2>
+                    </article>
+                </section>
+                <section class="chat-actions">
+                    <button class="chat-action-btn" aria-label="More options">
+                        <i class="fas fa-ellipsis-v" aria-hidden="true"></i>
+                    </button>
+                </section>
+            </header>
+            
+            <section class="chat-messages" id="chat-messages">
+                <article class="message-group date-separator">
+                    <time datetime="2025-04-12">April 12, 2025</time>
+                </article>
+                
+ 
+                
+       
+                
+        
+              
+               
+            </section>
+            
+            <footer class="chat-input-area">
+                <form id="message-form">
+                    <fieldset>
+
+                        <legend class="sr-only">Send a message</legend>
+
+                        <textarea id="message-input" placeholder="Type a message..." rows="1" aria-label="Message"></textarea>
+
+                        <button type="submit" class="send-btn" aria-label="Send message">
+                            <i class="fas fa-paper-plane" aria-hidden="true"></i>
+                        </button>
+
+                    </fieldset>
+                </form>
+            </footer>
+        </section>
+    </main>
+
+
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const menuToggle = document.getElementById('menu-toggle');
+            const sidebar = document.getElementById('sidebar');
+            const closeSidebar = document.getElementById('close-sidebar');
+            const sidebarOverlay = document.getElementById('sidebar-overlay');
+            const messageForm = document.getElementById('message-form');
+            const messageInput = document.getElementById('message-input');
+            const chatMessages = document.getElementById('chat-messages');
+            const contactItems = document.querySelectorAll('.contact-item');
+            
+
+               
+            // Auto-resize textarea
+            if (messageInput) {
+                messageInput.addEventListener('input', function() {
+                    this.style.height = 'auto';
+                    this.style.height = (this.scrollHeight) + 'px';
+                    
+                    // Limit max height
+                    if (this.scrollHeight > 150) {
+                        this.style.height = '150px';
+                        this.style.overflowY = 'auto';
+                    } else {
+                        this.style.overflowY = 'hidden';
+                    }
+                });
+            }
+            
+            
+            // Handle contact selection
+            if (contactItems) {
+                contactItems.forEach(item => {
+                    item.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        
+                        // Remove active class from all contacts
+                        contactItems.forEach(contact => {
+                            contact.classList.remove('active');
+                        });
+                        
+                        // Add active class to clicked contact
+                        this.classList.add('active');
+                        
+                        // Remove unread badge if present
+                        const unreadBadge = this.querySelector('.unread-badge');
+                        if (unreadBadge) {
+                            unreadBadge.style.display = 'none';
+                        }
+                        
+                        // In a real app, this would load the conversation with this contact
+                        const contactId = this.getAttribute('data-contact-id');
+                        console.log('Loading conversation with contact ID:', contactId);
+                    });
+                });
+            }
+            
+            // Scroll to bottom of chat messages
+            if (chatMessages) {
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        });
+    </script>
+   <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+   <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+   <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+   <script type="module" src="../js/script.js"></script>
+   <script type="module" src="../js/search.js"></script>
+   <script type="module" src="../js/messaging.js"></script>
+</body>
+</html>

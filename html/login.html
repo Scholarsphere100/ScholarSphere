@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScholarSphere - Login</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="auth-body">
+    <main class="auth-container">
+        <section class="auth-card">
+            <button type="button" class="auth-close-button" aria-label="Close">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <article class="auth-form-side">
+                <section class="auth-form-header">
+                    <h2>Log in</h2>
+                    <p>Welcome back to ScholarSphere!</p>
+                </section>
+                
+                <section class="auth-social-login-container">
+                    <h3>Continue with</h3>
+                    
+                    <ul class="auth-social-list">
+                        <li>
+                            <button type="button" class="auth-social-button google" id="google-login">
+                                <i class="fab fa-google" aria-hidden="true"></i>
+                                <p>Google</p>
+                            </button>
+                        </li>
+                    </ul>
+                </section>
+                
+                <footer class="auth-form-footer">
+                    <p>
+                        Don't have an account? 
+                        <a href="SignUp.html" class="auth-signup-link">Sign up</a>
+                    </p>
+                </footer>
+            </article>
+            
+            <article class="auth-illustration-side">
+                <figure class="auth-illustration">
+                    <img src="../images/lock.png" alt="3D lock illustration representing secure login">
+                </figure>
+                <p class="auth-illustration-text">Secure access to your research and academic resources</p>
+            </article>
+        </section>
+    </main>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src = "../js/login.js"></script>
+
+</body>
+</html>

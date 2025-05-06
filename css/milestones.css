@@ -1,0 +1,788 @@
+/* Milestones Page Styles */
+
+/* Status Badge */
+.status-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.status-badge.active {
+    background-color: rgba(46, 213, 115, 0.15);
+    color: #2ed573;
+}
+
+.status-badge.completed {
+    background-color: rgba(43, 218, 216, 0.15);
+    color: var(--primary-color);
+}
+
+.status-badge.pending {
+    background-color: rgba(255, 171, 25, 0.15);
+    color: #ffab19;
+}
+
+/* Page Header */
+.page-header {
+    margin-bottom: 1.5rem;
+}
+
+.page-header h1 {
+    font-size: 1.8rem;
+    margin: 0;
+    color: var(--text-color);
+}
+
+/* Milestones Section */
+.milestones-section {
+    background-color: white;
+    border-radius: var(--card-radius);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+    overflow-y: auto;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.section-header h2 {
+    margin: 0;
+    font-size: 1.4rem;
+    color: var(--text-color);
+}
+
+.add-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.add-btn:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+/* Milestone Progress */
+.milestone-progress {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background-color: var(--light-gray);
+    border-radius: var(--card-radius);
+}
+
+.progress-circle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 1rem 0;
+    text-align: center;
+}
+
+.progress-circle svg {
+    width: 120px;
+    height: 120px;
+    transform: rotate(-90deg);
+}
+
+.circle-bg {
+    fill: none;
+    stroke: var(--light-gray);
+    stroke-width: 3.8;
+}
+
+.circle {
+    fill: none;
+    stroke: var(--primary-color);
+    stroke-width: 3.8;
+    stroke-linecap: round;
+    transition: stroke-dasharray 1s ease;
+}
+
+.percentage {
+    transform: rotate(90deg);
+    transform-origin: center;
+    font-weight: bold;
+    font-size: 0.35em;
+    text-anchor: middle;
+    fill: var(--text-color);
+}
+
+.progress-circle figcaption {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: var(--neutral-color);
+}
+
+.progress-stats {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+}
+
+.progress-stats li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.9rem;
+    color: var(--neutral-color);
+}
+
+.progress-stats i {
+    color: var(--primary-color);
+    width: 20px;
+    text-align: center;
+}
+
+.progress-stats strong {
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+/* Milestone Filters */
+.milestone-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.filter-group label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 0;
+}
+
+.filter-group select {
+    padding: 0.5rem;
+    border: 1px solid var(--medium-gray);
+    border-radius: 4px;
+    font-size: 0.9rem;
+    margin-bottom: 0;
+}
+
+/* Milestones List */
+.milestones-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 1.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    overflow-y: auto;
+}
+
+.milestone-item {
+    position: relative;
+}
+
+.milestone-card {
+    background-color: white;
+    border-radius: var(--card-radius);
+    box-shadow: var(--shadow-sm);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-left: 4px solid transparent;
+    transition: var(--transition);
+}
+
+.milestone-item.completed .milestone-card {
+    border-left-color: #2ed573;
+}
+
+.milestone-item.in-progress .milestone-card {
+    border-left-color: #ffab19;
+}
+
+.milestone-item.upcoming .milestone-card {
+    border-left-color: var(--primary-color);
+}
+
+.milestone-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+}
+
+.milestone-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid var(--light-gray);
+}
+
+.milestone-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--text-color);
+}
+
+.milestone-status {
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+}
+
+.milestone-item.completed .milestone-status {
+    background-color: rgba(46, 213, 115, 0.15);
+    color: #2ed573;
+}
+
+.milestone-item.in-progress .milestone-status {
+    background-color: rgba(255, 171, 25, 0.15);
+    color: #ffab19;
+}
+
+.milestone-item.upcoming .milestone-status {
+    background-color: rgba(43, 218, 216, 0.15);
+    color: var(--primary-color);
+}
+
+.milestone-details {
+    padding: 1rem;
+    flex-grow: 1;
+}
+
+.milestone-details p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+.milestone-meta {
+    margin-bottom: 1rem;
+    font-size: 0.85rem;
+    color: var(--neutral-color);
+}
+
+.milestone-meta p {
+    margin: 0.25rem 0;
+}
+
+.milestone-progress-bar {
+    margin-top: 1rem;
+}
+
+.milestone-progress-bar progress {
+    width: 100%;
+    height: 8px;
+    border-radius: 4px;
+    overflow: hidden;
+    border: none;
+}
+
+.milestone-progress-bar .progress-text {
+    display: block;
+    text-align: right;
+    font-size: 0.8rem;
+    color: var(--neutral-color);
+    margin-top: 0.25rem;
+}
+
+.milestone-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: var(--light-gray);
+    font-size: 0.85rem;
+}
+
+.milestone-attachments {
+    color: var(--neutral-color);
+}
+
+.milestone-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.action-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.4rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.view-btn {
+    background-color: var(--light-gray);
+    color: var(--text-color);
+    border: 1px solid var(--medium-gray);
+}
+
+.view-btn:hover {
+    background-color: var(--medium-gray);
+}
+
+.update-btn {
+    background-color: #ffab19;
+    color: white;
+}
+
+.update-btn:hover {
+    background-color: #e69b16;
+}
+
+.start-btn {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.start-btn:hover {
+    background-color: var(--primary-dark);
+}
+
+/* Milestone Form */
+.milestone-form {
+    padding: 1.25rem;
+}
+
+.form-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.form-group {
+    flex: 1;
+}
+
+.add-milestone-button {
+    display: block;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.6rem 1.25rem;
+    border-radius: 30px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin: 1rem auto;
+    transition: var(--transition);
+}
+
+.add-milestone-button:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+/* Milestone Details Modal */
+.milestone-details-content {
+    padding: 1.25rem;
+}
+
+.milestone-detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.milestone-detail-header h3 {
+    font-size: 1.3rem;
+    margin: 0;
+}
+
+.milestone-detail-section {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--light-gray);
+}
+
+.milestone-detail-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.milestone-detail-section h4 {
+    font-size: 1rem;
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+    color: var(--text-color);
+}
+
+.detail-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.detail-list li {
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.team-members-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.team-members-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.member-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.updates-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.update-item {
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--light-gray);
+}
+
+.update-item:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.update-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
+}
+
+.update-author {
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.update-meta time {
+    color: var(--neutral-color);
+}
+
+.update-item p {
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.attachments-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.attachment-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: var(--transition);
+    font-size: 0.9rem;
+}
+
+.attachment-item:hover {
+    background-color: var(--light-gray);
+}
+
+.attachment-item i {
+    color: var(--primary-color);
+}
+
+.attachment-item span {
+    flex: 1;
+}
+
+.download-btn {
+    color: var(--neutral-color);
+    transition: var(--transition);
+}
+
+.download-btn:hover {
+    color: var(--primary-color);
+}
+
+.comments-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1rem 0;
+}
+
+.comment-item {
+    margin-bottom: 1rem;
+}
+
+.comment-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.commenter-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.commenter-info {
+    flex: 1;
+}
+
+.commenter-info h5 {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.commenter-info time {
+    font-size: 0.8rem;
+    color: var(--neutral-color);
+}
+
+.comment-text {
+    font-size: 0.9rem;
+    margin: 0;
+    padding-left: calc(32px + 0.75rem);
+}
+
+.comment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.comment-form textarea {
+    border: 1px solid var(--medium-gray);
+    border-radius: 4px;
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    resize: vertical;
+}
+
+.submit-comment-btn {
+    align-self: flex-end;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.4rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.submit-comment-btn:hover {
+    background-color: var(--primary-dark);
+}
+
+/* Update Progress Form */
+.update-progress-form {
+    padding: 1.25rem;
+}
+
+.milestone-info {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background-color: var(--light-gray);
+    border-radius: var(--card-radius);
+}
+
+.milestone-info h3 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.milestone-info p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--neutral-color);
+}
+
+input[type="range"] {
+    width: 100%;
+    margin-bottom: 0.5rem;
+}
+
+.range-value {
+    text-align: center;
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.inline-label {
+    margin-bottom: 0;
+}
+
+.update-progress-button {
+    display: block;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.6rem 1.25rem;
+    border-radius: 30px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin: 1rem auto;
+    transition: var(--transition);
+}
+
+.update-progress-button:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+/* File Upload Styles */
+.file-upload-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: var(--light-gray);
+    border: 1px dashed var(--medium-gray);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.file-upload-label:hover {
+    background-color: var(--medium-gray);
+}
+
+.file-upload-label i {
+    color: var(--primary-color);
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.selected-file-name {
+    font-size: 0.8rem;
+    color: var(--neutral-color);
+    margin-top: 0.25rem;
+    margin-bottom: 1rem;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    overflow-y: auto;
+    padding: 2rem 1rem;
+}
+
+.modal.active {
+    display: block;
+    overflow-y: auto;
+}
+
+.modal-content {
+    background-color: white;
+    border-radius: var(--card-radius);
+    max-width: 600px;
+    margin: 0 auto;
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--light-gray);
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 1.3rem;
+}
+
+.close-modal {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    color: var(--neutral-color);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.close-modal:hover {
+    color: var(--text-color);
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+    .milestone-progress {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .milestones-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .milestone-filters {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
