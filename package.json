@@ -1,0 +1,25 @@
+{
+  "name": "scholarsphere",
+  "version": "1.0.0",
+  "description": "Shared repository for final year Software Design projects\\ This branch holds vanilla css,html and js",
+  "main": "jest.config.js",
+  "scripts": {
+   "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Scholarsphere100/ScholarSphere.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Scholarsphere100/ScholarSphere/issues"
+  },
+  "homepage": "https://github.com/Scholarsphere100/ScholarSphere#readme"
+}
