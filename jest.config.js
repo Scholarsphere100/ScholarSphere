@@ -1,5 +1,5 @@
 module.exports = {
-    testEnvironment: "jsdom",  // Ensure we're using jsdom
-    setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],  // Optional: More setup if needed
-  };
-  
+  testEnvironment: 'jsdom',
+  testMatch: ['**/__tests__/**/*.test.js'],
+  verbose: true,
+};
