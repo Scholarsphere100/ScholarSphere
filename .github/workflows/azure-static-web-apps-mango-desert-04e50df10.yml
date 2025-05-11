@@ -24,6 +24,14 @@ jobs:
           lfs: false
       - name: Install OIDC Client from Core Package
         run: npm install @actions/core@1.6.0 @actions/http-client
+      - name: Notify Discord
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        run: |
+          curl -H "Content-Type: application/json" \
+          -X POST \
+          -d '{"content": "Build & Deploy completed on main branch!"}' \ $DISCORD_WEBHOOK
+          
       - name: Get Id Token
         uses: actions/github-script@v6
         id: idtoken
