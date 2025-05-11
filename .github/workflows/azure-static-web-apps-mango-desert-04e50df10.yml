@@ -46,6 +46,18 @@ jobs:
           github_id_token: ${{ steps.idtoken.outputs.result }}
           skip_app_build: true
           ###### End of Repository/Build Configurations ######
+    # Always notify Discord, whether success or failure
+    # Use a `if: always()` step after main steps
+      - name: Notify Discord
+        if: always()
+        uses: Ilshidur/action-discord@master
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          message: |
+            **GitHub Action: CI Deployment**
+            Repository: ${{ github.repository }}
+            Branch: ${{ github.ref }}
+            Status: ${{ job.status }}
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
