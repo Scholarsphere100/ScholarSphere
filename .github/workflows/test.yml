@@ -23,3 +23,18 @@ jobs:
       
     - name: Run tests
       run: npm test
+    - name: Notify Discord on Success
+      if: success()
+      run: |
+        curl -H "Content-Type: application/json" \
+             -X POST \
+             -d "{\"content\": \"✅ Tests passed on push to ${{ github.ref }} by ${{ github.actor }}.\"}" \
+             ${{ secrets.DISCORD_WEBHOOK_URL }}
+
+    - name: Notify Discord on Failure
+      if: failure()
+      run: |
+        curl -H "Content-Type: application/json" \
+             -X POST \
+             -d "{\"content\": \"❌ Tests failed on push to ${{ github.ref }} by ${{ github.actor }}.\"}" \
+             ${{ secrets.DISCORD_WEBHOOK_URL }}
