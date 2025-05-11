@@ -52,7 +52,7 @@ jobs:
         if: always()
         uses: Ilshidur/action-discord@master
         with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          webhook: ${{ secrets.DISCORD_WEBHOOK_URL }}
           message: |
             **GitHub Action: CI Deployment**
             Repository: ${{ github.repository }}
