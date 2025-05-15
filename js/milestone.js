@@ -243,7 +243,7 @@ async function handleMilestoneSubmit(e) {
 
         // Add to Firestore
         const docRef = await addDoc(milestonesCollection, newMilestone);
-        console.log("Milestone added with ID: ", docRef.id);
+        alert("Milestone added with ID: ", docRef.id);
 
         // Update project's milestones count
         await updateProjectMilestonesCount(projectId);
