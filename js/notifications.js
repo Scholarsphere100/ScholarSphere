@@ -1,10 +1,11 @@
+// Import the notification counter
+import notificationCounter from './notificationCount.js';
+
 // Define the NotificationManager class globally
 class NotificationManager {
     constructor() {
         // Initialize properties
-        this.unreadCount = 0;
         this.notificationsList = null;
-        this.notificationBadge = null;
         this.unsubscribeListeners = [];
         this.initialized = false;
         this.currentUser = null;
@@ -37,9 +38,6 @@ class NotificationManager {
         
         this.auth = this.firebase.auth();
         this.db = this.firebase.firestore();
-        
-        // Find DOM elements
-        this.notificationBadge = document.querySelector('.notification-badge');
         
         // Only find notification list if we're on the collaborations page
         if (this.isCollaborationsPage) {
@@ -140,9 +138,6 @@ class NotificationManager {
                             this.handleRemovedNotification(notification.id);
                         }
                     });
-                    
-                    // Update unread count
-                    this.updateUnreadCount();
                 }, error => {
                     console.error('Error in notifications listener:', error);
                 });
@@ -150,25 +145,6 @@ class NotificationManager {
             this.unsubscribeListeners.push(notificationsListener);
         } catch (error) {
             console.error('Error setting up notification listeners:', error);
-        }
-    }
-    
-    /**
-     * Update the unread count based on current notifications
-     */
-    async updateUnreadCount() {
-        if (!this.currentUser) return;
-        
-        try {
-            const unreadSnapshot = await this.db.collection('notifications')
-                .where('userId', '==', this.currentUser.uid)
-                .where('read', '==', false)
-                .get();
-            
-            this.unreadCount = unreadSnapshot.size;
-            this.updateNotificationBadge();
-        } catch (error) {
-            console.error('Error updating unread count:', error);
         }
     }
     
@@ -303,8 +279,8 @@ class NotificationManager {
                 this.addNotificationToList(notification);
             });
             
-            // Update unread count
-            this.updateUnreadCount();
+            // Refresh notification count via the counter module
+            notificationCounter.refreshCount();
             
         } catch (error) {
             console.error('Error loading notifications:', error);
@@ -361,8 +337,8 @@ class NotificationManager {
                     li.classList.remove('unread');
                     markReadBtn.remove(); // Remove the button after marking as read
                     
-                    // Update the badge count
-                    this.updateUnreadCount();
+                    // Refresh notification count via the counter module
+                    notificationCounter.refreshCount();
                 }
             });
         }
@@ -485,29 +461,14 @@ class NotificationManager {
                 if (markReadBtn) markReadBtn.remove();
             });
             
-            // Reset unread count
-            this.unreadCount = 0;
-            this.updateNotificationBadge();
+            // Refresh notification count via the counter module
+            notificationCounter.refreshCount();
             
             console.log('Marked all notifications as read');
             return true;
         } catch (error) {
             console.error('Error marking all notifications as read:', error);
             return false;
-        }
-    }
-    
-    /**
-     * Update the notification badge with the current unread count
-     */
-    updateNotificationBadge() {
-        if (this.notificationBadge) {
-            if (this.unreadCount > 0) {
-                this.notificationBadge.textContent = this.unreadCount > 99 ? '99+' : this.unreadCount;
-                this.notificationBadge.style.display = 'flex';
-            } else {
-                this.notificationBadge.style.display = 'none';
-            }
         }
     }
     
@@ -546,9 +507,6 @@ class NotificationManager {
         if (this.notificationsList) {
             this.notificationsList.innerHTML = '';
         }
-        
-        this.unreadCount = 0;
-        this.updateNotificationBadge();
     }
     
     /**
@@ -678,6 +636,7 @@ class NotificationManager {
         // Initialize on page load
         updateActiveTab();
     }
+    
     /**
      * Format a date as a relative time string (e.g., "2 hours ago")
      * or as a formatted date string (e.g., "05 May 2025")
@@ -755,36 +714,6 @@ class NotificationManager {
             return false;
         }
     }
-    
-    /**
-     * Get unread notification count for current user
-     */
-    async getUnreadCount() {
-        if (!this.currentUser) return 0;
-        
-        try {
-            const snapshot = await this.db.collection('notifications')
-                .where('userId', '==', this.currentUser.uid)
-                .where('read', '==', false)
-                .get();
-            
-            return snapshot.size;
-        } catch (error) {
-            console.error('Error getting unread count:', error);
-            return 0;
-        }
-    }
-    
-    /**
-     * Refresh notification badge
-     */
-    async refreshBadge() {
-        if (!this.currentUser) return;
-        
-        const count = await this.getUnreadCount();
-        this.unreadCount = count;
-        this.updateNotificationBadge();
-    }
 }
 
 // Create a global instance of the notification manager
@@ -802,3 +731,6 @@ window.addEventListener('load', function() {
         window.ScholarSphere.notifications.init();
     }
 });
+
+// Export the notification manager for use in other modules
+export default window.ScholarSphere.notifications;

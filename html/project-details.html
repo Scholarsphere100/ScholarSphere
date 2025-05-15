@@ -230,6 +230,15 @@
             </ul>
         </nav>
     </footer>
+    <script>
+        // Hide notification badges immediately when page starts loading
+        document.addEventListener('DOMContentLoaded', function() {
+            const badges = document.querySelectorAll('.notification-badge');
+            badges.forEach(badge => {
+                badge.style.display = 'none';
+            });
+        });
+    </script>
    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
@@ -237,7 +246,7 @@
     <script type="module" src="../js/script.js"></script>
     <script type="module" src="../js/search.js"></script>
     <script type="module" src="../js/project-details.js"></script>
-    <script src="../js/notifications.js"></script>
+    <script type="module" src="../js/notificationCount.js"></script>
     <script src="../js/comments.js"></script>
 </body>
 </html>
