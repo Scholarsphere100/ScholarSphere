@@ -1,70 +1,68 @@
-
 /**
  * @jest-environment jsdom
  */
-
-// Mock `displayUserSpecificContent`
-const mockDisplayUserSpecificContent = jest.fn();
-
-jest.mock('../../js/auth-check', () => ({
-  displayUserSpecificContent: mockDisplayUserSpecificContent,
-}));
+import { jest } from '@jest/globals';
 
 describe('auth-check.js', () => {
   beforeEach(() => {
-    jest.resetAllMocks(); // Reset all mocks before each test
-    sessionStorage.clear(); // Clear session storage
+    // Mock the function globally before auth-check runs
+    window.displayUserSpecificContent = jest.fn();
+
+    // Mock session storage
+    Object.defineProperty(window, 'sessionStorage', {
+      value: {
+        getItem: jest.fn(),
+      },
+      writable: true,
+    });
+
+    // Mock window.location
     delete window.location;
-    window.location = { href: '' }; // Mock window.location
+    window.location = { href: '' };
   });
 
   
-  test(' test for login redirection', () => {
-    sessionStorage.getItem = jest.fn(() => null); // Mock sessionStorage
+  test('redirects to login if user is not logged in', async () => {
+    sessionStorage.getItem.mockReturnValue(null);
 
-    // Simulate loading the script
-    window.location.href = '../html/index.html';
+    await import('../../js/auth-check.js');
 
-    
     expect(window.location.href).toBe('../html/index.html');
   });
 
-  
-  test(' test for dashboard redirection', () => {
-    sessionStorage.getItem = jest.fn(() =>
+  test('redirects to admin dashboard if role is admin', async () => {
+    sessionStorage.getItem.mockReturnValue(
       JSON.stringify({ role: 'admin' })
-    ); // Mock sessionStorage
+    );
 
-    // Simulate loading the script
-    window.location.href = '../admin-dashboard.html';
+    await import('../../js/auth-check.js');
 
-    
     expect(window.location.href).toBe('../admin-dashboard.html');
   });
 
-  
-  test(' test for displayUserSpecificContent', () => {
-    sessionStorage.getItem = jest.fn(() =>
-      JSON.stringify({ role: 'researcher' })
-    ); // Mock sessionStorage
+  test('calls displayUserSpecificContent for researcher role', async () => {
+    const mockUserData = { role: 'researcher' };
+    sessionStorage.getItem.mockReturnValue(JSON.stringify(mockUserData));
 
-    // Simulate function call
-    mockDisplayUserSpecificContent({ role: 'researcher' });
+    await import('../../js/auth-check.js');
 
-    
-    expect(mockDisplayUserSpecificContent).toHaveBeenCalledWith({
-      role: 'researcher',
-    });
+    expect(window.displayUserSpecificContent).toHaveBeenCalledWith(mockUserData);
   });
 
-  
-  test(' test for unrecognized role redirection', () => {
-    sessionStorage.getItem = jest.fn(() =>
-      JSON.stringify({ role: 'unknownRole' })
-    ); // Mock sessionStorage
+  test('redirects to researcher dashboard for unknown role', async () => {
+    sessionStorage.getItem.mockReturnValue(
+      JSON.stringify({ role: 'someUnknownRole' })
+    );
+await Promise.resolve();
+await Promise.resolve();
+await Promise.resolve();
 
-    // Simulate loading the script
-    window.location.href = '../html/researcher-dashboard.html';
+
+    await import('../../js/auth-check.js');
+
+    await Promise.resolve();
+   await Promise.resolve();
+await Promise.resolve();
 
     expect(window.location.href).toBe('../html/researcher-dashboard.html');
   });

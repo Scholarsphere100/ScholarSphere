@@ -2,6 +2,8 @@
  * @jest-environment jsdom
  */
 
+import { jest } from '@jest/globals';
+
 const mockUpdate = jest.fn();
 const mockGet = jest.fn();
 

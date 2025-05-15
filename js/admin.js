@@ -1,4 +1,4 @@
-function addPendingResearcher(name , userid) {
+export function addPendingResearcher(name , userid) {
   const unorderedList = document.getElementById("pendingResearchers");
 
   const list = document.createElement("li");
@@ -38,7 +38,7 @@ function addPendingResearcher(name , userid) {
   unorderedList.appendChild(list);
 }
 
-function addPendingReviewer(name , userid){
+export function addPendingReviewer(name , userid){
   const unorderedList = document.getElementById("pendingReviewers");
 
   const list = document.createElement("li");
@@ -86,19 +86,23 @@ const firebaseConfig = {
   measurementId: "G-NNYQ7E1KY2"
 };
 
+//Hope added these lines
+// import firebase from "firebase/app";  // Import Firebase from 'firebase/app'
+// import "firebase/auth";               // Import Firebase Auth
+// import "firebase/firestore";          // Import Firebase Firestore
 
 // Initialize Firebase
 //firebase.initializeApp(firebaseConfig);
 //const auth = firebase.auth();
 
 const ScholarSphere = firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebase.firestore();
+export const auth = firebase.auth();
+export const db = firebase.firestore();
 
 
 
 
-const getAllUsers = async () => {
+export const getAllUsers = async () => {
   try {
     const usersCollection= await db.collection("Users").get();
 
@@ -107,7 +111,7 @@ const getAllUsers = async () => {
       return;
     }
 
-    usersCollection.forEach((doc) => {
+    usersCollection.docs.forEach((doc) => {
       const data = doc.data();
       if (data.isResearcher && data.isPending){
         addPendingResearcher(data.name , doc.id );
@@ -131,7 +135,7 @@ const getAllUsers = async () => {
 
 getAllUsers();
 
-function updateUsers(userid , result){
+export function updateUsers(userid , result){
   async function updateUserName() {
     const userId = userid; // The ID of the user document you want to update
 
@@ -168,7 +172,7 @@ function updateUsers(userid , result){
 
 //Here starts the progress report functions
 // Enhanced Project Completion Report Functions
-async function generateProjectCompletionReport() {
+export async function generateProjectCompletionReport() {
   try {
     // Get all projects and milestones in parallel for efficiency
     const [projectsSnapshot, milestonesSnapshot] = await Promise.all([
@@ -214,7 +218,7 @@ async function generateProjectCompletionReport() {
 }
 
 // Helper function to group milestones by project
-function groupMilestonesByProject(milestoneDocs) {
+export function groupMilestonesByProject(milestoneDocs) {
   return milestoneDocs.reduce((acc, doc) => {
     const milestone = doc.data();
     const projectId = milestone.projectId;
@@ -227,7 +231,7 @@ function groupMilestonesByProject(milestoneDocs) {
 }
 
 // Enhanced metrics calculation
-function calculateProjectMetrics(project, milestones) {
+export function calculateProjectMetrics(project, milestones) {
   const totalMilestones = milestones.length;
   const completedMilestones = milestones.filter(m => m.status === "completed").length;
   
@@ -246,7 +250,7 @@ function calculateProjectMetrics(project, milestones) {
 }
 
 // Update project progress in Firestore
-async function updateProjectProgress(projectId, newProgress) {
+export async function updateProjectProgress(projectId, newProgress) {
   try {
     await db.collection("projects").doc(projectId).update({
       progress: newProgress,
@@ -259,7 +263,7 @@ async function updateProjectProgress(projectId, newProgress) {
 }
 
 // Modified display functions
-function displayCompletionReport(reportData) {
+export function displayCompletionReport(reportData) {
   const tableBody = document.querySelector("#completionReportTable tbody");
   tableBody.innerHTML = "";
   
@@ -277,7 +281,7 @@ function displayCompletionReport(reportData) {
   });
 }
 
-function displayProjectsTable(reportData) {
+export function displayProjectsTable(reportData) {
   const tableBody = document.querySelector("#researchTable");
   tableBody.innerHTML = "";
   
@@ -316,7 +320,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // Thatos program
-function toggleSidebar() {
+export function toggleSidebar() {
     const sidebar = document.getElementById("sidebar");
     const main = document.getElementById("mainContent");
     sidebar.classList.toggle("inactive");
@@ -325,7 +329,7 @@ function toggleSidebar() {
   let approvedCount = 0;
   let rejectedCount = 0;
   
-  function updateProgress() {
+  export function updateProgress() {
     const total = approvedCount + rejectedCount;
     const percent = total === 0 ? 0 : Math.round((approvedCount / total) * 100);
     const circle = document.getElementById("circleProgress");
@@ -335,7 +339,7 @@ function toggleSidebar() {
     text.textContent = `${percent}%`;
   }
   
-  function approve(button, targetListId) {
+  export function approve(button, targetListId) {
     const li = button.closest('li');
     const name = li.querySelector('p').innerText;
     const approvedList = document.getElementById(targetListId);
@@ -356,7 +360,7 @@ function toggleSidebar() {
       console.log("section undefined ", section.id);
     }
   }
-  function reject(button) {
+  export function reject(button) {
     const li = button.closest('li');
     li.remove();
     rejectedCount++;
