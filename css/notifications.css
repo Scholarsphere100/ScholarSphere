@@ -1,19 +1,13 @@
-/* Notification Badge */
-.notification-badge {
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    background-color: #ff5252;
-    color: white;
-    border-radius: 50%;
-    width: 18px;
-    height: 18px;
-    font-size: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
+/* Variables */
+:root {
+    
+    --accepted-color: #2bdad8;
+    --pending-color:#ffc107;
+    --declined-color:#f44336;
+    
 }
+
+/* Notification Badge */
 
 /* Notification List */
 .notification-list {
@@ -48,15 +42,15 @@
 
 /* Notification types with different left borders */
 .notification-accepted {
-    border-left-color: #4caf50;
+    border-left-color: var(--primary-color);
 }
 
 .notification-declined {
-    border-left-color: #f44336;
+    border-left-color: var(--declined-color);
 }
 
 .notification-request {
-    border-left-color: #ff9800;
+    border-left-color: var(--pending-color);
 }
 
 .notification-details {

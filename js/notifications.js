@@ -602,23 +602,29 @@ class NotificationManager {
      * Set up tab navigation for notifications
      */
     setupTabNavigation() {
-        if (!this.isCollaborationsPage) return;
-        
+        if (!this.isCollaborationsPage) {
+            return;
+        }
+    
         // Add mark all as read button to the notifications section header
         const notificationsHeader = document.querySelector('#notifications .section-header');
+    
         if (notificationsHeader && !notificationsHeader.querySelector('.mark-all-read-btn')) {
             const markAllBtn = document.createElement('button');
+    
             markAllBtn.className = 'mark-all-read-btn';
             markAllBtn.innerHTML = '<i class="fas fa-check-double" aria-hidden="true"></i> Mark All as Read';
             markAllBtn.addEventListener('click', async () => {
                 const success = await this.markAllAsRead();
+    
                 if (success) {
                     // Show success message
                     const successMsg = document.createElement('span');
+    
                     successMsg.className = 'mark-all-success';
                     successMsg.textContent = 'All notifications marked as read';
                     markAllBtn.parentNode.appendChild(successMsg);
-                    
+    
                     // Remove success message after 3 seconds
                     setTimeout(() => {
                         successMsg.remove();
@@ -627,33 +633,51 @@ class NotificationManager {
             });
             notificationsHeader.appendChild(markAllBtn);
         }
-        
-        // Handle tab switching with page refresh
-        window.addEventListener('hashchange', () => {
-            if (window.location.hash === '#notifications') {
-                window.location.reload();
-            }
-        });
-        
-        // Add click handlers to all tab links
-        const tabLinks = document.querySelectorAll('.tabs-nav a');
-        tabLinks.forEach(link => {
-            // Skip if this isn't the notifications tab
-            if (link.getAttribute('href') !== '#notifications') return;
-            
-            // Remove existing click handlers by cloning and replacing
-            const newLink = link.cloneNode(true);
-            link.parentNode.replaceChild(newLink, link);
-            
-            // Add our click handler with page refresh
-            newLink.addEventListener('click', (e) => {
-                e.preventDefault();
-                window.location.hash = '#notifications';
-                window.location.reload();
-            });
-        });
-    }
     
+        // Get all tab links
+        const tabLinks = document.querySelectorAll('.tabs-nav a');
+    
+        // Function to update active tab based on hash
+        const updateActiveTab = () => {
+            const currentHash = window.location.hash || '#incoming-requests'; // Default tab
+    
+            // Remove active class from all tabs
+            tabLinks.forEach(link => {
+                link.classList.remove('active');
+            });
+    
+            // Add active class to the tab matching the hash
+            const activeTab = document.querySelector(`.tabs-nav a[href="${currentHash}"]`);
+    
+            if (activeTab) {
+                activeTab.classList.add('active');
+            }
+    
+            // Show the corresponding content
+            const tabContents = document.querySelectorAll('.collaboration-content');
+    
+            tabContents.forEach(content => {
+                content.style.display = 'none';
+            });
+    
+            const activeContent = document.querySelector(currentHash);
+    
+            if (activeContent) {
+                activeContent.style.display = 'block';
+            }
+    
+            // If this is the notifications tab, load notifications
+            if (currentHash === '#notifications') {
+                this.loadNotifications();
+            }
+        };
+    
+        // Listen for hash changes
+        window.addEventListener('hashchange', updateActiveTab);
+    
+        // Initialize on page load
+        updateActiveTab();
+    }
     /**
      * Format a date as a relative time string (e.g., "2 hours ago")
      * or as a formatted date string (e.g., "05 May 2025")

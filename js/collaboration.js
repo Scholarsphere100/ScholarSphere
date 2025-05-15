@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const card = document.createElement('li');
                     card.classList.add('request-item');
 
-                    if (data.recipientId === userId) {
+                    if (data.recipientId === userId && data.status != 'accepted') {
                         // Incoming request
                         card.classList.add('incoming');
                         card.innerHTML = renderCardHTML(
@@ -172,7 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
-    // Handle request response - FIXED VERSION
+    // Handle request response 
     async function respondToRequest(requestId, response) {
         try {
             const user = auth.currentUser;

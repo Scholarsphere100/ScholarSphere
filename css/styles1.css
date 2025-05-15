@@ -568,7 +568,53 @@
     text-decoration: underline;
   }
 
-  
+/* Status Badges */
+.status-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.status-badge.accepted {
+  background-color: var(--accepted-color, #2bdad8);
+  border: 1px solid rgba(43, 218, 216, 0.3);
+}
+
+.status-badge.pending {
+  background-color: var(--pending-color, #ffc107);
+  border: 1px solid rgba(255, 193, 7, 0.3);
+  color: #333; /* Darker text for better contrast on yellow */
+}
+
+.status-badge.declined,
+.status-badge.rejected {
+  background-color: var(--declined-color, #f44336);
+  border: 1px solid rgba(244, 67, 54, 0.3);
+}
+
+
+
+/* Adds a small icon before the text */
+.status-badge.accepted::before {
+  content: "✓ ";
+}
+
+.status-badge.pending::before {
+  content: "⏱ ";
+}
+
+.status-badge.declined::before,
+.status-badge.rejected::before {
+  content: "✕ ";
+}
+
+
   
   /* Project List Styles */
   .project-list,
