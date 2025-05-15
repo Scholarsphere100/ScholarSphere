@@ -1,10 +1,3 @@
-/**
- * ScholarSphere Notifications System
- * 
- * A modular, reusable notification system that works across all pages
- * and properly integrates with Firebase Firestore.
- */
-
 // Define the NotificationManager class globally
 class NotificationManager {
     constructor() {
@@ -87,12 +80,26 @@ class NotificationManager {
                     // If not on collaborations page, redirect to it with notifications hash
                     window.location.href = 'collaborations.html#notifications';
                 } else {
-                    // If already on collaborations page, just show the notifications tab
+                    // If already on collaborations page, refresh the page with notifications hash
                     e.preventDefault();
                     window.location.hash = '#notifications';
-                    this.showNotificationsTab();
-                    this.loadNotifications();
+                    window.location.reload();
                 }
+            });
+        }
+        
+        // Set up notifications tab link click handler
+        const notificationsTabLink = document.querySelector('.tabs-nav a[href="#notifications"]');
+        if (notificationsTabLink) {
+            // Remove existing click handlers by cloning and replacing
+            const newTabLink = notificationsTabLink.cloneNode(true);
+            notificationsTabLink.parentNode.replaceChild(newTabLink, notificationsTabLink);
+            
+            // Add our click handler with page refresh
+            newTabLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.location.hash = '#notifications';
+                window.location.reload();
             });
         }
         
@@ -621,11 +628,29 @@ class NotificationManager {
             notificationsHeader.appendChild(markAllBtn);
         }
         
-        // Handle tab switching
+        // Handle tab switching with page refresh
         window.addEventListener('hashchange', () => {
             if (window.location.hash === '#notifications') {
-                this.loadNotifications();
+                window.location.reload();
             }
+        });
+        
+        // Add click handlers to all tab links
+        const tabLinks = document.querySelectorAll('.tabs-nav a');
+        tabLinks.forEach(link => {
+            // Skip if this isn't the notifications tab
+            if (link.getAttribute('href') !== '#notifications') return;
+            
+            // Remove existing click handlers by cloning and replacing
+            const newLink = link.cloneNode(true);
+            link.parentNode.replaceChild(newLink, link);
+            
+            // Add our click handler with page refresh
+            newLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.location.hash = '#notifications';
+                window.location.reload();
+            });
         });
     }
     
