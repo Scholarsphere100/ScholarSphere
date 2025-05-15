@@ -1,6 +1,9 @@
 /**
  * @jest-environment jsdom
  */
+global.window.alert = jest.fn();
+
+import { jest } from '@jest/globals';
 
 const mockUpdate = jest.fn(() => Promise.resolve());
 const mockGet = jest.fn(() =>

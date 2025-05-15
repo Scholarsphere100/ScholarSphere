@@ -16,7 +16,7 @@ const db = firebase.firestore();
 export { auth, db};
 
 // Function to add a new research project item using DOM manipulation
-function addNewResearchItem(Title, Description, Skills, date, projectID) {
+export function addNewResearchItem(Title, Description, Skills, date, projectID) {
     // Get the unordered list element
     const searchResultList = document.querySelector('.search-result');
     if (!searchResultList) {
@@ -93,7 +93,7 @@ function addNewResearchItem(Title, Description, Skills, date, projectID) {
 }
 
 // Function to clear all research items from the display
-function clearResearchItems() {
+export function clearResearchItems() {
     const searchResultList = document.querySelector('.search-result');
     if (searchResultList) {
         searchResultList.innerHTML = '';
