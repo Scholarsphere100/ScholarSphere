@@ -1,7 +1,7 @@
 module.exports = {
   setupFiles: ["<rootDir>/jest.setup.js", "<rootDir>/__mocks__/firebase.js"],
   testEnvironment: 'jsdom',
- // extensionsToTreatAsEsm: ['.js'],
+  //extensionsToTreatAsEsm: ['.js'],
   transform: {
      "^.+\\.js$": "babel-jest",  // Use babel-jest for transforming ES modules
   },

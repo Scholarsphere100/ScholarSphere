@@ -6,7 +6,7 @@ export const initializeApp = jest.fn(() => ({ fakeApp: true }));
 // 🔹 Firebase Auth Mock
 export const getAuth = jest.fn(() => ({
   signInWithPopup: jest.fn(),
-  signOut: jest.fn(),
+  signOut: jest.fn(() => Promise.resolve()),   // <== here is the fix
   onAuthStateChanged: jest.fn(),
   currentUser: {
     uid: "test-user-id",
@@ -47,5 +47,16 @@ export const firebase = {
   auth: getAuth,
   firestore: getFirestore,
 };
+export const auth = getAuth(); 
 
+export const db = {
+  collection: jest.fn(() => ({
+    get: jest.fn(() =>
+      Promise.resolve({
+        empty: true,
+        forEach: () => {},
+      })
+    ),
+  })),
+};
 export default firebase;

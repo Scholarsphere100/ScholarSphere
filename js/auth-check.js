@@ -2,12 +2,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const userData = JSON.parse(sessionStorage.getItem('user'));
     const currentPageRole = 'researcher'; // Change this per page
     
-    /*if (!userData) {
+    if (!userData) {
       // Not logged in
       window.location.href = '../index.html';
       return;
     }
-    */
+    
     
     if (userData.role !== currentPageRole) {
       // Wrong role - redirect to their proper dashboard

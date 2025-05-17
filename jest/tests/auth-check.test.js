@@ -26,8 +26,10 @@ describe('auth-check.js', () => {
     sessionStorage.getItem.mockReturnValue(null);
 
     await import('../../js/auth-check.js');
+    document.dispatchEvent(new Event('DOMContentLoaded'));
+    console.log('Current location.href:', window.location.href);
 
-    expect(window.location.href).toBe('../html/index.html');
+    expect(window.location.href).toBe('../index.html');
   });
 
   test('redirects to admin dashboard if role is admin', async () => {
@@ -36,6 +38,9 @@ describe('auth-check.js', () => {
     );
 
     await import('../../js/auth-check.js');
+    document.dispatchEvent(new Event('DOMContentLoaded'));
+    console.log('Current location.href:', window.location.href);
+
 
     expect(window.location.href).toBe('../admin-dashboard.html');
   });
@@ -46,6 +51,9 @@ describe('auth-check.js', () => {
 
     await import('../../js/auth-check.js');
 
+    document.dispatchEvent(new Event('DOMContentLoaded'));
+    console.log('Current location.href:', window.location.href);
+
     expect(window.displayUserSpecificContent).toHaveBeenCalledWith(mockUserData);
   });
 
@@ -53,17 +61,11 @@ describe('auth-check.js', () => {
     sessionStorage.getItem.mockReturnValue(
       JSON.stringify({ role: 'someUnknownRole' })
     );
-await Promise.resolve();
-await Promise.resolve();
-await Promise.resolve();
-
 
     await import('../../js/auth-check.js');
+    document.dispatchEvent(new Event('DOMContentLoaded'));
+    console.log('Current location.href:', window.location.href);
 
-    await Promise.resolve();
-   await Promise.resolve();
-await Promise.resolve();
-
-    expect(window.location.href).toBe('../html/researcher-dashboard.html');
+    expect(window.location.href).toBe('../researcher-dashboard.html');
   });
 });
