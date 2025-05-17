@@ -195,7 +195,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             await loadProjectDocuments(db, projectId);
             
             // Fetch and display project collaborators
-            await loadProjectCollaborators(db, projectData);
+            await loadProjectCollaborators(db, projectData, projectId);
             
             // Initialize document upload functionality
             initDocumentUpload(db, projectId, user.uid);
@@ -365,7 +365,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
     
     // Function to load project collaborators
-    async function loadProjectCollaborators(db, projectData) {
+    async function loadProjectCollaborators(db, projectData, projectId) {
         try {
             if (!projectData.collaborators || projectData.collaborators.length === 0) {
                 const collaboratorsList = document.querySelector('.collaborators-list');
@@ -415,9 +415,16 @@ document.addEventListener('DOMContentLoaded', async () => {
                     else if (collaborator.isReviewer) roleText = 'Reviewer';
                     
                     const collaboratorItem = document.createElement('li');
+                    // When rendering collaborator items:
+                    collaboratorItem.setAttribute('data-project-id', projectId); // Add this to each item
                     collaboratorItem.className = 'collaborator-item';
+                    const currentUser = firebase.auth().currentUser;
+
+                    // Only show remove button if current user is owner and collaborator is not owner
+                    const showRemoveButton = currentUser && projectData.createdBy === currentUser.uid && !collaborator.isOwner;
+                    
                     collaboratorItem.innerHTML = `
-                        <img src="https://via.placeholder.com/40" alt="${collaborator.name || 'Collaborator'}" class="collaborator-avatar">
+                        <img src="" alt="${collaborator.name || 'Collaborator'}" class="collaborator-avatar">
                         <section class="collaborator-info">
                             <h3>${collaborator.name || collaborator.displayName || 'Unknown User'}</h3>
                             <p>${roleText}</p>
@@ -425,6 +432,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <button class="collaborator-action-btn" aria-label="Message collaborator" data-user-id="${collaborator.id}">
                             <i class="fas fa-comment" aria-hidden="true"></i>
                         </button>
+                        ${showRemoveButton ? `
+                            <button class="remove-collaborator" 
+                                    aria-label="Remove collaborator" 
+                                    data-user-id="${collaborator.id}"
+                                    style="color: #ff4444; margin-left: 8px;">
+                                <i class="fas fa-user-minus" aria-hidden="true"></i>
+                            </button>
+                            ` : ''}
                     `;
                     
                     collaboratorsList.appendChild(collaboratorItem);
@@ -438,9 +453,65 @@ document.addEventListener('DOMContentLoaded', async () => {
                         window.location.href = `messaging.html?user=${userId}`;
                     });
                 });
+
+                // Add event listeners for remove collaborator buttons
+                document.querySelectorAll('.remove-collaborator').forEach(button => {
+                    button.addEventListener('click', async function() {
+                        const userId = this.getAttribute('data-user-id');
+                        const projectId = this.closest('[data-project-id]').getAttribute('data-project-id'); // Add this
+                        if (confirm(`Remove this collaborator?`)) {
+                            await removeCollaborator(db, projectId, userId); // Now using proper projectId
+                        }
+                    });
+                });
             }
         } catch (error) {
             console.error('Error loading project collaborators:', error);
+        }
+    }
+
+     // Function to remove a collaborator from the project
+     async function removeCollaborator(db, projectId, userId) {
+        try {
+            // Get the project reference
+            const projectRef = db.collection('projects').doc(projectId);
+            const projectDoc = await projectRef.get();
+            
+            if (!projectDoc.exists) {
+                throw new Error('Project not found');
+            }
+            
+            const projectData = projectDoc.data();
+            
+            // Check if user is a collaborator
+            if (!projectData.collaborators || !projectData.collaborators.includes(userId)) {
+                throw new Error('User is not a collaborator on this project');
+            }
+            
+            // Remove the user from collaborators array
+            const updatedCollaborators = projectData.collaborators.filter(id => id !== userId);
+            
+            // Update the project document
+            await projectRef.update({
+                collaborators: updatedCollaborators,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            
+            // Get the UPDATED project data from Firestore
+            const updatedProjectDoc = await projectRef.get();
+            const updatedProjectData = updatedProjectDoc.data();
+            
+            // Refresh the collaborators list with the updated data
+            await loadProjectCollaborators(db, updatedProjectData, projectId);
+            
+            alert('Collaborator removed successfully');
+        } catch (error) {
+            console.error('Error removing collaborator:', {
+                error: error.message,
+                projectId,
+                userId
+            });
+            alert('Failed to remove collaborator: ' + error.message);
         }
     }
     
