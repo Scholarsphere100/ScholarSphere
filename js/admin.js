@@ -109,6 +109,21 @@ function updateProgress() {
   document.getElementById("circleProgress").setAttribute("stroke-dasharray", `${percent}, 100`);
   document.getElementById("percentageText").textContent = `${percent}%`;
 }
+//sign out functionality
+const signOutBtn = document.getElementById('sign-out-btn');
+if (signOutBtn) {
+    signOutBtn.addEventListener('click', function() {
+        if (confirm('Are you sure you want to sign out?')) {
+            // In a real application, this would call an API to invalidate the session
+            console.log('User signed out');
+            // Redirect to login page
+            alert('You have been signed out successfully.');
+            window.location.href = '../index.html'; // In the real app, this would go to the landing page
+        }
+    });
+}
+
+
 
 function approve(btn, targetId) {
   const li = btn.closest("li");

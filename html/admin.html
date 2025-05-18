@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Admin Dashboard</title>
   <link rel="stylesheet" href="../css/admin.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
@@ -15,8 +16,7 @@
   </section>
   <nav class="top-bar-content">
     <ul>
-      <li><a href="#">Home</a></li>
-      <li><a href="../index.html">Sign Out</a></li>
+      <li><a id="sign-out-btn"><i class="fas fa-sign-out-alt"></i> Sign Out</a></li>
     </ul>
   </nav>
 </header>
@@ -44,139 +44,172 @@
       </svg>
       <p class="circle-label">Approval Rate (Researchers & Reviewers)</p>
     </article>
-<!--Progree report modal-->
-<!-- Project Completion Report Section -->
-<article class="report-section">
-  <header>
-    <h2>Project Completion Report</h2>
-    <button id="generateReportBtn" class="report-btn">
-      <i class="fas fa-file-pdf"></i> Generate Report
-    </button>
-    <button id="downloadReportBtn" class="report-btn">
-      <i class="fas fa-download"></i> Download Report
-    </button>
-  </header>
- <section class="report-content">
-    <table id="completionReportTable">
-      <thead>
-        <tr>
-          <th>Project</th>
-          <th>Total Milestones</th>
-          <th>Completed</th>
-          <th>Completion Rate</th>
-          <th>Avg. Progress</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Populated via JS -->
-      </tbody>
-    </table>
-  </section>
+
+    <!-- Project Completion Report Section -->
+    <article class="report-section">
+      <header class="section-header">
+        <h2>Project Completion Report</h2>
+        <section class="report-actions">
+          <button id="generateReportBtn" class="report-btn">
+            <i class="fas fa-file-pdf"></i> Generate Report
+          </button>
+          <button id="downloadReportBtn" class="report-btn">
+            <i class="fas fa-download"></i> Download Report
+          </button>
+        </section>
+      </header>
+      <section class="report-content">
+        <table id="completionReportTable" class="data-table">
+          <thead>
+            <tr>
+              <th>Project</th>
+              <th>Total Milestones</th>
+              <th>Completed</th>
+              <th>Completion Rate</th>
+              <th>Avg. Progress</th>
+              <th>Participants</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Populated via JS -->
+          </tbody>
+        </table>
+      </section>
+    </article>
   
-<article class="report-section">
-  <!--Funding report-->
-  <header>
-    <h2>Funding Report</h2>
-    <button id="generateFundingReportBtn" class="report-btn">
-      <i class="fas fa-file-pdf"></i> Generate Funding Report
-    </button>
-    <button id="downloadFundingReportBtn" class="report-btn">
-      <i class="fas fa-download"></i> Download Report
-    </button>
-  </header>
-  <section class="report-content">
-    <table id="fundingReportTable">
-      <thead>
-        <tr>
-          <th>Grant Name</th>
-          <th>Agency</th>
-          <th>Total Amount</th>
-          <th>Used Amount</th>
-          <th>Available</th>
-          <th>Utilization %</th>
-          <th>Start Date</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Populated via JS -->
-      </tbody>
-    </table>
+    <!-- Funding Report Section -->
+    <article class="report-section">
+      <header class="section-header">
+        <h2>Funding Report</h2>
+        <section class="report-actions">
+          <button id="generateFundingReportBtn" class="report-btn">
+            <i class="fas fa-file-pdf"></i> Generate Report
+          </button>
+          <button id="downloadFundingReportBtn" class="report-btn">
+            <i class="fas fa-download"></i> Download Report
+          </button>
+        </section>
+      </header>
+      <section class="report-content">
+        <table id="fundingReportTable" class="data-table">
+          <thead>
+            <tr>
+              <th>Grant Name</th>
+              <th>Agency</th>
+              <th>Total Amount</th>
+              <th>Used Amount</th>
+              <th>Available</th>
+              <th>Utilization %</th>
+              <th>Start Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Populated via JS -->
+          </tbody>
+        </table>
+      </section>
+    </article>
 
+    <!-- Active Projects Section -->
+    <article class="active-projects-section">
+      <header class="section-header">
+        <h2>Active Research Projects</h2>
+        <button id="refreshProjectsBtn" class="refresh-btn">
+          <i class="fas fa-sync-alt"></i> Refresh
+        </button>
+      </header>
+      <section class="projects-content">
+        <table id="activeProjectsTable" class="data-table">
+          <thead>
+            <tr>
+              <th>Project Name</th>
+              <th>Participants</th>
+              <th>Progress</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Populated via JS -->
+          </tbody>
+        </table>
+      </section>
+    </article>
 
-
-    <article class="researches">
-      <h2>Current Research Projects</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Participants</th>
-          </tr>
-        </thead>
-        <!----------This Table Shows The Current Projects and the Number of Participants in each Project---------->
-        <tbody id="researchTable">
-          <tr><td>AI in Healthcare</td><td>152</td></tr>
-          <tr><td>Climate Impact Study</td><td>89</td></tr>
-        </tbody>
-      </table>
+    <!-- Inactive Users Section -->
+    <article class="inactive-users-section">
+      <header class="section-header">
+        <h2>Inactive Users (180+ days)</h2>
+        <button id="refreshInactiveBtn" class="refresh-btn">
+          <i class="fas fa-sync-alt"></i> Refresh
+        </button>
+      </header>
+      <section class="inactive-users-content">
+        <table id="inactiveUsersTable" class="data-table">
+          <thead>
+            <tr>
+              <th>User Name</th>
+              <th>Role</th>
+              <th>Last Login</th>
+              <th>Days Inactive</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Populated via JS -->
+          </tbody>
+        </table>
+      </section>
     </article>
   </section>
-
 
   <section class="right-panel">
     <article class="pending">
-      <h2>Pending Researchers</h2>
-      <!----------This Shows The List of Pending Researchers to Approve or Reject--------->
+      <header class="section-header">
+        <h2>Pending Researchers</h2>
+      </header>
       <ul id="pendingResearchers">
-        <li>
-          <p>Jane Doe</p>
-          <section class="btn-group">
-            <button onclick="approve(this, 'approvedResearchers')"  class="approve-btn">Approve</button>
-            <button onclick="reject(this)"  class="reject-btn">Reject</button>
-          </section>
-        </li>
-        <li>
-          <p>John Smith</p>
-          <section class="btn-group">
-            <button onclick="approve(this, 'approvedResearchers')"  class="approve-btn">Approve</button>
-            <button onclick="reject(this)" class = "reject-btn">Reject</button>
-          </section>
-        </li>
+        <!-- Populated via JS -->
       </ul>
     </article>
 
     <article class="approved">
-      <h2>Approved Researchers</h2>
-      <!-----------This Shows a List of All Approved Researchers----------->
+      <header class="section-header">
+        <h2>Approved Researchers</h2>
+        <button id="refreshApprovedResearchersBtn" class="refresh-btn">
+          <i class="fas fa-sync-alt"></i> Refresh
+        </button>
+      </header>
       <ul id="approvedResearchers">
-        <li>Emily Chen</li>
+        <!-- Populated via JS -->
       </ul>
     </article>
-    
     
     <article class="pending">
-      <h2>Pending Reviewers</h2>
-      <!---------------List of Pending Reviewers--------------->
+      <header class="section-header">
+        <h2>Pending Reviewers</h2>
+      </header>
       <ul id="pendingReviewers">
-        <li>
-          <p>Michael Roy</p>
-          <section class="btn-group">
-            <button onclick="approve(this, 'approvedReviewers')" class="approve-btn">Approve</button>
-            <button onclick="reject(this)" class = "reject-btn">Reject</button>
-          </section>
-        </li>
+        <!-- Populated via JS -->
       </ul>
     </article>
 
-    <!---------Approved Reviewers----------->
     <article class="approved">
-      <h2>Approved Reviewers</h2>
+      <header class="section-header">
+        <h2>Approved Reviewers</h2>
+        <button id="refreshApprovedReviewersBtn" class="refresh-btn">
+          <i class="fas fa-sync-alt"></i> Refresh
+        </button>
+      </header>
       <ul id="approvedReviewers">
-        <li>Sarah Lee</li>
+        <!-- Populated via JS -->
       </ul>
     </article>
   </section>
 </main>
+
+<footer class="main-footer">
+  <p>&copy; 2025 ScholarSphere. All rights reserved.</p>
+</footer>
 
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
@@ -185,6 +218,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
 
 <script src="../js/admin.js"></script>
+<script src="../js/approved-users.js"></script>
+<script src="../js/inactive-users.js"></script>
+<script src="../js/active-projects.js"></script>
 
 </body>
 </html>
