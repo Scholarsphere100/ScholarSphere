@@ -44,7 +44,7 @@
         <section class="header-actions">
             <a href="collaborations.html#notifications" class="notifications" aria-label="View notifications">
                 <i class="fas fa-bell" aria-hidden="true"></i>
-                <mark class="notification-badge"></mark>
+                <mark class="notification-badge">3</mark>
             </a>
         </section>
     </header>
@@ -58,16 +58,16 @@
             <section class="funding-summary">
                 <article class="summary-card">
                     <h3>Total Funding</h3>
-                    <p class="amount">R750,000</p>
+                    <p class="amount">R0</p>
                     <p class="period">2023-2026</p>
                 </article>
                 <article class="summary-card">
                     <h3>Spent to Date</h3>
-                    <p class="amount">R215,450</p>
+                    <p class="amount">R0</p>
                 </article>
                 <article class="summary-card">
                     <h3>Remaining</h3>
-                    <p class="amount">R534,550</p>
+                    <p class="amount">R0</p>
                 </article>
                 <article class="summary-card">
                     <h3>Next Report Due</h3>
@@ -138,41 +138,7 @@
                         </footer>
                     </article>
 
-                    <article class="grant-item">
-                        <header class="grant-header">
-                            <h3>Industry Partnership</h3>
-                            <mark class="grant-status active">Active</mark>
-                        </header>
-                        <section class="grant-details">
-                            <dl class="grant-info">
-                                <dt><strong>Grant ID:</strong></dt>
-                                <dd>QTech-2024-01</dd>
-                                <dt><strong>Amount:</strong></dt>
-                                <dd>R250,000</dd>
-                                <dt><strong>Period:</strong></dt>
-                                <dd>Mar 2024 - Feb 2026</dd>
-                                <dt><strong>Agency:</strong></dt>
-                                <dd>QuantumTech Industries</dd>
-                            </dl>
-                            <figure class="grant-progress">
-                                <figcaption class="progress-label">
-                                    <span>Budget Utilization</span>
-                                    <span>15%</span>
-                                </figcaption>
-                                <progress value="15" max="100"></progress>
-                            </figure>
-                        </section>
-                        <footer class="grant-actions">
-                            <button class="action-btn view-btn">
-                                <i class="fas fa-eye" aria-hidden="true"></i>
-                                View Details
-                            </button>
-                            <button class="action-btn edit-btn">
-                                <i class="fas fa-edit" aria-hidden="true"></i>
-                                Edit
-                            </button>
-                        </footer>
-                    </article>
+                    
                 </section>
             </section>
 
@@ -447,7 +413,7 @@
                         <fieldset class="form-group">
                             <label for="grant-currency">Currency</label>
                             <select id="grant-currency" name="grant-currency">
-                                <option value="USD" selected>USD</option>
+                                <option value="USD" selected>ZAR</option>
                                 <option value="EUR">EUR</option>
                                 <option value="GBP">GBP</option>
                                 <option value="CAD">CAD</option>
@@ -618,22 +584,13 @@
         <p>&copy; 2025 ScholarSphere. All rights reserved.</p>
     </footer>
 
-    <script>
-        // Hide notification badges immediately when page starts loading
-        document.addEventListener('DOMContentLoaded', function() {
-            const badges = document.querySelectorAll('.notification-badge');
-            badges.forEach(badge => {
-                badge.style.display = 'none';
-            });
-        });
-    </script>
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
     <script type="module" src="../js/script.js"></script>
     <script type="module" src="../js/search.js"></script>
+    <script type="module" src="../js/funding.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Tab switching
@@ -783,6 +740,5 @@
         });
     </script>
     <script src = "../js/funding.js"></script>
-    <script type="module" src="../js/notificationCount.js"></script>
 </body>
 </html>

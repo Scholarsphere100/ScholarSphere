@@ -521,6 +521,7 @@
     margin: 0 auto;
     box-shadow: var(--shadow-lg);
     overflow: hidden;
+    overflow-y: auto;
 }
 
 .modal-header {
@@ -643,7 +644,11 @@ input[type="file"] {
         grid-template-columns: 1fr;
     }
 }
-
+@media (max-height: 800px) {
+    .modal-content {
+        max-height: 80vh;
+    }
+}
 @media (max-width: 768px) {
     .form-row {
         flex-direction: column;

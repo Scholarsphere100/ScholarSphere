@@ -17,6 +17,60 @@ function formatDateForSeparator(date) {
     return date.toLocaleDateString('en-US', options);
 }
 
+async function checkAndCreateChatsFromCollaborations() {
+    try {
+        // Get all collaboration requests with status "accepted"
+        const collaborationsSnapshot = await db.collection('collaborationRequests')
+            .where('status', '==', 'accepted')
+            .get();
+
+        if (collaborationsSnapshot.empty) {
+            console.log('No accepted collaborations found');
+            return;
+        }
+
+        // Process each accepted collaboration
+        const promises = collaborationsSnapshot.docs.map(async doc => {
+            const collabData = doc.data();
+            const senderId = collabData.senderId;
+            const recipientId = collabData.recipientId;
+
+            // Create chat ID (sorted to ensure consistency)
+            const chatId = [senderId, recipientId].sort().join('_');
+
+            // Check if chat already exists
+            const chatRef = db.collection('chats').doc(chatId);
+            const chatDoc = await chatRef.get();
+
+            if (!chatDoc.exists) {
+                // Chat doesn't exist, create it
+                await chatRef.set({
+                    participants: [senderId, recipientId],
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    lastUpdated: firebase.firestore.FieldValue.serverTimestamp(),
+                    // You might want to add the project reference if relevant
+                  
+                });
+
+                console.log(`Created new chat between ${senderId} and ${recipientId}`);
+                
+                return { created: true, chatId };
+            } else {
+                console.log(`Chat already exists between ${senderId} and ${recipientId}`);
+                return { created: false, chatId };
+            }
+        });
+
+        const results = await Promise.all(promises);
+        console.log('Chat creation process completed:', results);
+        return results;
+
+    } catch (error) {
+        console.error('Error checking/creating chats from collaborations:', error);
+        throw error;
+    }
+}
+checkAndCreateChatsFromCollaborations();
 // Add contact to sidebar list
 function addContactToList(contactId, contactName) {
     const contactsList = document.querySelector('.contacts-list ul');
@@ -231,23 +285,23 @@ async function sendMessage(senderId, recipientId, messageText) {
 async function myContacts() {
     try {
         const currentUserId = auth.currentUser.uid;
-        
-        // Clear existing contacts (keep the first one if needed)
         const contactsList = document.querySelector('.contacts-list ul');
         contactsList.innerHTML = '';
         
-        // Query chats where current user is a participant
+        // Use a Set to track added contacts
+        const addedContacts = new Set();
+        
         const querySnapshot = await db.collection('chats')
             .where('participants', 'array-contains', currentUserId)
             .get();
         
-        // Process each chat document
         const promises = querySnapshot.docs.map(async doc => {
             const chatData = doc.data();
             const otherParticipantId = chatData.participants.find(id => id !== currentUserId);
             
-            if (otherParticipantId) {
-                // Get the other user's details
+            if (otherParticipantId && !addedContacts.has(otherParticipantId)) {
+                addedContacts.add(otherParticipantId);
+                
                 const userDoc = await db.collection('Users').doc(otherParticipantId).get();
                 if (userDoc.exists) {
                     const userData = userDoc.data();
