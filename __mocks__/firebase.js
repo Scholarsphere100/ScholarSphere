@@ -59,6 +59,7 @@ export const getFirestore = jest.fn(() => ({
 
     if (collectionName === "chats") { // ✅ Mock chat collection for `loadChat()`
       return {
+        where: jest.fn().mockReturnThis(),
           doc: jest.fn((docId) => ({
               get: jest.fn(() =>
                   Promise.resolve({
