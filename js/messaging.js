@@ -7,12 +7,12 @@ const chatMessages = document.getElementById('chat-messages');
 let currentChatUnsubscribe = null;
 
 // Helper function to format time
-function formatTime(date) {
+export function formatTime(date) {
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 }
 
 // Helper function to format date for the date separator
-function formatDateForSeparator(date) {
+export function formatDateForSeparator(date) {
     const options = { month: 'long', day: 'numeric', year: 'numeric' };
     return date.toLocaleDateString('en-US', options);
 }
@@ -72,7 +72,7 @@ async function checkAndCreateChatsFromCollaborations() {
 }
 checkAndCreateChatsFromCollaborations();
 // Add contact to sidebar list
-function addContactToList(contactId, contactName) {
+export function addContactToList(contactId, contactName) {
     const contactsList = document.querySelector('.contacts-list ul');
     
     const contactHTML = `
@@ -108,17 +108,19 @@ function addContactToList(contactId, contactName) {
         
         // Unsubscribe from previous chat listener
         if (currentChatUnsubscribe) {
+            console.log("🔍 Unsubscribing from previous chat...");
             currentChatUnsubscribe();
         }
         
         // Load the chat
+        
         currentChatUnsubscribe = await loadChat(contactId);
     });
     
     return newContact;
 }
 
-async function loadChat(contactId) {
+export async function loadChat(contactId) {
     try {
         const currentUserId = auth.currentUser.uid;
         const chatId = [currentUserId, contactId].sort().join('_');
@@ -245,7 +247,7 @@ async function loadChat(contactId) {
 }
 
 // Send message function
-async function sendMessage(senderId, recipientId, messageText) {
+export async function sendMessage(senderId, recipientId, messageText) {
     try {
         const chatId = [senderId, recipientId].sort().join('_');
         const chatRef = db.collection('chats').doc(chatId);
@@ -282,7 +284,7 @@ async function sendMessage(senderId, recipientId, messageText) {
 }
 
 // Load user's contacts
-async function myContacts() {
+export async function myContacts() {
     try {
         const currentUserId = auth.currentUser.uid;
         const contactsList = document.querySelector('.contacts-list ul');
@@ -326,7 +328,7 @@ async function myContacts() {
 }
 
 // Initialize chat functionality
-function initializeChat() {
+export function initializeChat() {
     // Auto-resize textarea
     if (messageInput) {
         messageInput.addEventListener('input', function() {
