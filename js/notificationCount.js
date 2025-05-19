@@ -186,5 +186,5 @@ window.addEventListener('load', function() {
     }
 });
 
-// Export the counter instance for use in other modules
+export { NotificationCounter };
 export default window.ScholarSphere.notificationCounter;
