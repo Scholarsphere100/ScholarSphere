@@ -415,7 +415,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             });
         }
 
-        function capitalizeFirstLetter(string) {
+    function capitalizeFirstLetter(string) {
             return string.charAt(0).toUpperCase() + string.slice(1);
         }
 
@@ -489,3 +489,8 @@ document.addEventListener('DOMContentLoaded', async function () {
         fetchRequirements();
     });
 });
+
+if(typeof exports !== 'undefined'){
+
+    exports.capitalizeFirstLetter = capitalizeFirstLetter;
+}
