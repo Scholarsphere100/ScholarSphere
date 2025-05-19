@@ -42,7 +42,7 @@ export function updateExpensesSummary() {
             return string.charAt(0).toUpperCase() + string.slice(1);
         }
 
-        function getInitialStatus(dueDate) {
+export  function getInitialStatus(dueDate) {
             if (!dueDate) return { class: "pending", text: "Pending" };
             
             const today = new Date();
