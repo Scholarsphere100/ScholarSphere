@@ -241,7 +241,7 @@ Each user story has defined test cases written before implementation to validate
    **When** I click on it,  
    **Then** I am redirected to the relevant project or message.
 
-# User Stories and User Acceptance - Sprint 3
+# User Stories and User Acceptance Tests - Sprint 3
 
 ## User Story 11: Project Milestones  
 **As a researcher,**  
@@ -359,7 +359,90 @@ Each user story has defined test cases written before implementation to validate
 
 3. **Given** I generate a report,  
 **When** I select "All Active Projects",  
-**Then** the data includes milestones, collaborator counts, and last activity dates.  
+**Then** the data includes milestones, collaborator counts, and last activity dates.
+
+ # User Stories and User Acceptance Tests - Sprint 4
+
+## User Story 17: Funding Report  
+**As an admin**,  
+I want to generate a funding report (used vs. available),  
+So that I can monitor financial activity.  
+
+**Acceptance Tests:**  
+1. **Given** I am logged in as an admin,  
+**When** I navigate to the "Financial Reports" section,  
+**Then** I can generate a report showing used vs. available funding for all projects.  
+
+2. **Given** I generate a funding report,  
+**When** I view the report,  
+**Then** it clearly distinguishes between allocated, used, and remaining funds.  
+
+3. **Given** a project has no financial activity,  
+**When** I generate the funding report,  
+**Then** it displays zero usage and full availability for that project.  
+
+---
+
+## User Story 18: Custom Report  
+**As an admin**,  
+I want to view a custom report,  
+So that I can make data-driven decisions.  
+
+**Acceptance Tests:**  
+1. **Given** I am logged in as an admin,  
+**When** I select "Create Custom Report" from the dashboard,  
+**Then** I can choose from multiple data fields (e.g., projects, users, funding).  
+
+2. **Given** I select filters for my report,  
+**When** I generate the report,  
+**Then** it only includes data matching my selected criteria.  
+
+3. **Given** I generate a custom report,  
+**When** I try to export it,  
+**Then** I can download it in at least two formats (e.g., PDF, CSV).  
+
+---
+
+## User Story 19: Remove Collaborators  
+**As a researcher**,  
+I want to be able to remove collaborators in my research project.  
+
+**Acceptance Tests:**  
+1. **Given** I am the owner of a research project,  
+**When** I navigate to the "Collaborators" section,  
+**Then** I can see a list of all current collaborators with a "Remove" option.  
+
+2. **Given** I select to remove a collaborator,  
+**When** I confirm the action,  
+**Then** the collaborator loses access to the project and receives a notification.  
+
+3. **Given** I am not the project owner,  
+**When** I try to remove a collaborator,  
+**Then** the system displays an "Access Denied" message.  
+
+---
+
+## User Story 20: Last Login Status  
+**As an admin**,  
+I want to be able to check the last login status of users,  
+So that I can deactivate people who have not been active for 6 months or more.  
+
+**Acceptance Tests:**  
+1. **Given** I am logged in as an admin,  
+**When** I view the "User Management" dashboard,  
+**Then** I can see each user's last login date and status (Active/Inactive).  
+
+2. **Given** a user has not logged in for over 6 months,  
+**When** I check their status,  
+**Then** the system flags them as "Eligible for Deactivation."  
+
+3. **Given** I select to deactivate an inactive user,  
+**When** I confirm the action,  
+**Then** their account is deactivated, and they receive an email notification.  
+
+4. **Given** a deactivated user tries to log in,  
+**When** they enter their credentials,  
+**Then** they see a message explaining their account is deactivated.  
 
 
 ## 🧑‍💻 Installation & Setup
