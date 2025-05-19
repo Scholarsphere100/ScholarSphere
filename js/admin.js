@@ -628,64 +628,48 @@ async function generateProjectReport(columns) {
   });
 }
 
-async function generateFundingReport(columns) {
-  // Get selected filters
-  const minAmount = parseFloat(document.getElementById('minAmount').value);
-  const maxAmount = parseFloat(document.getElementById('maxAmount').value);
-  const agency = document.getElementById('fundingAgency').value;
-  
-  let query = db.collection('grants');
-  
-  // Apply amount filters if provided
-  if (!isNaN(minAmount)) {
-    query = query.where('amount', '>=', minAmount);
-  }
-  if (!isNaN(maxAmount)) {
-    query = query.where('amount', '<=', maxAmount);
-  }
-  
-  // Apply agency filter if provided
-  if (agency) {
-    query = query.where('agency', '==', agency);
-  }
-  
-  const snapshot = await query.get();
-  return snapshot.docs.map(doc => {
-    const grant = doc.data();
-    const row = {};
-    
-    columns.forEach(col => {
-      switch(col) {
-        case 'title':
-          row[col] = grant.title || 'N/A';
-          break;
-        case 'agency':
-          row[col] = grant.agency || 'N/A';
-          break;
-        case 'amount':
-          row[col] = formatCurrency(grant.amount, grant.currency);
-          break;
-        case 'currency':
-          row[col] = grant.currency || 'USD';
-          break;
-        case 'usedAmount':
-          // This would need to be calculated from expenses in a real implementation
-          row[col] = formatCurrency(grant.usedAmount || 0, grant.currency);
-          break;
-        case 'available':
-          // This would need to be calculated in a real implementation
-          const available = (grant.amount || 0) - (grant.usedAmount || 0);
-          row[col] = formatCurrency(available, grant.currency);
-          break;
-        default:
-          row[col] = grant[col] || 'N/A';
-      }
-    });
-    
-    return row;
-  });
-}
+async function generateFundingReport() {
+  try {
+    const [grantsSnap, expensesSnap] = await Promise.all([
+      db.collection("grants").get(),
+      db.collection("expenses").where("status", "==", "approved").get()
+    ]);
 
+    const grants = grantsSnap.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data(),
+      amount: typeof doc.data().amount === 'number' ? doc.data().amount : Number(doc.data().amount)
+    }));
+
+    const expenses = expensesSnap.docs.map(doc => ({
+      ...doc.data(),
+      amount: typeof doc.data().amount === 'number' ? doc.data().amount : Number(doc.data().amount)
+    }));
+    
+    const report = grants.map(grant => {
+      const grantExpenses = expenses.filter(exp => exp.grant === grant.title);
+      const usedAmount = grantExpenses.reduce((sum, exp) => sum + exp.amount, 0);
+      const available = grant.amount - usedAmount;
+      const utilization = grant.amount > 0 ? (usedAmount / grant.amount) * 100 : 0;
+      
+      return {
+        grantName: grant.title,
+        grantAgency: grant.agency || 'N/A',
+        totalAmount: formatCurrency(grant.amount, grant.currency),
+        usedAmount: formatCurrency(usedAmount, grant.currency),
+        available: formatCurrency(available, grant.currency),
+        utilization: `${utilization.toFixed(1)}%`,
+        startDate: grant.startDate || 'N/A'
+      };
+    });
+
+    latestFundingReportData = report;
+    displayFundingReport(report);
+  } catch (err) {
+    console.error("Error generating funding report:", err);
+    alert("Failed to generate funding report.");
+  }
+}
 async function generateMilestoneReport(columns) {
   // Get selected filters
   const statuses = Array.from(document.querySelectorAll('input[name="milestoneStatus"]:checked')).map(cb => cb.value);
