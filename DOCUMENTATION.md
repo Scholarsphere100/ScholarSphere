@@ -241,7 +241,7 @@ Each user story has defined test cases written before implementation to validate
    **When** I click on it,  
    **Then** I am redirected to the relevant project or message.
 
-# User Stories and User Acceptance - Sprint 3
+# User Stories and User Acceptance Tests - Sprint 3
 
 ## User Story 11: Project Milestones  
 **As a researcher,**  
@@ -361,7 +361,7 @@ Each user story has defined test cases written before implementation to validate
 **When** I select "All Active Projects",  
 **Then** the data includes milestones, collaborator counts, and last activity dates.
 
- # User Stories and User Acceptance - Sprint 4
+ # User Stories and User Acceptance Tests - Sprint 4
 
 ## User Story 17: Funding Report  
 **As an admin**,  
