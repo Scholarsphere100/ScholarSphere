@@ -367,6 +367,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Function to load project collaborators
     async function loadProjectCollaborators(db, projectData) {
         try {
+            const auth = firebase.auth();
+            const currentUser = auth.currentUser;
+            
             if (!projectData.collaborators || projectData.collaborators.length === 0) {
                 const collaboratorsList = document.querySelector('.collaborators-list');
                 if (collaboratorsList) {
@@ -416,15 +419,18 @@ document.addEventListener('DOMContentLoaded', async () => {
                     
                     const collaboratorItem = document.createElement('li');
                     collaboratorItem.className = 'collaborator-item';
+                    
                     collaboratorItem.innerHTML = `
-                        <img src="https://via.placeholder.com/40" alt="${collaborator.name || 'Collaborator'}" class="collaborator-avatar">
+                        <img src="" alt="${collaborator.name || 'Collaborator'}" class="collaborator-avatar">
                         <section class="collaborator-info">
                             <h3>${collaborator.name || collaborator.displayName || 'Unknown User'}</h3>
                             <p>${roleText}</p>
                         </section>
-                        <button class="collaborator-action-btn" aria-label="Message collaborator" data-user-id="${collaborator.id}">
-                            <i class="fas fa-comment" aria-hidden="true"></i>
-                        </button>
+                        <section class="collaborator-actions">
+                            <button class="collaborator-action-btn" aria-label="Message collaborator" data-user-id="${collaborator.id}">
+                                <i class="fas fa-comment" aria-hidden="true"></i>
+                            </button>
+                        </section>
                     `;
                     
                     collaboratorsList.appendChild(collaboratorItem);
@@ -436,6 +442,16 @@ document.addEventListener('DOMContentLoaded', async () => {
                         const userId = this.getAttribute('data-user-id');
                         // Redirect to messaging page with this user
                         window.location.href = `messaging.html?user=${userId}`;
+                    });
+                });
+                
+                // Add event listeners for remove collaborator buttons
+                document.querySelectorAll('.remove-collaborator').forEach(button => {
+                    button.addEventListener('click', async function() {
+                        const userId = this.getAttribute('data-user-id');
+                        if (confirm(`Are you sure you want to remove this collaborator from the project?`)) {
+                            await removeCollaborator(db, projectData.id, userId);
+                        }
                     });
                 });
             }

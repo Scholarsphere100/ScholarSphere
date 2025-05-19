@@ -16,7 +16,7 @@ const db = firebase.firestore();
 export { auth, db};
 
 // Function to add a new research project item using DOM manipulation
-function addNewResearchItem(Title, Description, Skills, date, projectID) {
+export function addNewResearchItem(Title, Description, Skills, date, projectID) {
     // Get the unordered list element
     const searchResultList = document.querySelector('.search-result');
     if (!searchResultList) {
@@ -93,7 +93,7 @@ function addNewResearchItem(Title, Description, Skills, date, projectID) {
 }
 
 // Function to clear all research items from the display
-function clearResearchItems() {
+export function clearResearchItems() {
     const searchResultList = document.querySelector('.search-result');
     if (searchResultList) {
         searchResultList.innerHTML = '';
@@ -101,7 +101,7 @@ function clearResearchItems() {
 }
 
 // Function to search projects
-const searchProjects = async () => {
+export const searchProjects = async () => {
     try {
         // Get search input value and convert to lowercase 
         const searchInput = document.getElementById('search-input');
@@ -135,7 +135,7 @@ const searchProjects = async () => {
 
         let foundMatches = false;
 
-        projectsCollection.forEach((doc) => {
+        projectsCollection.docs.forEach((doc) => {
             const data = doc.data();
             const title = data.title || '';
             const description = data.description || '';
@@ -173,7 +173,7 @@ const searchProjects = async () => {
     }
 };
 
-const getAllProjects = async () => {
+export const getAllProjects = async () => {
     try {
         const projectsCollection = await db.collection("projects").get();
 
@@ -188,7 +188,7 @@ const getAllProjects = async () => {
             return;
         }
 
-        projectsCollection.forEach((doc) => {
+        projectsCollection.docs.forEach((doc) => {
             const data = doc.data();
             const title = data.title || '';
             const description = data.description || '';
@@ -232,7 +232,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Send collaboration request (unchanged)
-async function sendCollaborationRequest(projectId) {
+export async function sendCollaborationRequest(projectId) {
     try {
         const projectRef = db.collection('projects').doc(projectId);
         const projectDoc = await projectRef.get();
@@ -349,3 +349,10 @@ function highlightActiveLink() {
         }
     });
 }
+
+export default {
+    clearResearchItems,
+    addNewResearchItem,
+    getAllProjects,
+    searchProjects,
+  };

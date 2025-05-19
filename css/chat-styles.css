@@ -537,3 +537,77 @@ body {
 .contact-project {
   font-weight: 500;
 }
+
+.contact-avatar {
+  position: relative;
+  margin: 0;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.contact-avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.contact-role {
+  font-size: 0.75rem;
+  color: var(--neutral-color, #888);
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 2px 6px;
+  border-radius: 10px;
+  margin-left: 0.5rem;
+}
+
+.user-role {
+  font-size: 0.85rem;
+  color: var(--neutral-color, #888);
+  display: block;
+}
+
+.loading-spinner {
+  width: 24px;
+  height: 24px;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-top-color: var(--primary-color, #2bdad8);
+  animation: spin 1s ease-in-out infinite;
+  margin: 0 auto 0.5rem;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.contact-loading,
+.no-contacts,
+.contacts-error,
+.auth-message {
+  padding: 1rem;
+  text-align: center;
+  color: var(--neutral-color, #888);
+}
+
+.empty-chat-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  color: var(--neutral-color);
+  font-style: italic;
+  text-align: center;
+  padding: 2rem;
+}
+
+.empty-chat-message p {
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 1rem 2rem;
+  border-radius: 8px;
+}

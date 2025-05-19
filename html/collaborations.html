@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Collaborations - ScholarSphere</title>
     <link rel="stylesheet" href="../css/styles1.css">
+    <link rel="stylesheet" href="../css/notifications.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -119,64 +120,23 @@
             </ul>
         </nav>
     </footer>
+
+
     <script>
+        // Hide notification badges immediately when page starts loading
         document.addEventListener('DOMContentLoaded', function() {
-            // Get all tab links and content sections
-            const tabLinks = document.querySelectorAll('.tabs-nav a');
-            const contentSections = document.querySelectorAll('.collaboration-content');
-            const notificationsSection = document.getElementById('notifications');
-            
-            // Function to show a specific tab
-            function showTab(targetId) {
-                // Remove active class from all tabs
-                tabLinks.forEach(link => link.classList.remove('active'));
-                
-                // Add active class to the matching tab
-                const activeTab = document.querySelector(`.tabs-nav a[href="${targetId}"]`);
-                if (activeTab) {
-                    activeTab.classList.add('active');
-                }
-                
-                // Hide all content sections
-                contentSections.forEach(section => {
-                    section.style.display = 'none';
-                });
-                
-                // Show the target content section
-                const targetSection = document.querySelector(targetId);
-                if (targetSection) {
-                    targetSection.style.display = 'block';
-                }
-            }
-            
-            // Check if there's a hash in the URL
-            const hash = window.location.hash || '#incoming-requests';
-            showTab(hash);
-            
-            // Add click event listeners to tab links
-            tabLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    // Get the target content ID from the href
-                    const targetId = this.getAttribute('href');
-                    
-                    // Show the selected tab
-                    showTab(targetId);
-                    
-                    // Update the URL hash
-                    history.pushState(null, null, targetId);
-                });
+            const badges = document.querySelectorAll('.notification-badge');
+            badges.forEach(badge => {
+                badge.style.display = 'none';
             });
         });
     </script>
-
-    
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
     <script src="../js/collaboration.js"></script>
     <script type="module" src="../js/script.js"></script>
     <script type="module" src="../js/search.js"></script>
+    <script type="module" src="../js/notifications.js"></script>
 </body>
 </html>

@@ -13,11 +13,11 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebase.firestore(app);
+export const auth = firebase.auth();
+export const db = firebase.firestore(app);
 
 // Function to display user information
-function displayUserInfo(user) {
+export function displayUserInfo(user) {
     // Get DOM elements
     const userNameElement = document.getElementById('user-name');
     const userEmailElement = document.getElementById('user-email');
@@ -39,7 +39,7 @@ function displayUserInfo(user) {
 }
 
 // Function to handle logout
-function setupLogout() {
+export function setupLogout() {
     const logoutBtn = document.getElementById('logout-btn');
     if (logoutBtn) {
         logoutBtn.addEventListener('click', () => {
@@ -57,7 +57,7 @@ function setupLogout() {
 }
 
 // Main function to check auth state and initialize dashboard
-function initDashboard() {
+export function initDashboard() {
     auth.onAuthStateChanged((user) => {
         if (user) {
             // User is signed in
@@ -123,7 +123,7 @@ function initDashboard() {
 }
 
 // Function to customize dashboard based on user role
-function customizeDashboard(role) {
+export function customizeDashboard(role) {
     // Get elements that might need role-based customization
     const welcomeHeader = document.querySelector('.welcome-header h2');
     const quickActions = document.querySelector('.quick-actions');
@@ -212,3 +212,4 @@ function customizeDashboard(role) {
 
 // Initialize the dashboard when DOM is loaded
 document.addEventListener('DOMContentLoaded', initDashboard);
+//export default  { displayUserInfo };
