@@ -1,4 +1,4 @@
-name: Jest Tests
+name: Jest Tests & Coverage
 
 on:
   push:
@@ -21,8 +21,14 @@ jobs:
     - name: Install dependencies
       run: npm install
       
-    - name: Run tests
-      run: npm test
+    - name: Run tests with Coverage
+      run: npm run test:coverage
+
+    - name: Upload Jest Coverage Report
+      uses: actions/upload-artifact@v3
+      with:
+        name: coverage-report
+        path: coverage/ 
 
     - name: Send success message to Discord
       if: success()
