@@ -1,85 +1,4 @@
-<<<<<<< Updated upstream
 // Firebase config and init
-=======
-export function addPendingResearcher(name , userid) {
-  const unorderedList = document.getElementById("pendingResearchers");
-
-  const list = document.createElement("li");
-
-  const paragraph = document.createElement("p");
-  paragraph.textContent = name;
-
-  const btnGroup = document.createElement("section");
-  btnGroup.id = userid ;
-  
-
- 
-  btnGroup.className = "btn-group";
-
-
-  const approveBtn = document.createElement("button");
-  approveBtn.textContent = "Approve";
-  approveBtn.innerHTML = '<i class="fas fa-check" aria-hidden="true"></i> Approve';
-  approveBtn.className = "approve-btn";
-  approveBtn.onclick = function () {
-    approve(this, "approvedResearchers");
-  };
-
-  const rejectBtn = document.createElement("button");
-  rejectBtn.textContent = "Reject";
-  rejectBtn.innerHTML = '<i class="fas fa-times" aria-hidden="true"></i> Reject';
-  rejectBtn.className = "reject-btn";
-  rejectBtn.onclick = function () {
-    reject(this);
-  };
-
-  btnGroup.appendChild(approveBtn);
-  btnGroup.appendChild(rejectBtn);
-
-  list.appendChild(paragraph);
-  list.appendChild(btnGroup);
-  unorderedList.appendChild(list);
-}
-
-export function addPendingReviewer(name , userid){
-  const unorderedList = document.getElementById("pendingReviewers");
-
-  const list = document.createElement("li");
-
-  const paragraph = document.createElement("p");
-  paragraph.textContent = name;
-
-  const btnGroup = document.createElement("section");
-  btnGroup.id = userid ;
-  
-
- 
-  btnGroup.className = "btn-group";
-
-  const approveBtn = document.createElement("button");
-  approveBtn.textContent = "Approve";
-  approveBtn.innerHTML = '<i class="fas fa-check" aria-hidden="true"></i> Approve';
-  approveBtn.className = "approve-btn";
-  approveBtn.onclick = function () {
-    approve(this, "approvedReviewers");
-  };
-
-  const rejectBtn = document.createElement("button");
-  rejectBtn.textContent = "Reject";
-  rejectBtn.innerHTML = '<i class="fas fa-times" aria-hidden="true"></i> Reject';
-  rejectBtn.className = "reject-btn";
-  rejectBtn.onclick = function () {
-    reject(this);
-  };
-
-  btnGroup.appendChild(approveBtn);
-  btnGroup.appendChild(rejectBtn);
-
-  list.appendChild(paragraph);
-  list.appendChild(btnGroup);
-  unorderedList.appendChild(list);
-}
->>>>>>> Stashed changes
 const firebaseConfig = {
   apiKey: "AIzaSyAuBIw5tkpyEYxqJX1d7xziNaKHRoW4E9M",
   authDomain: "scholarsphere-a8c83.firebaseapp.com",
@@ -90,35 +9,26 @@ const firebaseConfig = {
   measurementId: "G-NNYQ7E1KY2"
 };
 
-<<<<<<< Updated upstream
-=======
-//Hope added these lines
-// import firebase from "firebase/app";  // Import Firebase from 'firebase/app'
-// import "firebase/auth";               // Import Firebase Auth
-// import "firebase/firestore";          // Import Firebase Firestore
-
-// Initialize Firebase
-//firebase.initializeApp(firebaseConfig);
-//const auth = firebase.auth();
-
->>>>>>> Stashed changes
 const ScholarSphere = firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-<<<<<<< Updated upstream
 // User management functions
 function addPendingResearcher(name, userid) {
   const ul = document.getElementById("pendingResearchers");
   const li = document.createElement("li");
   const p = document.createElement("p");
   p.textContent = name;
-=======
->>>>>>> Stashed changes
 
+  const section = document.createElement("section");
+  section.className = "btn-group";
+  section.id = userid;
 
+  const approveBtn = document.createElement("button");
+  approveBtn.innerHTML = '<i class="fas fa-check"></i> Approve';
+  approveBtn.className = "approve-btn";
+  approveBtn.onclick = () => approve(approveBtn, "approvedResearchers");
 
-<<<<<<< Updated upstream
   const rejectBtn = document.createElement("button");
   rejectBtn.innerHTML = '<i class="fas fa-times"></i> Reject';
   rejectBtn.className = "reject-btn";
@@ -159,88 +69,36 @@ function addPendingReviewer(name, userid) {
 }
 
 async function getAllUsers() {
-=======
-export const getAllUsers = async () => {
->>>>>>> Stashed changes
   try {
-    const usersCollection= await db.collection("Users").get();
+    const users = await db.collection("Users").get();
+    if (users.empty) return;
 
-<<<<<<< Updated upstream
     users.forEach((doc) => {
       const user = doc.data();
       if (user.isResearcher && user.isPending) addPendingResearcher(user.name, doc.id);
       else if (user.isReviewer && user.isPending) addPendingReviewer(user.name, doc.id);
-=======
-    if (usersCollection.empty) {
-      console.log("No users found in the database.");
-      return;
-    }
-
-    usersCollection.forEach((doc) => {
-      const data = doc.data();
-      if (data.isResearcher && data.isPending){
-        addPendingResearcher(data.name , doc.id );
-        console.log(`User ID: ${doc.id}`, data.name);
-      }
-      else if (data.isReviewer && data.isPending){
-        addPendingReviewer(data.name , doc.id);
-        console.log(`User ID: ${doc.id}`, data.name);
-      } 
-      else{
-        console.log("Role is undefined ");
-      }
-      
-     
-      
->>>>>>> Stashed changes
     });
-  } catch (error) {
-    console.error("Error getting users:", error);
+  } catch (err) {
+    console.error("Error getting users:", err);
   }
-};
-
-<<<<<<< Updated upstream
-function updateUsers(userId, result) {
-  async function updateUser() {
-=======
-getAllUsers();
-
-export function updateUsers(userid , result){
-  async function updateUserName() {
-    const userId = userid; // The ID of the user document you want to update
-
->>>>>>> Stashed changes
-    try {
-      
-      const USER = db.collection("Users").doc(userid);
-
-      if (result == "approve" ){
-        const updatedData = {
-          isAccepted : true ,
-          
-          isPending : false
-        };
-        await USER.update(updatedData);
-        console.log("User successfully updated!");
-      }
-      else if (result == "reject"){
-        const updatedData = {
-          isAccepted : false,
-          isPending : false 
-        };
-        await USER.update(updatedData);
-        console.log("Users successfully deleted !");
-      }
-    
-    } catch (error) {
-      console.error("Error updating user's name: ", error);
-    }
-  }
-
-  updateUserName();
 }
 
-<<<<<<< Updated upstream
+function updateUsers(userId, result) {
+  async function updateUser() {
+    try {
+      const userRef = db.collection("Users").doc(userId);
+      const updated = result === "approve"
+        ? { isAccepted: true, isPending: false }
+        : { isAccepted: false, isPending: false };
+      await userRef.update(updated);
+      console.log("User updated:", userId);
+    } catch (err) {
+      console.error("Update error:", err);
+    }
+  }
+  updateUser();
+}
+
 // Progress tracking
 let approvedCount = 0;
 let rejectedCount = 0;
@@ -322,44 +180,19 @@ function calculateProjectMetrics(project, milestones) {
 }
 
 async function generateProjectCompletionReport() {
-=======
-
-//Here starts the progress report functions
-// Enhanced Project Completion Report Functions
-export async function generateProjectCompletionReport() {
->>>>>>> Stashed changes
   try {
-    // Get all projects and milestones in parallel for efficiency
-    const [projectsSnapshot, milestonesSnapshot] = await Promise.all([
+    const [projectsSnap, milestonesSnap] = await Promise.all([
       db.collection("projects").get(),
       db.collection("milestones").get()
     ]);
 
-    const reportData = [];
-    const milestonesByProject = groupMilestonesByProject(milestonesSnapshot.docs);
+    const grouped = groupMilestonesByProject(milestonesSnap.docs);
+    const report = [];
 
-<<<<<<< Updated upstream
     for (const doc of projectsSnap.docs) {
       const project = doc.data();
       const metrics = calculateProjectMetrics(project, grouped[doc.id] || []);
       report.push({
-=======
-    // Process each project with its milestones
-    for (const projectDoc of projectsSnapshot.docs) {
-      const project = projectDoc.data();
-      const projectId = projectDoc.id;
-      const projectMilestones = milestonesByProject[projectId] || [];
-
-      // Calculate completion metrics
-      const metrics = calculateProjectMetrics(project, projectMilestones);
-      
-      // Update project progress in database if different
-      if (project.progress !== metrics.avgProgressValue) {
-        await updateProjectProgress(projectId, metrics.avgProgressValue);
-      }
-
-      reportData.push({
->>>>>>> Stashed changes
         projectName: project.title,
         totalMilestones: metrics.totalMilestones,
         completedMilestones: metrics.completedMilestones,
@@ -369,7 +202,6 @@ export async function generateProjectCompletionReport() {
       });
     }
 
-<<<<<<< Updated upstream
     latestReportData = report;
     displayCompletionReport(report);
   } catch (err) {
@@ -379,65 +211,6 @@ export async function generateProjectCompletionReport() {
 }
 
 function displayCompletionReport(data) {
-=======
-    // Display the reports
-    displayCompletionReport(reportData);
-    displayProjectsTable(reportData);
-    
-  } catch (error) {
-    console.error("Error generating report:", error);
-    alert("Failed to generate report. Please try again.");
-  }
-}
-
-// Helper function to group milestones by project
-export function groupMilestonesByProject(milestoneDocs) {
-  return milestoneDocs.reduce((acc, doc) => {
-    const milestone = doc.data();
-    const projectId = milestone.projectId;
-    if (!acc[projectId]) {
-      acc[projectId] = [];
-    }
-    acc[projectId].push(milestone);
-    return acc;
-  }, {});
-}
-
-// Enhanced metrics calculation
-export function calculateProjectMetrics(project, milestones) {
-  const totalMilestones = milestones.length;
-  const completedMilestones = milestones.filter(m => m.status === "completed").length;
-  
-  const totalProgress = milestones.reduce((sum, m) => sum + (m.progress || 0), 0);
-  const avgProgressValue = totalMilestones > 0 ? Math.round(totalProgress / totalMilestones) : 0;
-  
-  return {
-    totalMilestones,
-    completedMilestones,
-    completionRate: totalMilestones > 0 
-      ? `${Math.round((completedMilestones / totalMilestones) * 100)}%` 
-      : "N/A",
-    avgProgress: `${avgProgressValue}%`,
-    avgProgressValue // For database updates
-  };
-}
-
-// Update project progress in Firestore
-export async function updateProjectProgress(projectId, newProgress) {
-  try {
-    await db.collection("projects").doc(projectId).update({
-      progress: newProgress,
-      lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
-    });
-    console.log(`Updated progress for project ${projectId} to ${newProgress}%`);
-  } catch (error) {
-    console.error(`Error updating project ${projectId}:`, error);
-  }
-}
-
-// Modified display functions
-export function displayCompletionReport(reportData) {
->>>>>>> Stashed changes
   const tableBody = document.querySelector("#completionReportTable tbody");
   tableBody.innerHTML = "";
   
@@ -455,7 +228,6 @@ export function displayCompletionReport(reportData) {
   });
 }
 
-<<<<<<< Updated upstream
 function downloadProjectReport() {
   if (!latestReportData.length) {
     alert("Please generate the report first.");
@@ -542,10 +314,6 @@ async function generateFundingReport() {
 
 function displayFundingReport(data) {
   const tableBody = document.querySelector("#fundingReportTable tbody");
-=======
-export function displayProjectsTable(reportData) {
-  const tableBody = document.querySelector("#researchTable");
->>>>>>> Stashed changes
   tableBody.innerHTML = "";
   
   data.forEach(grant => {
@@ -563,7 +331,6 @@ export function displayProjectsTable(reportData) {
   });
 }
 
-<<<<<<< Updated upstream
 function downloadFundingReport() {
   if (!latestFundingReportData.length) {
     alert("Please generate the report first.");
@@ -639,26 +406,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const downloadFundingBtn = document.getElementById("downloadFundingReportBtn");
   if (downloadFundingBtn) {
     downloadFundingBtn.addEventListener("click", downloadFundingReport);
-=======
-// Initialize with real-time updates
-document.addEventListener("DOMContentLoaded", () => {
-  getAllUsers();
-  
-  // Set up report generation button
-  const reportBtn = document.getElementById("generateReportBtn");
-  if (reportBtn) {
-    reportBtn.addEventListener("click", generateProjectCompletionReport);
->>>>>>> Stashed changes
   }
-  
-  // Generate initial report
-  generateProjectCompletionReport();
-  
-  // Set up real-time listener for milestones changes
-  db.collection("milestones").onSnapshot(() => {
-    console.log("Milestones changed - updating report");
-    generateProjectCompletionReport();
-  });
 });
 
 // Export all functions for testing
@@ -679,66 +427,9 @@ if (typeof exports !== 'undefined') {
   exports.displayCompletionReport = displayCompletionReport;
   exports.downloadProjectReport = downloadProjectReport;
   
-<<<<<<< Updated upstream
   // Funding Reports
   exports.generateFundingReport = generateFundingReport;
   exports.displayFundingReport = displayFundingReport;
   exports.downloadFundingReport = downloadFundingReport;
   exports.formatCurrency = formatCurrency;
 }
-=======
-  export function updateProgress() {
-    const total = approvedCount + rejectedCount;
-    const percent = total === 0 ? 0 : Math.round((approvedCount / total) * 100);
-    const circle = document.getElementById("circleProgress");
-    const text = document.getElementById("percentageText");
-  
-    circle.setAttribute("stroke-dasharray", `${percent}, 100`);
-    text.textContent = `${percent}%`;
-  }
-  
-  export function approve(button, targetListId) {
-    const li = button.closest('li');
-    const name = li.querySelector('p').innerText;
-    const approvedList = document.getElementById(targetListId);
-    const newItem = document.createElement("li");
-    newItem.textContent = name;
-    approvedList.appendChild(newItem);
-    li.remove();
-    approvedCount++;
-    updateProgress();
-
-    // update database to approve the user
-    const section = button.closest("section");
-    if (section) {
-      const userID = section.id;
-      console.log("Accepting user with ID:", userID);
-      updateUsers(userID, "approve");
-    }else{
-      console.log("section undefined ", section.id);
-    }
-  }
-  export function reject(button) {
-    const li = button.closest('li');
-    li.remove();
-    rejectedCount++;
-    updateProgress();
-
-    
-    // update database to reject the user
-
-    const section = button.closest("section");
-    if (section) {
-      const userID = section.id;
-      console.log("Rejecting user with ID:", userID);
-      updateUsers(userID, "reject");
-    }else{
-      console.log("section undefined ", section.id);
-    }
-
-  }
-  
-  // Initial progress state
-  updateProgress();
-  
->>>>>>> Stashed changes
