@@ -1,5 +1,34 @@
 import { db, auth } from './search.js';
 
+export function updateFundingSummary() {
+    const amounts = Array.from(document.querySelectorAll('.grant-info dd:nth-of-type(2)')).map(dd => {
+        const num = parseFloat(dd.textContent.replace(/[^\d.-]/g, ''));
+        return isNaN(num) ? 0 : num;
+    });
+
+    const total = amounts.reduce((acc, val) => acc + val, 0);
+
+    const totalEl = document.querySelector('.summary-card:nth-child(1) .amount');
+    if (totalEl) {
+        totalEl.textContent = `R${total.toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        })}`;
+    }
+
+    const spentEl = document.querySelector('.summary-card:nth-child(2) .amount');
+    const remainingEl = document.querySelector('.summary-card:nth-child(3) .amount');
+
+    if (spentEl && remainingEl) {
+        const spent = parseFloat(spentEl.textContent.replace(/[^\d.-]/g, '')) || 0;
+        const remaining = total - spent;
+        remainingEl.textContent = `R${remaining.toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        })}`;
+    }
+}
+
 export function updateExpensesSummary() {
     const amounts = Array.from(document.querySelectorAll(".expenses-table tbody tr td:nth-child(5)"))
         .map(td => parseFloat(td.textContent.replace(/[^\d.]/g, '')))
@@ -455,34 +484,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 
 
-        function updateFundingSummary() {
-            const amounts = Array.from(document.querySelectorAll('.grant-info dd:nth-of-type(2)')).map(dd => {
-                const num = parseFloat(dd.textContent.replace(/[^\d.-]/g, ''));
-                return isNaN(num) ? 0 : num;
-            });
-
-            const total = amounts.reduce((acc, val) => acc + val, 0);
-
-            const totalEl = document.querySelector('.summary-card:nth-child(1) .amount');
-            if (totalEl) {
-                totalEl.textContent = `R${total.toLocaleString('en-US', {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                })}`;
-            }
-
-            const spentEl = document.querySelector('.summary-card:nth-child(2) .amount');
-            const remainingEl = document.querySelector('.summary-card:nth-child(3) .amount');
-
-            if (spentEl && remainingEl) {
-                const spent = parseFloat(spentEl.textContent.replace(/[^\d.-]/g, '')) || 0;
-                const remaining = total - spent;
-                remainingEl.textContent = `R${remaining.toLocaleString('en-US', {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                })}`;
-            }
-        }
+   
 
      
 
