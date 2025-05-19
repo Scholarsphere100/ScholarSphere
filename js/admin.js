@@ -433,3 +433,397 @@ if (typeof exports !== 'undefined') {
   exports.downloadFundingReport = downloadFundingReport;
   exports.formatCurrency = formatCurrency;
 }
+
+// custom report
+// Custom Report Generator Functions
+let latestCustomReportData = [];
+const columnOptions = {
+  users: ['name', 'role', 'status'],
+  projects: ['title', 'description', 'status', 'participants', 'progress'],
+  funding: ['title', 'agency', 'amount', 'currency', 'usedAmount', 'available'],
+  milestones: ['title', 'project', 'description', 'status', 'progress', 'assignedTo']
+};
+
+// Initialize custom report controls
+function initCustomReportControls() {
+  const reportTypeSelect = document.getElementById('reportType');
+  const userFilters = document.getElementById('userFilters');
+  const projectFilters = document.getElementById('projectFilters');
+  const fundingFilters = document.getElementById('fundingFilters');
+  const milestoneFilters = document.getElementById('milestoneFilters');
+  const columnsSelect = document.getElementById('columnsToInclude');
+  
+  // Show/hide filters based on report type
+  reportTypeSelect.addEventListener('change', function() {
+    userFilters.style.display = 'none';
+    projectFilters.style.display = 'none';
+    fundingFilters.style.display = 'none';
+    milestoneFilters.style.display = 'none';
+    
+    switch(this.value) {
+      case 'users':
+        userFilters.style.display = 'block';
+        break;
+      case 'projects':
+        projectFilters.style.display = 'block';
+        break;
+      case 'funding':
+        fundingFilters.style.display = 'block';
+        break;
+      case 'milestones':
+        milestoneFilters.style.display = 'block';
+        break;
+    }
+    
+    // Update column options
+    updateColumnOptions(this.value);
+  });
+  
+  // Initialize column options
+  updateColumnOptions(reportTypeSelect.value);
+}
+
+function updateColumnOptions(reportType) {
+  const columnsSelect = document.getElementById('columnsToInclude');
+  columnsSelect.innerHTML = '';
+  columnsSelect.multiple = true; // Enable multiple selection
+  
+  columnOptions[reportType].forEach(column => {
+    const option = document.createElement('option');
+    option.value = column;
+    option.textContent = column.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+    option.selected = true; // Select all columns by default
+    columnsSelect.appendChild(option);
+  });
+}
+
+// Generate custom report based on filters
+async function generateCustomReport() {
+  const reportType = document.getElementById('reportType').value;
+  const selectedColumns = Array.from(document.getElementById('columnsToInclude').selectedOptions)
+    .map(option => option.value);
+  
+  if (selectedColumns.length === 0) {
+    alert('Please select at least one column to include in the report.');
+    return;
+  }
+  
+  try {
+    let reportData = [];
+    
+    switch(reportType) {
+      case 'users':
+        reportData = await generateUserReport(selectedColumns);
+        break;
+      case 'projects':
+        reportData = await generateProjectReport(selectedColumns);
+        break;
+      case 'funding':
+        reportData = await generateFundingReport(selectedColumns);
+        break;
+      case 'milestones':
+        reportData = await generateMilestoneReport(selectedColumns);
+        break;
+    }
+    
+    latestCustomReportData = reportData;
+    displayCustomReport(reportData, selectedColumns);
+  } catch (err) {
+    console.error('Error generating custom report:', err);
+    alert('Failed to generate custom report.');
+  }
+}
+
+async function generateUserReport(columns) {
+  // Get selected filters
+  const roles = Array.from(document.querySelectorAll('input[name="userRole"]:checked')).map(cb => cb.value);
+  const statuses = Array.from(document.querySelectorAll('input[name="userStatus"]:checked')).map(cb => cb.value);
+  
+  let query = db.collection('Users');
+  
+  // Apply role filters if any selected
+  if (roles.length > 0) {
+    const roleConditions = [];
+    if (roles.includes('researcher')) roleConditions.push('isResearcher', '==', true);
+    if (roles.includes('reviewer')) roleConditions.push('isReviewer', '==', true);
+    query = query.where(roleConditions[0], roleConditions[1], roleConditions[2]);
+  }
+  
+  // Apply status filters if any selected
+  if (statuses.length > 0) {
+    const statusConditions = [];
+    if (statuses.includes('pending')) statusConditions.push('isPending', '==', true);
+    if (statuses.includes('approved')) statusConditions.push('isAccepted', '==', true);
+    if (statuses.includes('rejected')) statusConditions.push('isAccepted', '==', false);
+    query = query.where(statusConditions[0], statusConditions[1], statusConditions[2]);
+  }
+  
+  const snapshot = await query.get();
+  return snapshot.docs.map(doc => {
+    const user = doc.data();
+    const row = {};
+    
+    columns.forEach(col => {
+      switch(col) {
+        case 'name':
+          row[col] = user.name || 'N/A';
+          break;
+        case 'role':
+          row[col] = user.isResearcher ? 'Researcher' : user.isReviewer ? 'Reviewer' : 'N/A';
+          break;
+        case 'status':
+          row[col] = user.isPending ? 'Pending' : user.isAccepted ? 'Approved' : 'Rejected';
+          break;
+        default:
+          row[col] = user[col] || 'N/A';
+      }
+    });
+    
+    return row;
+  });
+}
+
+async function generateProjectReport(columns) {
+  // Get selected filters
+  const statuses = Array.from(document.querySelectorAll('input[name="projectStatus"]:checked')).map(cb => cb.value);
+
+  
+  let query = db.collection('projects');
+  
+  // Apply status filters if any selected
+  if (statuses.length > 0) {
+    query = query.where('status', 'in', statuses);
+  }
+  
+
+  
+  const snapshot = await query.get();
+  return snapshot.docs.map(doc => {
+    const project = doc.data();
+    const row = {};
+    
+    columns.forEach(col => {
+      switch(col) {
+        case 'title':
+          row[col] = project.title || 'N/A';
+          break;
+        case 'description':
+          row[col] = project.description || 'N/A';
+          break;
+        case 'status':
+          row[col] = project.status || 'N/A';
+          break;
+        case 'participants':
+          row[col] = project.collaborators ? project.collaborators.length : 0;
+          break;
+        case 'progress':
+          row[col] = project.progress ? `${project.progress}%` : '0%';
+          break;
+        default:
+          row[col] = project[col] || 'N/A';
+      }
+    });
+    
+    return row;
+  });
+}
+
+async function generateFundingReport(columns) {
+  // Get selected filters
+  const minAmount = parseFloat(document.getElementById('minAmount').value);
+  const maxAmount = parseFloat(document.getElementById('maxAmount').value);
+  const agency = document.getElementById('fundingAgency').value;
+  
+  let query = db.collection('grants');
+  
+  // Apply amount filters if provided
+  if (!isNaN(minAmount)) {
+    query = query.where('amount', '>=', minAmount);
+  }
+  if (!isNaN(maxAmount)) {
+    query = query.where('amount', '<=', maxAmount);
+  }
+  
+  // Apply agency filter if provided
+  if (agency) {
+    query = query.where('agency', '==', agency);
+  }
+  
+  const snapshot = await query.get();
+  return snapshot.docs.map(doc => {
+    const grant = doc.data();
+    const row = {};
+    
+    columns.forEach(col => {
+      switch(col) {
+        case 'title':
+          row[col] = grant.title || 'N/A';
+          break;
+        case 'agency':
+          row[col] = grant.agency || 'N/A';
+          break;
+        case 'amount':
+          row[col] = formatCurrency(grant.amount, grant.currency);
+          break;
+        case 'currency':
+          row[col] = grant.currency || 'USD';
+          break;
+        case 'usedAmount':
+          // This would need to be calculated from expenses in a real implementation
+          row[col] = formatCurrency(grant.usedAmount || 0, grant.currency);
+          break;
+        case 'available':
+          // This would need to be calculated in a real implementation
+          const available = (grant.amount || 0) - (grant.usedAmount || 0);
+          row[col] = formatCurrency(available, grant.currency);
+          break;
+        default:
+          row[col] = grant[col] || 'N/A';
+      }
+    });
+    
+    return row;
+  });
+}
+
+async function generateMilestoneReport(columns) {
+  // Get selected filters
+  const statuses = Array.from(document.querySelectorAll('input[name="milestoneStatus"]:checked')).map(cb => cb.value);
+;
+  
+  let query = db.collection('milestones');
+  
+  // Apply status filters if any selected
+  if (statuses.length > 0) {
+    query = query.where('status', 'in', statuses);
+  }
+  
+
+  
+  const snapshot = await query.get();
+  return snapshot.docs.map(doc => {
+    const milestone = doc.data();
+    const row = {};
+    
+    columns.forEach(col => {
+      switch(col) {
+        case 'title':
+          row[col] = milestone.title || 'N/A';
+          break;
+        case 'project':
+          row[col] = milestone.projectName || milestone.projectId || 'N/A';
+          break;
+        case 'description':
+          row[col] = milestone.description || 'N/A';
+          break;
+        case 'status':
+          row[col] = milestone.status || 'N/A';
+          break;
+
+        case 'progress':
+          row[col] = milestone.progress ? `${milestone.progress}%` : '0%';
+          break;
+        case 'assignedTo':
+          row[col] = milestone.assignedTo || 'Unassigned';
+          break;
+        default:
+          row[col] = milestone[col] || 'N/A';
+      }
+    });
+    
+    return row;
+  });
+}
+
+function displayCustomReport(data, columns) {
+  const table = document.getElementById('customReportTable');
+  const thead = table.querySelector('thead');
+  const tbody = table.querySelector('tbody');
+  
+  // Clear existing content
+  thead.innerHTML = '';
+  tbody.innerHTML = '';
+  
+  // Create header row
+  const headerRow = document.createElement('tr');
+  columns.forEach(col => {
+    const th = document.createElement('th');
+    th.textContent = col.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+    headerRow.appendChild(th);
+  });
+  thead.appendChild(headerRow);
+  
+  // Create data rows
+  data.forEach(rowData => {
+    const tr = document.createElement('tr');
+    columns.forEach(col => {
+      const td = document.createElement('td');
+      td.textContent = rowData[col] || 'N/A';
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+}
+
+function downloadCustomReport() {
+  if (!latestCustomReportData.length) {
+    alert('Please generate the report first.');
+    return;
+  }
+  
+  const reportType = document.getElementById('reportType').value;
+  const selectedColumns = Array.from(document.getElementById('columnsToInclude').selectedOptions)
+    .map(option => option.value);
+  
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  
+  // Report title
+  doc.setFontSize(16);
+  doc.text(`${reportType.charAt(0).toUpperCase() + reportType.slice(1)} Report`, 10, 15);
+  doc.setFontSize(10);
+  doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 10, 22);
+  
+  // Prepare headers and data
+  const headers = selectedColumns.map(col => 
+    col.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())
+  );
+  
+  const rows = latestCustomReportData.map(row => 
+    selectedColumns.map(col => row[col] || 'N/A')
+  );
+  
+  // Generate table
+  doc.autoTable({
+    head: [headers],
+    body: rows,
+    startY: 30,
+    styles: { fontSize: 8 },
+    headStyles: { fillColor: [22, 160, 133] },
+    columnStyles: {
+      0: { cellWidth: 'auto' },
+      1: { cellWidth: 'auto' }
+    }
+  });
+  
+  doc.save(`${reportType}_report.pdf`);
+}
+
+// Add to your existing DOMContentLoaded event listener
+document.addEventListener("DOMContentLoaded", () => {
+  // ... existing code ...
+  
+  // Initialize custom report controls
+  initCustomReportControls();
+  
+  // Custom Report Buttons
+  const generateCustomBtn = document.getElementById('generateCustomReportBtn');
+  if (generateCustomBtn) {
+    generateCustomBtn.addEventListener('click', generateCustomReport);
+  }
+  
+  const downloadCustomBtn = document.getElementById('downloadCustomReportBtn');
+  if (downloadCustomBtn) {
+    downloadCustomBtn.addEventListener('click', downloadCustomReport);
+  }
+});

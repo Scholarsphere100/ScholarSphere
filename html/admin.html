@@ -110,6 +110,91 @@
       </section>
     </article>
 
+    <!-- Add this after your existing report sections -->
+<article class="report-section">
+  <header class="section-header">
+    <h2>Custom Report Generator</h2>
+    <section class="report-actions">
+      <button id="generateCustomReportBtn" class="report-btn">
+        <i class="fas fa-file-pdf"></i> Generate Custom Report
+      </button>
+      <button id="downloadCustomReportBtn" class="report-btn">
+        <i class="fas fa-download"></i> Download Custom Report
+      </button>
+    </section>
+  </header>
+  
+  <section class="report-content">
+    <div class="custom-report-controls">
+      <div class="filter-group">
+        <label for="reportType">Report Type:</label>
+        <select id="reportType" class="filter-select">
+          <option value="users">User Data</option>
+          <option value="projects">Project Data</option>
+          <option value="funding">Funding Data</option>
+          <option value="milestones">Milestone Data</option>
+        </select>
+      </div>
+      
+      <div class="filter-group" id="userFilters">
+        <label>User Filters:</label>
+        <div class="filter-options">
+          <label><input type="checkbox" name="userRole" value="researcher"> Researchers</label>
+          <label><input type="checkbox" name="userRole" value="reviewer"> Reviewers</label>
+          <label><input type="checkbox" name="userStatus" value="pending"> Pending</label>
+          <label><input type="checkbox" name="userStatus" value="approved"> Approved</label>
+          <label><input type="checkbox" name="userStatus" value="rejected"> Rejected</label>
+        </div>
+      </div>
+      
+      <div class="filter-group" id="projectFilters" style="display:none;">
+        <label>Project Filters:</label>
+        <div class="filter-options">
+          <label><input type="checkbox" name="projectStatus" value="active"> Active</label>
+          <label><input type="checkbox" name="projectStatus" value="completed"> Completed</label>
+          <label><input type="checkbox" name="projectStatus" value="archived"> Archived</label>
+        </div>
+      </div>
+      
+      <div class="filter-group" id="fundingFilters" style="display:none;">
+        <label>Funding Filters:</label>
+        <div class="filter-options">
+          <label>Min Amount: <input type="number" id="minAmount" placeholder="$"></label>
+          <label>Max Amount: <input type="number" id="maxAmount" placeholder="$"></label>
+          <label>Agency: <input type="text" id="fundingAgency" placeholder="Filter by agency"></label>
+        </div>
+      </div>
+      
+      <div class="filter-group" id="milestoneFilters" style="display:none;">
+        <label>Milestone Filters:</label>
+        <div class="filter-options">
+          <label><input type="checkbox" name="milestoneStatus" value="pending"> Pending</label>
+          <label><input type="checkbox" name="milestoneStatus" value="in-progress"> In Progress</label>
+          <label><input type="checkbox" name="milestoneStatus" value="completed"> Completed</label>
+        </div>
+      </div>
+      
+      <div class="filter-group">
+        <label for="columnsToInclude">Columns to Include:</label>
+        <select id="columnsToInclude" class="filter-select" multiple>
+          <!-- Will be populated dynamically based on report type -->
+        </select>
+      </div>
+    </div>
+    
+    <table id="customReportTable" class="data-table">
+      <thead>
+        <tr>
+          <!-- Will be populated dynamically -->
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Will be populated dynamically -->
+      </tbody>
+    </table>
+  </section>
+</article>
+
     <!-- Active Projects Section -->
     <article class="active-projects-section">
       <header class="section-header">
