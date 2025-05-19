@@ -1,5 +1,64 @@
 import { db, auth } from './search.js';
 
+export function updateExpensesSummary() {
+    const amounts = Array.from(document.querySelectorAll(".expenses-table tbody tr td:nth-child(5)"))
+        .map(td => parseFloat(td.textContent.replace(/[^\d.]/g, '')))
+        .filter(amount => !isNaN(amount));
+
+    const totalExpenses = amounts.reduce((sum, amount) => sum + amount, 0);
+    const pendingApproval = amounts.filter((_, i) => {
+        const statusCell = document.querySelectorAll(".expenses-table tbody tr td:nth-child(6)")[i];
+        return statusCell.textContent.includes("Pending");
+    }).reduce((sum, amount) => sum + amount, 0);
+
+    const totalElement = document.querySelector(".expenses-summary .summary-item:nth-child(1) span:last-child");
+    const pendingElement = document.querySelector(".expenses-summary .summary-item:nth-child(2) span:last-child");
+
+    if (totalElement) totalElement.textContent = `R${totalExpenses.toFixed(2)}`;
+    if (pendingElement) pendingElement.textContent = `R${pendingApproval.toFixed(2)}`;
+}
+
+    export function formatDate(dateStr) {
+            if (!dateStr) return '';
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+        }
+
+     export  function formatDateForDisplay(dateString) {
+            if (!dateString) return '';
+            const date = new Date(dateString);
+            return date.toLocaleDateString("en-US", {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+        }
+
+ export  function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+        function getInitialStatus(dueDate) {
+            if (!dueDate) return { class: "pending", text: "Pending" };
+            
+            const today = new Date();
+            const due = new Date(dueDate);
+            const diffTime = due - today;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+            if (diffDays < 0) {
+                return { class: "overdue", text: "Overdue" };
+            } else if (diffDays <= 30) {
+                return { class: "upcoming", text: "Due Soon" };
+            } else {
+                return { class: "pending", text: "Pending" };
+            }
+        }
+
 document.addEventListener('DOMContentLoaded', async function () {
     // Wait for auth state to be initialized
     auth.onAuthStateChanged(async (user) => {
@@ -394,47 +453,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             });
         }
 
-        // HELPER FUNCTIONS
-        function formatDate(dateStr) {
-            if (!dateStr) return '';
-            const date = new Date(dateStr);
-            return date.toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric'
-            });
-        }
 
-        function formatDateForDisplay(dateString) {
-            if (!dateString) return '';
-            const date = new Date(dateString);
-            return date.toLocaleDateString("en-US", {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric'
-            });
-        }
-
-    function capitalizeFirstLetter(string) {
-            return string.charAt(0).toUpperCase() + string.slice(1);
-        }
-
-        function getInitialStatus(dueDate) {
-            if (!dueDate) return { class: "pending", text: "Pending" };
-            
-            const today = new Date();
-            const due = new Date(dueDate);
-            const diffTime = due - today;
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-            if (diffDays < 0) {
-                return { class: "overdue", text: "Overdue" };
-            } else if (diffDays <= 30) {
-                return { class: "upcoming", text: "Due Soon" };
-            } else {
-                return { class: "pending", text: "Pending" };
-            }
-        }
 
         function updateFundingSummary() {
             const amounts = Array.from(document.querySelectorAll('.grant-info dd:nth-of-type(2)')).map(dd => {
@@ -465,23 +484,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             }
         }
 
-        function updateExpensesSummary() {
-            const amounts = Array.from(document.querySelectorAll(".expenses-table tbody tr td:nth-child(5)"))
-                .map(td => parseFloat(td.textContent.replace(/[^\d.]/g, '')))
-                .filter(amount => !isNaN(amount));
-
-            const totalExpenses = amounts.reduce((sum, amount) => sum + amount, 0);
-            const pendingApproval = amounts.filter((_, i) => {
-                const statusCell = document.querySelectorAll(".expenses-table tbody tr td:nth-child(6)")[i];
-                return statusCell.textContent.includes("Pending");
-            }).reduce((sum, amount) => sum + amount, 0);
-
-            const totalElement = document.querySelector(".expenses-summary .summary-item:nth-child(1) span:last-child");
-            const pendingElement = document.querySelector(".expenses-summary .summary-item:nth-child(2) span:last-child");
-
-            if (totalElement) totalElement.textContent = `R${totalExpenses.toFixed(2)}`;
-            if (pendingElement) pendingElement.textContent = `R${pendingApproval.toFixed(2)}`;
-        }
+     
 
         // Initialize all data
         fetchGrants();
@@ -490,7 +493,4 @@ document.addEventListener('DOMContentLoaded', async function () {
     });
 });
 
-if(typeof exports !== 'undefined'){
-
-    exports.capitalizeFirstLetter = capitalizeFirstLetter;
-}
+  
