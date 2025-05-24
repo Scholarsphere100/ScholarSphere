@@ -29,7 +29,7 @@ It is developed using **Agile methodology**, with a **Test-Driven Development (T
 | Backend         | Node.js,                                   |
 | Database        | Firebase Firestore                         |
 | Authentication  | Firebase Authentication (Google OAuth)     |
-| Hosting         | Firebase Hosting                           |
+| Hosting         | Microsoft Azure                            |
 | Testing         | Jest, Supertest                            |
 | CI/CD           | GitHub Actions                             |
 | Version Control | Git + GitHub                               |
