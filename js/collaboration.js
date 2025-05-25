@@ -237,17 +237,6 @@ document.addEventListener("DOMContentLoaded", () => {
     sidebarOverlay.classList.remove("active")
   })
 
- 
-    
-    // Auth state observer
-    auth.onAuthStateChanged(user => {
-        if (user) {
-            loadRequests(user.uid);
-        } else {
-            console.log('User not authenticated');
-            // You might want to redirect to login page here
-        }
-    });
 
   // Auth state observer
   auth.onAuthStateChanged((user) => {
