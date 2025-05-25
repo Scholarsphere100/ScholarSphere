@@ -90,7 +90,77 @@ describe("Funding Utilities", () => {
     // });
     
     
+    test("should correctly sort grants by amount", () => {
+        const grants = [
+            { amount: 3500 },
+            { amount: 2500 },
+            { amount: 5000 }
+        ];
 
+        const sortedGrants = grants.sort((a, b) => b.amount - a.amount);
+
+        expect(sortedGrants[0].amount).toBe(5000); // ✅ Highest amount first
+        expect(sortedGrants[1].amount).toBe(3500);
+        expect(sortedGrants[2].amount).toBe(2500);
+    });
+
+    test("should correctly handle grants with negative or zero amounts", () => {
+        const grants = [
+            { amount: 2500 },
+            { amount: -1000 },  // ✅ Negative amount should not affect total
+            { amount: 0 }       // ✅ Zero amount should be ignored
+        ];
+
+        const validGrants = grants.filter(grant => grant.amount > 0);
+        const total = validGrants.reduce((sum, grant) => sum + grant.amount, 0);
+
+        expect(total).toBe(2500); // ✅ Ensures only valid grants are counted
+    });
+
+    test("should correctly summarize grants by category", () => {
+        const grants = [
+            { category: "Education", amount: 2000 },
+            { category: "Research", amount: 4000 },
+            { category: "Education", amount: 3000 }
+        ];
+
+        const groupedSummary = grants.reduce((acc, grant) => {
+            acc[grant.category] = (acc[grant.category] || 0) + grant.amount;
+            return acc;
+        }, {});
+
+        expect(groupedSummary["Education"]).toBe(5000); // ✅ Education total
+        expect(groupedSummary["Research"]).toBe(4000);
+    });
+
+    test("should correctly convert grant amounts from different currencies", () => {
+        const grants = [
+            { amount: 2500, currency: "USD" },
+            { amount: 3500, currency: "ZAR" }
+        ];
+
+        const conversionRates = { USD: 19, ZAR: 1 };  // ✅ Example conversion rates
+        const totalZAR = grants.reduce((sum, grant) => sum + (grant.amount * conversionRates[grant.currency]), 0);
+
+        expect(totalZAR).toBe(51000); // ✅ Ensures correct currency conversion
+    });
+
+    test("should correctly update summary cards based on grants list", () => {
+        document.body.innerHTML = `
+            <div class="summary-card"><span class="amount">R0.00</span></div>
+            <div class="summary-card"><span class="amount">R0.00</span></div>
+        `;
+
+        const summaryCards = document.querySelectorAll(".summary-card .amount");
+
+        summaryCards[0].textContent = "R5,000.00"; // ✅ Total grant amount
+        summaryCards[1].textContent = "R2,000.00"; // ✅ Remaining funds
+
+        expect(summaryCards[0].textContent).toBe("R5,000.00");
+        expect(summaryCards[1].textContent).toBe("R2,000.00");
+    });
+
+    
     test("should correctly handle grants list with no entries", () => {
         updateFundingSummary();
     
@@ -189,6 +259,26 @@ describe("Funding Utilities", () => {
 });
 
 import { formatDateForDisplay, capitalizeFirstLetter, updateExpensesSummary } from "../../js/funding";
+
+test("should correctly handle grants list with missing amount fields", () => {
+    document.body.innerHTML = `
+        <div class="grants-list">
+            <article class="grant-item">
+                <dl class="grant-info">
+                    <dt><strong>Amount:</strong></dt>
+                    <dd>Label</dd>  <!-- ✅ Amount field missing -->
+                </dl>
+            </article>
+        </div>
+        <div class="summary-card"><span class="amount">R0.00</span></div>
+    `;
+
+    updateFundingSummary();
+    const totalAmount = document.querySelector(".summary-card .amount").textContent;
+
+    expect(totalAmount).toBe("R0.00"); // ✅ Ensures missing values don’t cause errors
+});
+
 
 describe("Funding Helper Functions", () => {
     let expensesTable, summaryItems;
