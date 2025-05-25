@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ScholarSphere - Research Dashboard</title>
     <link rel="stylesheet" href="../css/styles1.css">
+    <link rel="stylesheet" href="../css/researcher-dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -40,203 +41,164 @@
             <i class="fas fa-bars" aria-hidden="true"></i>
         </button>
         
-       
-        
         <section class="header-actions">
             <a href="collaborations.html#notifications" class="notifications" aria-label="View notifications">
                 <i class="fas fa-bell" aria-hidden="true"></i>
-                <mark class="notification-badge" style="display: none;"></mark>
+                <mark class="notification-badge"></mark>
             </a>
         </section>
     </header>
 
     <main class="dashboard-content">
         <section class="welcome-banner">
-            <h1>Welcome back</h1>
-            <p>Your research dashboard at a glance</p>
+            <h1>Welcome to ScholarSphere</h1>
+            <p>Your comprehensive research collaboration platform</p>
         </section>
         
-        <section class="action-buttons">
-            <a href="#" class="action-button create-project-btn" id="dashboard-create-project-btn">
-                <i class="fas fa-plus-circle" aria-hidden="true"></i>
-                <strong>Create Research Project</strong>
-            </a>
-        </section>
-        
-        <section class="dashboard-grid">
-            <section class="my-projects">
-                <header class="section-header">
+        <section class="dashboard-navigation-grid">
+            <!-- Research Management -->
+            <article class="navigation-card research-card">
+                <header class="card-header">
+                    <figure class="card-icon">
+                        <i class="fas fa-flask" aria-hidden="true"></i>
+                    </figure>
                     <h2>My Research Projects</h2>
-                    <a href="my-projects.html" class="view-all">View All</a>
                 </header>
-                
-                <ul class="project-list">
-                    <li class="project-item">
-                        <article class="research-project">
-                            <header class="project-header">
-                                <h3>Quantum Computing Applications</h3>
-                            </header>
-                            <p class="project-description">Exploring practical applications of quantum computing in data security and encryption.</p>
-                            <footer class="project-footer">
-                                <p class="project-meta">
-                                    <i class="fas fa-calendar-alt" aria-hidden="true"></i> 
-                                    <time datetime="2025-08-15">Due: Aug 15, 2025</time>
-                                </p>
-                                <p class="project-meta">
-                                    <i class="fas fa-users" aria-hidden="true"></i> 
-                                    4 Collaborators
-                                </p>
-                            </footer>
-                            <a href="project-details.html" class="project-action-btn">Manage Project</a>
-                        </article>
-                    </li>
-                    
-                    <li class="project-item">
-                        <article class="research-project">
-                            <header class="project-header">
-                                <h3>Climate Data Analysis</h3>
-                            </header>
-                            <p class="project-description">Analyzing climate patterns using machine learning to predict environmental changes.</p>
-                            <footer class="project-footer">
-                                <p class="project-meta">
-                                    <i class="fas fa-calendar-alt" aria-hidden="true"></i> 
-                                    <time datetime="2025-06-30">Due: Jun 30, 2025</time>
-                                </p>
-                                <p class="project-meta">
-                                    <i class="fas fa-users" aria-hidden="true"></i> 
-                                    6 Collaborators
-                                </p>
-                            </footer>
-                            <a href="project-details.html" class="project-action-btn">Manage Project</a>
-                        </article>
-                    </li>
-                </ul>
-            </section>
-            
-            <section class="collaboration-requests">
-                <header class="section-header">
-                    <h2>Collaboration Requests</h2>
-                    <a href="collaborations.html" class="view-all">View All</a>
+                <section class="card-content">
+                    <p>Manage your active research projects, track progress, and collaborate with team members.</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check" aria-hidden="true"></i> Project timeline management</li>
+                        <li><i class="fas fa-check" aria-hidden="true"></i> Document collaboration</li>
+                        <li><i class="fas fa-check" aria-hidden="true"></i> Progress tracking</li>
+                    </ul>
+                </section>
+                <footer class="card-footer">
+                    <a href="my-projects.html" class="card-action-btn">
+                        <span>View Projects</span>
+                        <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                    </a>
+                </footer>
+            </article>
+
+            <!-- Collaboration Hub -->
+            <article class="navigation-card collaboration-card">
+                <header class="card-header">
+                    <figure class="card-icon">
+                        <i class="fas fa-users" aria-hidden="true"></i>
+                    </figure>
+                    <h2>Collaboration Hub</h2>
                 </header>
-                
-                <ul class="request-list">
-                    <li class="request-item incoming">
-                        <article class="request-card">
-                            <header class="request-header">
-                                <h3>Incoming Request: Neural Networks Research</h3>
-                            </header>
-                            <p class="request-description">Dr. Michael Chen has invited you to collaborate on "Advanced Neural Networks for Medical Imaging"</p>
-                            <p class="request-meta">
-                                <i class="fas fa-calendar-alt" aria-hidden="true"></i> 
-                                <time datetime="2025-04-10">Received: Apr 10, 2025</time>
-                            </p>
-                            <footer class="request-actions">
-                                <button class="accept-request">Accept</button>
-                                <button class="decline-request">Decline</button>
-                            </footer>
-                        </article>
-                    </li>
-                    
-                    <li class="request-item outgoing">
-                        <article class="request-card">
-                            <header class="request-header">
-                                <h3>Outgoing Request: Sustainable Energy</h3>
-                            </header>
-                            <p class="request-description">You invited Dr. Sarah Williams to collaborate on "Sustainable Energy Research"</p>
-                            <p class="request-meta">
-                                <i class="fas fa-calendar-alt" aria-hidden="true"></i> 
-                                <time datetime="2025-04-11">Sent: Apr 11, 2025</time>
-                            </p>
-                            <footer class="request-actions">
-                                <button class="cancel-request">Cancel Request</button>
-                            </footer>
-                        </article>
-                    </li>
-                </ul>
-            </section>
-            
-            <section class="recommended-projects">
-                <header class="section-header">
-                    <h2>Recommended Projects</h2>
-                    <a href="#" class="view-all">View All</a>
+                <section class="card-content">
+                    <p>Connect with researchers worldwide, manage collaboration requests, and build your network.</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check" aria-hidden="true"></i> Send & receive requests</li>
+                        <li><i class="fas fa-check" aria-hidden="true"></i> Researcher discovery</li>
+                        <li><i class="fas fa-check" aria-hidden="true"></i> Team communication</li>
+                    </ul>
+                </section>
+                <footer class="card-footer">
+                    <a href="collaborations.html" class="card-action-btn">
+                        <span>Manage Collaborations</span>
+                        <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                    </a>
+                </footer>
+            </article>
+
+            <!-- Research Discovery -->
+            <article class="navigation-card discovery-card">
+                <header class="card-header">
+                    <figure class="card-icon">
+                        <i class="fas fa-search" aria-hidden="true"></i>
+                    </figure>
+                    <h2>Research Discovery</h2>
                 </header>
-                
-                <ul class="project-list">
-                    <li class="project-item">
-                        <article class="research-project">
-                            <header class="project-header">
-                                <h3>AI Ethics Framework</h3>
-                            </header>
-                            <p class="project-description">Developing ethical guidelines for AI implementation in healthcare and public policy.</p>
-                            <p class="project-skills">
-                                <strong>Skills needed:</strong> AI Ethics, Policy Development, Healthcare
-                            </p>
-                            <footer class="project-footer">
-                                <p class="project-meta">
-                                    <i class="fas fa-user" aria-hidden="true"></i> 
-                                    Dr. Lisa Wong
-                                </p>
-                                <button class="send-request-btn">Send Request</button>
-                            </footer>
-                        </article>
-                    </li>
-                    
-                    <li class="project-item">
-                        <article class="research-project">
-                            <header class="project-header">
-                                <h3>Renewable Energy Storage</h3>
-                            </header>
-                            <p class="project-description">Researching novel materials for efficient energy storage in renewable systems.</p>
-                            <p class="project-skills">
-                                <strong>Skills needed:</strong> Material Science, Energy Systems, Data Analysis
-                            </p>
-                            <footer class="project-footer">
-                                <p class="project-meta">
-                                    <i class="fas fa-user" aria-hidden="true"></i> 
-                                    Dr. James Wilson
-                                </p>
-                                <button class="send-request-btn">Send Request</button>
-                            </footer>
-                        </article>
-                    </li>
-                </ul>
-            </section>
-            
-            <section class="recent-activity">
-                <header class="section-header">
-                    <h2>Recent Activity</h2>
-                    <a href="#" class="view-all">View All</a>
+                <section class="card-content">
+                    <p>Explore ongoing research projects, find collaboration opportunities, and discover new areas of study.</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check" aria-hidden="true"></i> Advanced search filters</li>
+                        <li><i class="fas fa-check" aria-hidden="true"></i> Skill-based matching</li>
+                        <li><i class="fas fa-check" aria-hidden="true"></i> Project recommendations</li>
+                    </ul>
+                </section>
+                <footer class="card-footer">
+                    <a href="search.html" class="card-action-btn">
+                        <span>Explore Research</span>
+                        <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                    </a>
+                </footer>
+            </article>
+
+            <!-- Funding Opportunities -->
+            <article class="navigation-card funding-card">
+                <header class="card-header">
+                    <figure class="card-icon">
+                        <i class="fas fa-dollar-sign" aria-hidden="true"></i>
+                    </figure>
+                    <h2>Funding Opportunities</h2>
                 </header>
-                
-                <ul class="activity-list">
-                    <li class="activity-item">
-                        <i class="fas fa-check-circle activity-icon" aria-hidden="true"></i>
-                        <article class="activity-content">
-                            <h3>Collaboration Request Accepted</h3>
-                            <p>Dr. Lisa Wong has accepted your request to join "AI Ethics Framework"</p>
-                            <time datetime="2025-04-12T10:30:00">2 hours ago</time>
-                        </article>
-                    </li>
-                    
-                    <li class="activity-item">
-                        <i class="fas fa-times-circle activity-icon" aria-hidden="true"></i>
-                        <article class="activity-content">
-                            <h3>Collaboration Request Declined</h3>
-                            <p>Dr. James Wilson has declined your request to join "Neuromorphic Computing"</p>
-                            <time datetime="2025-04-12T08:15:00">4 hours ago</time>
-                        </article>
-                    </li>
-                    
-                    <li class="activity-item">
-                        <i class="fas fa-envelope activity-icon" aria-hidden="true"></i>
-                        <article class="activity-content">
-                            <h3>New Collaboration Request</h3>
-                            <p>Dr. Michael Chen has invited you to collaborate on "Advanced Neural Networks for Medical Imaging"</p>
-                            <time datetime="2025-04-11T15:45:00">Yesterday</time>
-                        </article>
-                    </li>
-                </ul>
-            </section>
+                <section class="card-content">
+                    <p>Discover grants, scholarships, and funding opportunities tailored to your research interests.</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check" aria-hidden="true"></i> Grant database access</li>
+                        <li><i class="fas fa-check" aria-hidden="true"></i> Application tracking</li>
+                        <li><i class="fas fa-check" aria-hidden="true"></i> Deadline reminders</li>
+                    </ul>
+                </section>
+                <footer class="card-footer">
+                    <a href="funding.html" class="card-action-btn">
+                        <span>Find Funding</span>
+                        <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                    </a>
+                </footer>
+            </article>
+
+            <!-- Communication Center -->
+            <article class="navigation-card communication-card">
+                <header class="card-header">
+                    <figure class="card-icon">
+                        <i class="fas fa-comments" aria-hidden="true"></i>
+                    </figure>
+                    <h2>Communication Center</h2>
+                </header>
+                <section class="card-content">
+                    <p>Stay connected with your research team through integrated messaging and video conferencing.</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check" aria-hidden="true"></i> Real-time messaging</li>
+                        <li><i class="fas fa-check" aria-hidden="true"></i> Video conferences</li>
+                        <li><i class="fas fa-check" aria-hidden="true"></i> File sharing</li>
+                    </ul>
+                </section>
+                <footer class="card-footer">
+                    <a href="chat.html" class="card-action-btn">
+                        <span>Open Messages</span>
+                        <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                    </a>
+                </footer>
+            </article>
+
+            <!-- Milestones & Progress -->
+            <article class="navigation-card milestones-card">
+                <header class="card-header">
+                    <figure class="card-icon">
+                        <i class="fas fa-flag-checkered" aria-hidden="true"></i>
+                    </figure>
+                    <h2>Milestones & Progress</h2>
+                </header>
+                <section class="card-content">
+                    <p>Track project milestones, monitor progress, and celebrate achievements across all your research endeavors.</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check" aria-hidden="true"></i> Milestone tracking</li>
+                        <li><i class="fas fa-check" aria-hidden="true"></i> Progress visualization</li>
+                        <li><i class="fas fa-check" aria-hidden="true"></i> Achievement badges</li>
+                    </ul>
+                </section>
+                <footer class="card-footer">
+                    <a href="milestones.html" class="card-action-btn">
+                        <span>View Milestones</span>
+                        <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                    </a>
+                </footer>
+            </article>
         </section>
 
         <!-- Create Project Modal -->
@@ -279,8 +241,6 @@
                 </form>
             </article>
         </section>
-
-
     </main>
 
     <footer class="main-footer">
@@ -293,19 +253,12 @@
             </ul>
         </nav>
     </footer>
-    <script>
-        // Hide notification badges immediately when page starts loading
-        document.addEventListener('DOMContentLoaded', function() {
-            const badges = document.querySelectorAll('.notification-badge');
-            badges.forEach(badge => {
-                badge.style.display = 'none';
-            });
-        });
-    </script>
+    
+    <!-- Original scripts preserved exactly as they were -->
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-    <script type = "module" src="../js/script.js"></script>
+    <script type="module" src="../js/script.js"></script>
     <script type="module" src="../js/notificationCount.js"></script>
 </body>
 </html>

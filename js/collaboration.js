@@ -16,6 +16,11 @@ if (!firebase.apps.length) {
 const auth = firebase.auth();
 const db = firebase.firestore();
 
+// Rest of your existing code...
+const incomingList = document.querySelector('.request-list');
+const outgoingList = document.querySelector('.request-list.outgoing');
+const activeList = document.querySelector('.request-list.active');
+
 // Load collaboration requests
 export async function loadRequests(userId) {
     try {
@@ -201,10 +206,7 @@ document.addEventListener('DOMContentLoaded', () => {
         sidebarOverlay.classList.remove('active');
     });
 
-    // Rest of your existing code...
-    const incomingList = document.querySelector('.request-list');
-    const outgoingList = document.querySelector('.request-list.outgoing');
-    const activeList = document.querySelector('.request-list.active');
+ 
     
     // Auth state observer
     auth.onAuthStateChanged(user => {
@@ -227,3 +229,34 @@ document.addEventListener('DOMContentLoaded', () => {
     // Handle request response - FIXED VERSION
     //moved outside scope 
 });
+
+// Export all functions for testing
+if (typeof exports !== 'undefined') {
+    // User management (placeholder exports for this file)
+    exports.loadRequests = loadRequests;
+    exports.renderCardHTML = renderCardHTML;
+    exports.attachRespondHandlers = attachRespondHandlers;
+    exports.respondToRequest = respondToRequest;
+  
+    // Placeholders for future or external user/project functions
+    exports.addPendingResearcher = typeof addPendingResearcher !== 'undefined' ? addPendingResearcher : () => {};
+    exports.addPendingReviewer = typeof addPendingReviewer !== 'undefined' ? addPendingReviewer : () => {};
+    exports.getAllUsers = typeof getAllUsers !== 'undefined' ? getAllUsers : () => {};
+    exports.updateUsers = typeof updateUsers !== 'undefined' ? updateUsers : () => {};
+    exports.approve = typeof approve !== 'undefined' ? approve : () => {};
+    exports.reject = typeof reject !== 'undefined' ? reject : () => {};
+    exports.updateProgress = typeof updateProgress !== 'undefined' ? updateProgress : () => {};
+  
+    // Project Reports
+    exports.generateProjectCompletionReport = typeof generateProjectCompletionReport !== 'undefined' ? generateProjectCompletionReport : () => {};
+    exports.groupMilestonesByProject = typeof groupMilestonesByProject !== 'undefined' ? groupMilestonesByProject : () => {};
+    exports.calculateProjectMetrics = typeof calculateProjectMetrics !== 'undefined' ? calculateProjectMetrics : () => {};
+    exports.displayCompletionReport = typeof displayCompletionReport !== 'undefined' ? displayCompletionReport : () => {};
+    exports.downloadProjectReport = typeof downloadProjectReport !== 'undefined' ? downloadProjectReport : () => {};
+  
+    // Funding Reports
+    exports.generateFundingReport = typeof generateFundingReport !== 'undefined' ? generateFundingReport : () => {};
+    exports.displayFundingReport = typeof displayFundingReport !== 'undefined' ? displayFundingReport : () => {};
+    exports.downloadFundingReport = typeof downloadFundingReport !== 'undefined' ? downloadFundingReport : () => {};
+    exports.formatCurrency = typeof formatCurrency !== 'undefined' ? formatCurrency : () => {};
+  }
