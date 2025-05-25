@@ -141,12 +141,12 @@ document.addEventListener("DOMContentLoaded", () => {
   })
   
   // Helper function to format time (copied from original messaging.js)
-  function formatTime(date) {
+  export function formatTime(date) {
     return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
   }
   
   // Helper function to format date for the date separator (copied from original messaging.js)
-  function formatDateForSeparator(date) {
+  export function formatDateForSeparator(date) {
     const options = { month: "long", day: "numeric", year: "numeric" }
     return date.toLocaleDateString("en-US", options)
   }
@@ -156,7 +156,7 @@ document.addEventListener("DOMContentLoaded", () => {
    * Instead of trying to enhance the original function, we'll implement our own
    * version that will be called directly from the HTML
    */
-  function directLoadChat(contactId) {
+  export function directLoadChat(contactId) {
     try {
       if (typeof firebase === "undefined") {
         console.error("Firebase is not defined")
