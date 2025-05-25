@@ -254,7 +254,6 @@ async function handleMilestoneSubmit(e) {
         selectedMilestoneFiles.textContent = 'No files selected';
     } catch (error) {
         console.error("Error adding milestone: ", error);
-        alert("Error adding milestone. Please try again.");
     }
 }
 
@@ -315,7 +314,6 @@ async function handleProgressUpdate(e) {
         rangeValue.textContent = '0%';
     } catch (error) {
         console.error("Error updating milestone: ", error);
-        alert("Error updating milestone. Please try again.");
     }
 }
 
