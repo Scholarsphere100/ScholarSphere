@@ -14,5 +14,8 @@ and like that you have cloned the repository
 In vs code you may download the live server extension or any other similar way
 Open the index.html to start at the landing page  
 
+you may find the video here
+https://www.youtube.com/watch?v=hb8qhRzRt6Q
+
 That is all
 Thank you
