@@ -223,7 +223,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         // Render a single grant to the DOM
         function renderGrant(grantData) {
-            const formattedAmount = `${grantData.currency} ${parseFloat(grantData.amount).toLocaleString('en-US', {
+            const formattedAmount = `R${parseFloat(grantData.amount).toLocaleString('en-US', {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2
             })}`;

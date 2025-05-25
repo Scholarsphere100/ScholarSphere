@@ -1,11 +1,4 @@
-/**
- * ScholarSphere Comments System
- * 
- * This module handles comment functionality for projects, allowing users
- * to add, view, and manage comments on research projects.
- */
-
-// Initialize Firebase (if not already initialized elsewhere)
+// Initialize Firebase 
 const firebaseConfig = {
     apiKey: "AIzaSyAuBIw5tkpyEYxqJX1d7xziNaKHRoW4E9M",
     authDomain: "scholarsphere-a8c83.firebaseapp.com",
