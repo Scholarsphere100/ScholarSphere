@@ -1,31 +1,62 @@
 import { db, auth } from './search.js';
 
-export function updateFundingSummary() {
-    const amounts = Array.from(document.querySelectorAll('.grant-info dd:nth-of-type(2)')).map(dd => {
-        const num = parseFloat(dd.textContent.replace(/[^\d.-]/g, ''));
-        return isNaN(num) ? 0 : num;
-    });
+export async function updateFundingSummary() {
+    try {
+        const userId = auth.currentUser?.uid;
+        if (!userId) return;
 
-    const total = amounts.reduce((acc, val) => acc + val, 0);
+        // Get all grants to calculate total funding
+        const grantsSnapshot = await db.collection("grants")
+            .where("userId", "==", userId)
+            .get();
+        
+        const totalFunding = grantsSnapshot.docs.reduce((sum, doc) => {
+            return sum + (parseFloat(doc.data().amount) || 0);
+        }, 0);
 
-    const totalEl = document.querySelector('.summary-card:nth-child(1) .amount');
-    if (totalEl) {
-        totalEl.textContent = `R${total.toLocaleString('en-US', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-        })}`;
-    }
+        // Get all APPROVED expenses to calculate total spent
+        const expensesSnapshot = await db.collection("expenses")
+            .where("userId", "==", userId)
+            .where("status", "==", "approved")
+            .get();
+        
+        const totalSpent = expensesSnapshot.docs.reduce((sum, doc) => {
+            return sum + (parseFloat(doc.data().amount) || 0);
+        }, 0);
 
-    const spentEl = document.querySelector('.summary-card:nth-child(2) .amount');
-    const remainingEl = document.querySelector('.summary-card:nth-child(3) .amount');
+        const remaining = totalFunding - totalSpent;
 
-    if (spentEl && remainingEl) {
-        const spent = parseFloat(spentEl.textContent.replace(/[^\d.-]/g, '')) || 0;
-        const remaining = total - spent;
-        remainingEl.textContent = `R${remaining.toLocaleString('en-US', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-        })}`;
+        // Update the DOM
+        const totalEl = document.querySelector('.summary-card:nth-child(1) .amount');
+        const spentEl = document.querySelector('.summary-card:nth-child(2) .amount');
+        const remainingEl = document.querySelector('.summary-card:nth-child(3) .amount');
+
+        if (totalEl) {
+            totalEl.textContent = `R${totalFunding.toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            })}`;
+        }
+
+        if (spentEl) {
+            spentEl.textContent = `R${totalSpent.toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            })}`;
+        }
+
+        if (remainingEl) {
+            remainingEl.textContent = `R${remaining.toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            })}`;
+        }
+
+        return { totalFunding, totalSpent, remaining };
+
+    } catch (error) {
+        console.error("Error updating funding summary:", error);
+        throw error;
     }
 }
 
@@ -88,6 +119,62 @@ export  function getInitialStatus(dueDate) {
             }
         }
 
+export function showNotification(message, type = "info") {
+    const notification = document.createElement("div");
+    notification.className = `notification ${type}`;
+    notification.textContent = message;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.classList.add("fade-out");
+        setTimeout(() => notification.remove(), 500);
+    }, 3000);
+}
+
+export async function updateFundingStatus(expenseId, expenseAmount) {
+    try {
+       
+        const funding = await updateFundingSummary();
+        if (!funding) throw new Error("Could not get funding data");
+        
+        const { remaining } = funding;
+        const newStatus = expenseAmount <= remaining ? "approved" : "rejected";
+        
+        // Update the expense status in Firestore
+        await db.collection("expenses").doc(expenseId).update({
+            status: newStatus
+        });
+
+        // Only update spent/remaining if approved
+        if (newStatus === "approved") {
+            const spentEl = document.querySelector('.summary-card:nth-child(2) .amount');
+            const remainingEl = document.querySelector('.summary-card:nth-child(3) .amount');
+            
+            if (spentEl && remainingEl) {
+                const currentSpent = parseFloat(spentEl.textContent.replace(/[^\d.-]/g, '')) || 0;
+                const newSpent = currentSpent + expenseAmount;
+                const newRemaining = funding.totalFunding - newSpent;
+                
+                spentEl.textContent = `R${newSpent.toLocaleString('en-US', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                })}`;
+                
+                remainingEl.textContent = `R${newRemaining.toLocaleString('en-US', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                })}`;
+            }
+        }
+
+        return newStatus;
+
+    } catch (error) {
+        console.error("Error updating funding status:", error);
+        throw error;
+    }
+}
 document.addEventListener('DOMContentLoaded', async function () {
     // Wait for auth state to be initialized
     auth.onAuthStateChanged(async (user) => {
@@ -100,6 +187,13 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         const userId = user.uid;
         console.log("Current user ID:", userId);
+
+        try {
+            await updateFundingSummary();
+        } catch (error) {
+            console.error("Failed to initialize funding summary:", error);
+            showNotification("Failed to load funding data", "error");
+        }
 
         // GRANTS FUNCTIONALITY
         const grantForm = document.querySelector('.grant-form');
@@ -231,6 +325,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         const expensesTable = document.querySelector(".expenses-table tbody");
 
         // Load existing expenses for current user
+       // Also modify your fetchExpenses function to ensure status consistency:
         async function fetchExpenses() {
             try {
                 const querySnapshot = await db.collection("expenses")
@@ -243,11 +338,44 @@ document.addEventListener('DOMContentLoaded', async function () {
                     expensesTable.removeChild(expensesTable.firstChild);
                 }
                 
+                // Get current remaining funds
+                const remainingEl = document.querySelector('.summary-card:nth-child(3) .amount');
+                const currentRemaining = remainingEl ? 
+                    parseFloat(remainingEl.textContent.replace(/[^\d.-]/g, '')) || 0 : 0;
+                
+                const batch = db.batch();
+                const expensesToUpdate = [];
+                
                 querySnapshot.forEach((doc) => {
                     const expenseData = doc.data();
                     expenseData.id = doc.id;
+                    
+                    // Check if any pending expenses should be approved/rejected based on current funds
+                    if (expenseData.status === "pending") {
+                        const newStatus = expenseData.amount <= currentRemaining ? "approved" : "rejected";
+                        if (newStatus !== expenseData.status) {
+                            const expenseRef = db.collection("expenses").doc(doc.id);
+                            batch.update(expenseRef, { status: newStatus });
+                            expenseData.status = newStatus;
+                            expensesToUpdate.push(expenseData);
+                        }
+                    }
+                    
                     renderExpenseRow(expenseData);
                 });
+                
+                // Commit any status updates
+                if (expensesToUpdate.length > 0) {
+                    await batch.commit();
+                    // Re-render updated expenses
+                    expensesToUpdate.forEach(expense => {
+                        const row = document.querySelector(`tr[data-id="${expense.id}"]`);
+                        if (row) {
+                            row.querySelector('.status-badge').className = `status-badge ${expense.status}`;
+                            row.querySelector('.status-badge').textContent = capitalizeFirstLetter(expense.status);
+                        }
+                    });
+                }
                 
                 updateExpensesSummary();
                 updateFundingSummary();
@@ -296,24 +424,46 @@ document.addEventListener('DOMContentLoaded', async function () {
                 e.preventDefault();
                 
                 // Get form values
+                const expenseAmount = parseFloat(document.getElementById("expense-amount").value);
+                if (isNaN(expenseAmount) || expenseAmount <= 0) {
+                    alert("Please enter a valid expense amount");
+                    return;
+                }
+
                 const expenseData = {
                     description: document.getElementById("expense-description").value,
-                    amount: parseFloat(document.getElementById("expense-amount").value),
+                    amount: expenseAmount,
                     date: document.getElementById("expense-date").value,
                     category: document.getElementById("expense-category-select").value,
                     grant: document.getElementById("expense-grant-select").value,
                     notes: document.getElementById("expense-notes").value,
-                    status: "pending",
+                    status: "pending", // Initial status
                     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    userId: userId  // Add current user ID
+                    userId: userId
                 };
 
                 try {
-                    // Add to Firestore
+                    // First add the expense with pending status
                     const docRef = await db.collection("expenses").add(expenseData);
                     
-                    // Add ID to data and render
+                    // Then update funding and get the final status
+                    const finalStatus = await updateFundingStatus(docRef.id, expenseData.amount);
+                    
+                    // Update the expense with final status
+                    await db.collection("expenses").doc(docRef.id).update({
+                        status: finalStatus
+                    });
+
+                    // Show appropriate notification
+                    if (finalStatus === "rejected") {
+                        showNotification("Expense rejected - Insufficient funds", "error");
+                    } else {
+                        showNotification("Expense approved and added successfully", "success");
+                    }
+
+                    // Add ID to data and render with final status
                     expenseData.id = docRef.id;
+                    expenseData.status = finalStatus;
                     renderExpenseRow(expenseData);
 
                     // Reset form and close modal
@@ -322,10 +472,11 @@ document.addEventListener('DOMContentLoaded', async function () {
                     expenseModal.classList.remove("active");
 
                     updateExpensesSummary();
-                    updateFundingSummary();
+                    await updateFundingSummary(); // Refresh all numbers
+                    
                 } catch (error) {
                     console.error("Error adding expense: ", error);
-                    alert("Failed to save expense. Please try again.");
+                    showNotification("Failed to save expense. Please try again.", "error");
                 }
             });
         }
@@ -481,14 +632,8 @@ document.addEventListener('DOMContentLoaded', async function () {
                 requirementModal.classList.remove("active");
             });
         }
-
-
-
-   
-
-     
-
-        // Initialize all data
+        
+      
         fetchGrants();
         fetchExpenses();
         fetchRequirements();
