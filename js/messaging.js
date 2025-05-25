@@ -5,9 +5,6 @@ const messageInput = document.getElementById("message-input")
 const chatMessages = document.getElementById("chat-messages")
 let currentChatUnsubscribe = null
 
-// Cache for user profile data to avoid repeated Firebase calls
-const userProfileCache = new Map()
-
 // Helper function to format time
 function formatTime(date) {
   return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
@@ -17,98 +14,6 @@ function formatTime(date) {
 function formatDateForSeparator(date) {
   const options = { month: "long", day: "numeric", year: "numeric" }
   return date.toLocaleDateString("en-US", options)
-}
-
-/**
- * @param {string} userId - The user ID to fetch data for
- * @returns {Promise<Object>} User data object with combined Firebase Users + Auth data
- */
-async function getUserProfileData(userId) {
-  try {
-    // Check cache first
-    if (userProfileCache.has(userId)) {
-      return userProfileCache.get(userId)
-    }
-
-    console.log('Fetching profile data for user:', userId)
-    
-    // Get user data from Firebase Users collection (same as comments.js)
-    const userDoc = await db.collection('Users').doc(userId).get()
-    const userData = userDoc.exists ? userDoc.data() : {}
-    
-    // Get Firebase Auth user data if this is the current user
-    let authUserData = {}
-    if (auth.currentUser && auth.currentUser.uid === userId) {
-      authUserData = {
-        displayName: auth.currentUser.displayName,
-        photoURL: auth.currentUser.photoURL,
-        email: auth.currentUser.email
-      }
-    }
-    
-    // Combine data (same priority as comments.js)
-    const combinedData = {
-      ...userData,
-      // Use the same fallback pattern as comments.js
-      displayName: userData.name || userData.displayName || authUserData.displayName || 'Anonymous',
-      photoURL: userData.photoURL || authUserData.photoURL || null,
-      userRole: userData.isResearcher ? 'Researcher' : 
-                userData.isReviewer ? 'Reviewer' : 'Collaborator'
-    }
-    
-    console.log('Combined user data:', combinedData)
-    
-    // Cache the result
-    userProfileCache.set(userId, combinedData)
-    return combinedData
-  } catch (error) {
-    console.error('Error fetching user profile for', userId, ':', error)
-    return {
-      displayName: 'Anonymous',
-      photoURL: null,
-      userRole: 'Collaborator'
-    }
-  }
-}
-
-/**
- * Get profile picture URL with fallback to default avatar
- * @param {Object} userData - User data from getUserProfileData
- * @param {string} userName - User's display name for generating initials
- * @returns {string} Profile picture URL
- */
-function getProfilePictureUrl(userData, userName) {
-  // Use photoURL from combined data (same as comments.js approach)
-  if (userData.photoURL && userData.photoURL.trim() !== '') {
-    return userData.photoURL
-  }
-
-  // Generate a default avatar with user initials
-  const initials = userName ? userName.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) : '?'
-  const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD', '#98D8C8']
-  const colorIndex = userName ? userName.charCodeAt(0) % colors.length : 0
-  const backgroundColor = colors[colorIndex]
-  
-  // Create a data URL for the avatar
-  const canvas = document.createElement('canvas')
-  canvas.width = 40
-  canvas.height = 40
-  const ctx = canvas.getContext('2d')
-  
-  // Draw background circle
-  ctx.fillStyle = backgroundColor
-  ctx.beginPath()
-  ctx.arc(20, 20, 20, 0, 2 * Math.PI)
-  ctx.fill()
-  
-  // Draw initials
-  ctx.fillStyle = 'white'
-  ctx.font = 'bold 16px Arial'
-  ctx.textAlign = 'center'
-  ctx.textBaseline = 'middle'
-  ctx.fillText(initials, 20, 20)
-  
-  return canvas.toDataURL()
 }
 
 async function checkAndCreateChatsFromCollaborations() {
@@ -140,9 +45,11 @@ async function checkAndCreateChatsFromCollaborations() {
           participants: [senderId, recipientId],
           createdAt: firebase.firestore.FieldValue.serverTimestamp(),
           lastUpdated: firebase.firestore.FieldValue.serverTimestamp(),
+          // You might want to add the project reference if relevant
         })
 
         console.log(`Created new chat between ${senderId} and ${recipientId}`)
+
         return { created: true, chatId }
       } else {
         console.log(`Chat already exists between ${senderId} and ${recipientId}`)
@@ -159,29 +66,16 @@ async function checkAndCreateChatsFromCollaborations() {
   }
 }
 checkAndCreateChatsFromCollaborations()
-
 // Add contact to sidebar list
-async function addContactToList(contactId, userData = null) {
+function addContactToList(contactId, contactName) {
   const contactsList = document.querySelector(".contacts-list ul")
-
-  // Get user data if not provided (using same approach as comments.js)
-  if (!userData) {
-    userData = await getUserProfileData(contactId)
-  }
-
-  const contactName = userData.displayName
-  const profilePicUrl = getProfilePictureUrl(userData, contactName)
 
   const contactHTML = `
         <li>
             <a href="#" class="contact-item" data-contact-id="${contactId}">
-                <figure class="contact-avatar">
-                    <img src="${profilePicUrl}" alt="${contactName}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiM2Mzc0OEEiLz4KPHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDEyQzE0LjIwOTEgMTIgMTYgMTAuMjA5MSAxNiA4QzE2IDUuNzkwODYgMTQuMjA5MSA0IDEyIDRDOS43OTA4NiA0IDggNS43OTA4NiA4IDhDOCAxMC4yMDkxIDkuNzkwODYgMTIgMTIgMTJaIiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNMTIgMTRDOC4xMzQwMSAxNCA1IDE3LjEzNDAxIDUgMjFIMTlDMTkgMTcuMTM0MDEgMTUuODY2IDE0IDEyIDE0WiIgZmlsbD0id2hpdGUiLz4KPC9zdmc+Cjwvc3ZnPgo='">
-                </figure>
                 <article class="contact-info">
                     <header class="contact-header">
                         <h3>${contactName}</h3>
-                        <p class="contact-role">${userData.userRole}</p>
                     </header>
                     <footer class="contact-footer">
                     </footer>
@@ -225,18 +119,10 @@ async function loadChat(contactId) {
     const chatId = [currentUserId, contactId].sort().join("_")
     const chatRef = db.collection("chats").doc(chatId)
 
-    // Get contact user data for header (same approach as comments.js)
-    const contactUserData = await getUserProfileData(contactId)
-    const contactName = contactUserData.displayName
-    const contactPhotoURL = getProfilePictureUrl(contactUserData, contactName)
-
     // Update chat header
+    const contactName = document.querySelector(`.contact-item[data-contact-id="${contactId}"] h3`).textContent
     document.querySelector(".chat-user-info h2").textContent = contactName
-    const headerAvatar = document.querySelector(".chat-user-info .user-avatar img")
-    if (headerAvatar) {
-      headerAvatar.src = contactPhotoURL
-      headerAvatar.alt = contactName
-    }
+    document.querySelector(".chat-user-info .user-avatar img").alt = contactName
 
     // Clear current messages
     chatMessages.innerHTML = ''
@@ -251,12 +137,14 @@ async function loadChat(contactId) {
     const unsubscribe = messagesQuery.onSnapshot(async (snapshot) => {
       // Only clear completely on initial load
       if (initialLoad) {
+        // Clear messages
         chatMessages.innerHTML = ''
         initialLoad = false
       }
 
       // Check if there are any messages
       if (snapshot.empty) {
+        // Don't show date separator if there are no messages
         chatMessages.innerHTML = `
           <div class="empty-chat-message">
             <p>No messages yet. Start a conversation!</p>
@@ -297,6 +185,11 @@ async function loadChat(contactId) {
           })
         })
         
+        // Clear the messages container if this is the first load
+        if (initialLoad) {
+          chatMessages.innerHTML = ''
+        }
+        
         // Sort dates chronologically
         const sortedDates = Array.from(messagesByDate.keys()).sort()
         
@@ -324,7 +217,7 @@ async function loadChat(contactId) {
             
             // Add all messages for this date
             messages.forEach(message => {
-              addMessageToUI(message, contactUserData, currentUserId)
+              addMessageToUI(message, contactName, currentUserId)
             })
           })
         } else {
@@ -389,7 +282,7 @@ async function loadChat(contactId) {
                 id: messageId,
                 ...message,
                 date: messageDate
-              }, contactUserData, currentUserId)
+              }, contactName, currentUserId)
             }
           })
         }
@@ -407,7 +300,7 @@ async function loadChat(contactId) {
 }
 
 // Helper function to add a message to the UI
-async function addMessageToUI(message, contactUserData, currentUserId) {
+function addMessageToUI(message, contactName, currentUserId) {
   const isCurrentUser = message.senderId === currentUserId
   
   // Create message element
@@ -422,22 +315,13 @@ async function addMessageToUI(message, contactUserData, currentUserId) {
   header.className = "message-header"
   
   if (!isCurrentUser) {
-    // Get user data for the message sender (same approach as comments.js)
-    let senderUserData = contactUserData
-    if (!senderUserData || senderUserData.uid !== message.senderId) {
-      senderUserData = await getUserProfileData(message.senderId)
-    }
-    
-    const senderName = senderUserData.displayName
-    const senderPhotoURL = getProfilePictureUrl(senderUserData, senderName)
-    
     const avatar = document.createElement("figure")
     avatar.className = "message-avatar"
-    avatar.innerHTML = `<img src="${senderPhotoURL}" alt="${senderName}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiM2Mzc0OEEiLz4KPHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDEyQzE0LjIwOTEgMTIgMTYgMTAuMjA5MSAxNiA4QzE2IDUuNzkwODYgMTQuMjA5MSA0IDEyIDRDOS43OTA4NiA0IDggNS43OTA4NiA4IDhDOCAxMC4yMDkxIDkuNzkwODYgMTIgMTIgMTJaIiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNMTIgMTRDOC4xMzQwMSAxNCA1IDE3LjEzNDAxIDUgMjFIMTlDMTkgMTcuMTM0MDEgMTUuODY2IDE0IDEyIDE0WiIgZmlsbD0id2hpdGUiLz4KPC9zdmc+Cjwvc3ZnPgo='">`
+    avatar.innerHTML = `<img src="https://via.placeholder.com/40" alt="${contactName}">`
     messageElement.appendChild(avatar)
     
     const name = document.createElement("h3")
-    name.textContent = senderName
+    name.textContent = contactName
     header.appendChild(name)
   }
   
@@ -540,9 +424,12 @@ async function myContacts() {
       if (otherParticipantId && !addedContacts.has(otherParticipantId)) {
         addedContacts.add(otherParticipantId)
 
-        // Get user data using same approach as comments.js
-        const userData = await getUserProfileData(otherParticipantId)
-        await addContactToList(otherParticipantId, userData)
+        const userDoc = await db.collection("Users").doc(otherParticipantId).get()
+        if (userDoc.exists) {
+          const userData = userDoc.data()
+          const userName = userData.displayName || userData.name || otherParticipantId
+          addContactToList(otherParticipantId, userName)
+        }
       }
     })
 
