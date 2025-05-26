@@ -17,5 +17,8 @@ Open the index.html to start at the landing page
 you may find the video here
 https://www.youtube.com/watch?v=hb8qhRzRt6Q
 
+Admin email : scholarsphere10@gmail.com
+Admin password : Scholar@Sphere
+
 That is all
 Thank you
